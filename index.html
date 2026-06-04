@@ -36,12 +36,25 @@
 
   <!-- CONTACT -->
   <div id="contact" style="padding:60px; text-align:center;">
-    <h2>Get a Quote</h2>
+  <h2>Get a Quote</h2>
 
-    <p>Email: he3442875852@gmail.com</p>
-    <p>WhatsApp: +86 18390800841</p>
+  <form action="https://formspree.io/f/mojzqnke" method="POST" style="max-width:500px;margin:auto;text-align:left;">
 
-  </div>
+    <label>Name</label><br>
+    <input type="text" name="name" required style="width:100%;padding:10px;margin-bottom:10px;"><br>
 
-</body>
-</html>
+    <label>Email</label><br>
+    <input type="email" name="email" required style="width:100%;padding:10px;margin-bottom:10px;"><br>
+
+    <label>Company</label><br>
+    <input type="text" name="company" style="width:100%;padding:10px;margin-bottom:10px;"><br>
+
+    <label>Requirement</label><br>
+    <textarea name="message" rows="4" required style="width:100%;padding:10px;margin-bottom:10px;"></textarea><br>
+
+    <button type="submit" style="width:100%;padding:12px;background:black;color:white;border:none;">
+      Send Inquiry
+    </button>
+
+  </form>
+</div>
