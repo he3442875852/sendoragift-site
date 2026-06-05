@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sendora Gift | One-Stop Corporate Gift Solutions</title>
   <meta name="description" content="Custom corporate gift sets for onboarding, events, promotions, and branding. High-end B2B gifts with tailored solutions.">
-  <meta name="robots" content="index, follow">
   <link rel="icon" href="hero.png">
-
   <style>
     body { margin:0; font-family: Arial, sans-serif; background:#fff; color:#333; }
     header { position: relative; text-align:center; color:white; }
@@ -25,6 +23,8 @@
     .card a { display:inline-block; margin:0 0 1rem 1rem; padding:0.5rem 1rem; background:#111; color:white; text-decoration:none; border-radius:5px; transition:0.3s; }
     .card a:hover { background:#333; }
     footer { text-align:center; padding:2rem; background:#111; color:white; }
+    form input, form textarea { width:100%; padding:0.5rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:5px; }
+    form button { background:#111; color:white; padding:0.75rem 1.5rem; border:none; border-radius:5px; cursor:pointer; }
   </style>
 </head>
 <body>
@@ -70,10 +70,29 @@
     </div>
   </section>
 
+  <!-- Inquiry Form -->
+  <section style="max-width:600px; margin:4rem auto; padding:2rem; border:1px solid #ddd; border-radius:10px;">
+    <h2 style="text-align:center; margin-bottom:1.5rem;">Send Us Your Inquiry</h2>
+    <form action="https://formspree.io/f/mojzqnke" method="POST">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="_replyto" placeholder="Email" required>
+      <input type="text" name="company" placeholder="Company" required>
+      <textarea name="message" rows="5" placeholder="Your Requirements" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
   <!-- Footer -->
   <footer>
     &copy; 2026 Sendora Gift. All rights reserved.
   </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/8618390800841?text=Hello%2C%20I%20am%20interested%20in%20your%20corporate%20gift%20solutions" 
+     target="_blank" 
+     style="position:fixed; bottom:20px; right:20px; background:#25D366; color:white; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000; font-size:28px;">
+    💬
+  </a>
 
 </body>
 </html>
