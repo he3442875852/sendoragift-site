@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sendora Gift | One-Stop Corporate Gift Solutions</title>
-
 <meta name="description" content="One-stop custom corporate gift solutions for onboarding, events, promotions, and branding. OEM/ODM high-end gift sets for global B2B clients.">
 
 <meta property="og:title" content="Sendora Gift | One-Stop Corporate Gift Solutions">
 <meta property="og:description" content="High-end custom corporate gift sets for global brands, events, and companies.">
-<meta property="og:image" content="images/hero.jpg">
+<meta property="og:image" content="hero.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -22,106 +21,55 @@ img{width:100%;display:block;border-radius:10px;}
 
 header{
 position:fixed;top:0;width:100%;
-background:rgba(0,0,0,.75);
+background:rgba(0,0,0,.8);
 backdrop-filter:blur(10px);
 padding:15px 40px;
 display:flex;
 justify-content:space-between;
 z-index:1000;
 }
-
-.logo{font-weight:700;color:#d4af37;font-size:20px;}
-
-nav a{margin-left:20px;color:#fff;opacity:.8;}
+.logo{font-weight:700;color:#d4af37;font-size:22px;}
+nav a{margin-left:20px;color:#fff;opacity:.85;font-weight:500;}
 nav a:hover{opacity:1;color:#d4af37;}
 
 .hero{
 height:90vh;
-background:url('images/hero.jpg') center/cover no-repeat;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
+background:url('hero.png') center/cover no-repeat;
+display:flex;align-items:center;justify-content:center;text-align:center;
 position:relative;
 }
+.hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6);}
+.hero-content{position:relative;max-width:900px;}
+.hero h1{font-size:48px;color:#fff;margin-bottom:20px;}
+.hero p{color:#ccc;font-size:18px;margin-bottom:30px;}
+.btn{background:#d4af37;color:#000;padding:14px 28px;font-weight:600;border-radius:6px;display:inline-block;}
 
-.hero::after{
-content:'';
-position:absolute;
-inset:0;
-background:rgba(0,0,0,.6);
-}
-
-.hero-content{
-position:relative;
-max-width:800px;
-}
-
-.hero h1{
-font-size:48px;
-color:#fff;
-margin-bottom:20px;
-}
-
-.hero p{
-color:#ccc;
-font-size:18px;
-margin-bottom:30px;
-}
-
-.btn{
-background:#d4af37;
-color:#000;
-padding:14px 28px;
-font-weight:600;
-border-radius:6px;
-display:inline-block;
-}
-
-.section{
-padding:80px 40px;
-max-width:1200px;
-margin:auto;
-}
-
-.title{
-text-align:center;
-font-size:32px;
-margin-bottom:50px;
-color:#d4af37;
-}
+.section{padding:80px 40px;max-width:1200px;margin:auto;}
+.title{text-align:center;font-size:32px;margin-bottom:50px;color:#d4af37;}
 
 .grid{
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
 }
-
 .card{
-background:#141414;
-padding:15px;
-border-radius:12px;
-transition:.3s;
+background:#141414;padding:15px;border-radius:12px;transition:.3s;
 }
-
-.card:hover{transform:translateY(-5px);}
-
-.card h3{color:#fff;margin:10px 0;}
-.card p{color:#aaa;font-size:14px;}
+.card:hover{transform:translateY(-8px);}
+.card h3{color:#fff;margin:12px 0;}
+.card p{color:#aaa;font-size:14px;text-align:center;}
+.card img{border-radius:12px;height:200px;object-fit:cover;}
 
 .solution-banner{
 background:linear-gradient(90deg,#111,#1c1c1c);
 padding:40px;
 border-radius:12px;
 text-align:center;
-margin-bottom:40px;
+margin-bottom:50px;
 border:1px solid #333;
 }
-
-.solution-banner h2{
-color:#d4af37;
-font-size:28px;
-}
+.solution-banner h2{color:#d4af37;font-size:28px;margin-bottom:10px;}
+.solution-banner p{color:#ccc;font-size:16px;}
 
 .form{
 background:#111;
@@ -130,38 +78,28 @@ border-radius:12px;
 max-width:600px;
 margin:auto;
 }
-
 input,textarea{
-width:100%;
-padding:12px;
-margin:10px 0;
-background:#1a1a1a;
-border:1px solid #333;
-color:#fff;
-border-radius:6px;
+width:100%;padding:12px;margin:10px 0;
+background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:6px;
 }
-
-button{
-background:#d4af37;
-border:none;
-padding:14px;
-width:100%;
-font-weight:700;
-cursor:pointer;
-}
+button{background:#d4af37;border:none;padding:14px;width:100%;font-weight:700;cursor:pointer;border-radius:6px;}
 
 .whatsapp{
-position:fixed;
-right:20px;
-bottom:20px;
-background:#25D366;
-width:60px;
-height:60px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
+position:fixed;right:20px;bottom:20px;
+background:#25D366;width:60px;height:60px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+@media(max-width:768px){
+.hero h1{font-size:32px;}
+.hero p{font-size:16px;}
+.grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+.hero h1{font-size:24px;}
+.hero p{font-size:14px;}
+.grid{grid-template-columns:1fr;}
+.card img{height:180px;}
 }
 </style>
 </head>
@@ -185,44 +123,37 @@ font-size:30px;
 </section>
 
 <section class="section" id="solutions">
-
 <div class="solution-banner">
 <h2>Complete One-Stop Solution System</h2>
 <p>From product sourcing → design → customization → packaging → global shipping</p>
 </div>
 
 <div class="grid">
-
 <div class="card">
-<img src="images/corporate.jpg">
+<img src="corporate.png" alt="Corporate Gift Set">
 <h3>Corporate Gift Sets</h3>
 <p>Premium branded gifts for clients & partners.</p>
 </div>
-
 <div class="card">
-<img src="images/welcome.jpg">
+<img src="welcome.png" alt="Employee Welcome Kit">
 <h3>Employee Welcome Kits</h3>
 <p>Onboarding kits that elevate company culture.</p>
 </div>
-
 <div class="card">
-<img src="images/sports.jpg">
+<img src="sports.png" alt="Sports Event Kit">
 <h3>Sports Event Kits</h3>
 <p>Perfect for tournaments & team events.</p>
 </div>
-
 <div class="card">
-<img src="images/promo.jpg">
+<img src="promo.png" alt="Promotional Gifts">
 <h3>Promotional Gifts</h3>
 <p>High-impact marketing & branding gifts.</p>
 </div>
-
 </div>
 </section>
 
 <section class="section" id="contact">
 <h2 class="title">Get Custom Quote</h2>
-
 <div class="form">
 <form action="https://formspree.io/f/mojzqnke" method="POST">
 <input type="text" name="name" placeholder="Your Name" required>
