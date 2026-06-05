@@ -1,192 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Sendora Gift | One-Stop Corporate Gift Solutions</title>
-<meta name="description" content="One-stop custom corporate gift solutions for onboarding, events, promotions, and branding. OEM/ODM high-end gift sets for global B2B clients.">
-
-<meta property="og:title" content="Sendora Gift | One-Stop Corporate Gift Solutions">
-<meta property="og:description" content="High-end custom corporate gift sets for global brands, events, and companies.">
-<meta property="og:image" content="hero.png">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-body{margin:0;font-family:Inter;background:#0b0b0b;color:#fff;}
-a{text-decoration:none;color:inherit;}
-img{width:100%;display:block;border-radius:10px;}
-
-/* Header */
-header{
-position:fixed;top:0;width:100%;
-background:rgba(0,0,0,.85);
-backdrop-filter:blur(10px);
-padding:15px 40px;
-display:flex;
-justify-content:space-between;
-z-index:1000;
-}
-.logo{font-weight:700;color:#d4af37;font-size:22px;}
-nav a{margin-left:20px;color:#fff;opacity:.85;font-weight:500;}
-nav a:hover{opacity:1;color:#d4af37;}
-
-/* Hero */
-.hero{
-position:relative;
-display:flex;align-items:center;justify-content:center;text-align:center;
-padding:60px 20px;
-background:
-  linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-  url('hero.png') center/cover no-repeat;
-height:70vh;
-min-height:500px;
-max-height:850px;
-animation: fadeInHero 1.5s ease-in-out;
-}
-@keyframes fadeInHero{0%{opacity:0;}100%{opacity:1;}}
-.hero-content{position:relative;max-width:900px;}
-.hero h1{font-size:44px;line-height:1.2;color:#fff;margin-bottom:20px;}
-.hero p{color:#ccc;font-size:18px;margin-bottom:30px;}
-.btn{background:#d4af37;color:#000;padding:14px 28px;font-weight:600;border-radius:6px;display:inline-block;transition:all .3s;}
-.btn:hover{transform:scale(1.05);}
-
-/* Section */
-.section{padding:80px 40px;max-width:1200px;margin:auto;}
-.title{text-align:center;font-size:32px;margin-bottom:50px;color:#d4af37;}
-
-/* Grid Cards */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-.card{
-background:#141414;padding:15px;border-radius:12px;transition:.3s;
-overflow:hidden;
-}
-.card:hover{transform:translateY(-8px);}
-.card h3{color:#fff;margin:12px 0;text-align:center;}
-.card p{color:#aaa;font-size:14px;text-align:center;}
-.card img{border-radius:12px;height:200px;object-fit:cover;transition:transform .3s;}
-.card img:hover{transform:scale(1.05);}
-
-/* Solution Banner */
-.solution-banner{
-background:linear-gradient(90deg,#111,#1c1c1c);
-padding:40px;
-border-radius:12px;
-text-align:center;
-margin-bottom:50px;
-border:1px solid #333;
-}
-.solution-banner h2{color:#d4af37;font-size:28px;margin-bottom:10px;}
-.solution-banner p{color:#ccc;font-size:16px;}
-
-/* Form */
-.form{
-background:#111;
-padding:40px;
-border-radius:12px;
-max-width:600px;
-margin:auto;
-}
-input,textarea{
-width:100%;padding:12px;margin:10px 0;
-background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:6px;
-}
-button{background:#d4af37;border:none;padding:14px;width:100%;font-weight:700;cursor:pointer;border-radius:6px;}
-button:hover{opacity:0.9;}
-
-/* WhatsApp */
-.whatsapp{
-position:fixed;right:20px;bottom:20px;
-background:#25D366;width:60px;height:60px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 5px 15px rgba(0,0,0,0.3);
-transition:transform .3s;
-}
-.whatsapp:hover{transform:scale(1.1);}
-
-/* Responsive */
-@media(max-width:768px){
-.hero h1{font-size:32px;}
-.hero p{font-size:16px;}
-.grid{grid-template-columns:1fr 1fr;}
-.card img{height:180px;}
-}
-@media(max-width:480px){
-.hero h1{font-size:24px;}
-.hero p{font-size:14px;}
-.grid{grid-template-columns:1fr;}
-.card img{height:160px;}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sendora Gift | High-End Corporate & Event Gift Solutions</title>
+  <meta name="description" content="Sendora Gift提供高端定制企业礼品和活动礼盒解决方案，助力员工欢迎、企业活动和品牌推广。一站式礼品体验，让每份心意更具价值。">
+  <link rel="stylesheet" href="style.css">
+  <!-- 可加入你的CSS文件 -->
 </head>
-
 <body>
 
-<header>
-<div class="logo">SENDORA GIFT</div>
-<nav>
-<a href="#solutions">Solutions</a>
-<a href="#contact">Contact</a>
-</nav>
-</header>
-
+<!-- Hero 区域 -->
 <section class="hero">
-<div class="hero-content">
-<h1>One-Stop Corporate Gift Solutions</h1>
-<p>We design, customize, and deliver premium corporate gift sets for global brands, events & onboarding programs.</p>
-<a class="btn" href="#contact">Get Free Quote</a>
-</div>
+  <div class="hero-content">
+    <h1>High-End Custom Corporate & Event Gift Solutions</h1>
+    <p>One-stop solution for employee welcome kits, corporate events, and promotional gifts.</p>
+    <a href="#contact-form" class="btn btn-primary">Get a Quote</a>
+  </div>
+  <img src="hero-image.jpg" alt="High-end corporate gift set">
 </section>
 
-<section class="section" id="solutions">
-<div class="solution-banner">
-<h2>Complete One-Stop Solution System</h2>
-<p>From product sourcing → design → customization → packaging → global shipping</p>
-</div>
+<!-- SEO 内容模块 -->
+<section class="seo-content">
 
-<div class="grid">
-<div class="card">
-<img src="corporate.png" alt="Corporate Gift Set">
-<h3>Corporate Gift Sets</h3>
-<p>Premium branded gifts for clients & partners.</p>
-</div>
-<div class="card">
-<img src="welcome.png" alt="Employee Welcome Kit">
-<h3>Employee Welcome Kits</h3>
-<p>Onboarding kits that elevate company culture.</p>
-</div>
-<div class="card">
-<img src="sports.png" alt="Sports Event Kit">
-<h3>Sports Event Kits</h3>
-<p>Perfect for tournaments & team events.</p>
-</div>
-<div class="card">
-<img src="promo.png" alt="Promotional Gifts">
-<h3>Promotional Gifts</h3>
-<p>High-impact marketing & branding gifts.</p>
-</div>
-</div>
+  <h2>One-Stop Corporate Gift Solutions for Global Businesses</h2>
+  <p>
+    Sendora Gift specializes in premium custom corporate gift sets designed for employee onboarding, corporate events, promotional campaigns, client appreciation programs, and brand marketing activities.
+  </p>
+  <p>
+    From sourcing and customization to packaging and global delivery, we provide a complete one-stop solution that helps businesses create memorable gifting experiences while strengthening brand recognition.
+  </p>
+  <p>
+    Our product range includes custom drinkware, notebooks, office accessories, technology gifts, apparel, sports event merchandise, eco-friendly products, luxury gift boxes, and fully branded corporate gift sets.
+  </p>
+
+  <h2>Custom Employee Welcome Kits</h2>
+  <p>
+    A professional employee welcome kit helps companies create a strong first impression. We offer fully customized onboarding gift boxes that include branded notebooks, tumblers, backpacks, technology accessories, apparel, and other useful items tailored to your company culture.
+  </p>
+
+  <h2>Corporate Event Gift Sets</h2>
+  <p>
+    Whether you are organizing conferences, exhibitions, product launches, annual meetings, or sports events, Sendora Gift provides customized event gift solutions that enhance attendee engagement and brand exposure.
+  </p>
+
+  <h2>Promotional & Marketing Gift Solutions</h2>
+  <p>
+    Promotional gift campaigns remain one of the most effective ways to increase brand awareness. Our team helps businesses create attractive branded merchandise that supports marketing objectives while maintaining premium quality standards.
+  </p>
+
+  <h2>Why Choose Sendora Gift</h2>
+  <ul>
+    <li>One-stop sourcing and production management</li>
+    <li>Custom logo branding and packaging</li>
+    <li>Low MOQ and flexible customization options</li>
+    <li>Global shipping and fulfillment support</li>
+    <li>Dedicated project management team</li>
+    <li>Fast quotation and sample service</li>
+  </ul>
+
 </section>
 
-<section class="section" id="contact">
-<h2 class="title">Get Custom Quote</h2>
-<div class="form">
-<form action="https://formspree.io/f/mojzqnke" method="POST">
-<input type="text" name="name" placeholder="Your Name" required>
-<input type="email" name="email" placeholder="Email" required>
-<input type="text" name="company" placeholder="Company" required>
-<textarea name="message" rows="5" placeholder="Tell us your requirement"></textarea>
-<button type="submit">Send Inquiry</button>
-</form>
-</div>
+<!-- FAQ 模块 -->
+<section class="faq-section">
+
+  <h2>Frequently Asked Questions</h2>
+
+  <h3>What types of corporate gifts do you offer?</h3>
+  <p>
+    We provide custom corporate gift sets, employee welcome kits, event giveaways, promotional merchandise, client appreciation gifts, and luxury branded gift boxes.
+  </p>
+
+  <h3>Can I customize the products with my company logo?</h3>
+  <p>
+    Yes. Most products can be customized with your logo, brand colors, packaging, and personalized inserts.
+  </p>
+
+  <h3>Do you provide international shipping?</h3>
+  <p>
+    Yes. We support global shipping and work with clients across North America, Europe, Australia, Southeast Asia, and the Middle East.
+  </p>
+
+  <h3>What is your minimum order quantity?</h3>
+  <p>
+    MOQ varies depending on the product category and customization requirements. Contact us for a tailored quotation.
+  </p>
+
+  <h3>How long does production take?</h3>
+  <p>
+    Most projects require 2–4 weeks depending on product selection, customization complexity, and shipping destination.
+  </p>
+
 </section>
 
-<a class="whatsapp" href="https://wa.me/8618390800841" target="_blank">💬</a>
+<!-- 联系表单 -->
+<section id="contact-form">
+  <h2>Request a Quote</h2>
+  <form action="https://formspree.io/f/your-form-id" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="_replyto" placeholder="Your Email" required>
+    <input type="text" name="company" placeholder="Company Name">
+    <textarea name="message" placeholder="Message" required></textarea>
+    <button type="submit">Send Inquiry</button>
+  </form>
+</section>
 
+<!-- WhatsApp 按钮 -->
+<a href="https://wa.me/你的号码?text=Hi%2C%20I%20would%20like%20to%20inquire%20about%20corporate%20gift%20sets." class="whatsapp-btn" target="_blank">
+  Contact us on WhatsApp
+</a>
+
+<script src="script.js"></script>
+<!-- 可加入你的JS文件 -->
 </body>
 </html>
