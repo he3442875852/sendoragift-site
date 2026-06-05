@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sports Event Kit | Sendora Gift</title>
   <meta name="description" content="Premium sports event kits for corporate team building and events. Customizable high-end gifts.">
-  <meta name="robots" content="index, follow">
   <style>
-    body { margin:0; font-family: Arial, sans-serif; background:#fff; color:#333; }
+    body { margin:0; font-family: Arial, sans-serif; color:#333; }
     header { text-align:center; padding:2rem 1rem; }
     header img { max-width:600px; width:100%; height:auto; }
     header h1 { font-size:2rem; margin:1rem 0; }
     nav a { color:#111; text-decoration:none; margin:0 1rem; }
     nav a:hover { text-decoration:underline; }
     section { padding:2rem 1rem; text-align:center; }
+    form input, form textarea { width:100%; padding:0.5rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:5px; }
+    form button { background:#111; color:white; padding:0.75rem 1.5rem; border:none; border-radius:5px; cursor:pointer; }
     footer { text-align:center; padding:2rem; background:#111; color:white; margin-top:2rem; }
   </style>
 </head>
@@ -28,12 +29,31 @@
   </header>
 
   <section>
-    <p>Our Sports Event Kits are perfect for corporate team-building and sports events. Premium, customizable gifts for memorable experiences.</p>
+    <p>Our Sports Event Kits are designed for corporate team building, sports events, and employee engagement activities. Each kit is customizable and reflects your brand's premium image.</p>
+  </section>
+
+  <!-- Inquiry Form -->
+  <section style="max-width:600px; margin:2rem auto; padding:2rem; border:1px solid #ddd; border-radius:10px;">
+    <h2 style="text-align:center; margin-bottom:1rem;">Send Us Your Inquiry</h2>
+    <form action="https://formspree.io/f/mojzqnke" method="POST">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="_replyto" placeholder="Email" required>
+      <input type="text" name="company" placeholder="Company" required>
+      <textarea name="message" rows="5" placeholder="Your Requirements" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
   </section>
 
   <footer>
     &copy; 2026 Sendora Gift. All rights reserved.
   </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/8618390800841?text=Hello%2C%20I%20am%20interested%20in%20your%20Sports%20Event%20Kit" 
+     target="_blank" 
+     style="position:fixed; bottom:20px; right:20px; background:#25D366; color:white; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000; font-size:28px;">
+    💬
+  </a>
 
 </body>
 </html>
