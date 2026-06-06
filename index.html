@@ -1,98 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sendora Gift | One-Stop Corporate Gift Solutions</title>
-  <meta name="description" content="Custom corporate gift sets for onboarding, events, promotions, and branding. High-end B2B gifts with tailored solutions.">
-  <link rel="icon" href="hero.png">
-  <style>
-    body { margin:0; font-family: Arial, sans-serif; background:#fff; color:#333; }
-    header { position: relative; text-align:center; color:white; }
-    header img { width:100%; height:auto; display:block; }
-    header h1 { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:3rem; background:rgba(0,0,0,0.5); padding:1rem 2rem; border-radius:10px; }
-    nav { display:flex; justify-content:center; background:#111; }
-    nav a { color:white; text-decoration:none; padding:1rem 2rem; display:block; transition:0.3s; }
-    nav a:hover { background:#222; }
-    section { padding:4rem 2rem; text-align:center; }
-    section h2 { font-size:2rem; margin-bottom:2rem; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; }
-    .card { border:1px solid #ddd; border-radius:10px; overflow:hidden; transition:0.3s; }
-    .card img { width:100%; height:auto; display:block; }
-    .card h3 { margin:1rem; font-size:1.2rem; }
-    .card a { display:inline-block; margin:0 0 1rem 1rem; padding:0.5rem 1rem; background:#111; color:white; text-decoration:none; border-radius:5px; transition:0.3s; }
-    .card a:hover { background:#333; }
-    footer { text-align:center; padding:2rem; background:#111; color:white; }
-    form input, form textarea { width:100%; padding:0.5rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:5px; }
-    form button { background:#111; color:white; padding:0.75rem 1.5rem; border:none; border-radius:5px; cursor:pointer; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sendora Gift | One-Stop Corporate Gift Solutions</title>
+<meta name="description" content="Sendora Gift offers one-stop custom corporate gift solutions for onboarding, events, promotions, and branding. OEM/ODM high-end gift sets for global B2B clients.">
+<meta name="keywords" content="Corporate Gifts, Custom Gift Sets, Business Promotions, Employee Welcome Kits, Branded Gifts, B2B Gifts">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="favicon.ico">
+<style>
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+body { line-height: 1.6; color:#333; background:#f8f8f8; }
+a { text-decoration:none; color:inherit; }
+.container { width:90%; max-width:1200px; margin:0 auto; }
+
+/* Header & Hero */
+header { background:#fff; padding:20px 0; box-shadow:0 2px 6px rgba(0,0,0,0.1); position:sticky; top:0; z-index:1000; }
+header .logo { font-size:24px; font-weight:bold; color:#222; }
+nav { float:right; }
+nav a { margin-left:20px; font-weight:bold; color:#555; }
+.hero { background:url('hero-image.jpg') center/cover no-repeat; height:600px; display:flex; align-items:center; justify-content:center; position:relative; color:#fff; text-align:center; }
+.hero::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
+.hero-content { position:relative; max-width:800px; }
+.hero h1 { font-size:48px; margin-bottom:20px; }
+.hero p { font-size:18px; margin-bottom:30px; }
+.hero .btn { padding:15px 30px; background:#ff6b00; color:#fff; font-weight:bold; border-radius:5px; transition:0.3s; }
+.hero .btn:hover { background:#ff4c00; }
+
+/* Sections */
+section { padding:80px 0; background:#fff; }
+section.alt { background:#f0f0f0; }
+section h2 { text-align:center; margin-bottom:50px; font-size:32px; color:#222; }
+
+/* Product Cards */
+.product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; }
+.product-card { background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition:0.3s; }
+.product-card:hover { transform:translateY(-5px); }
+.product-card img { width:100%; height:220px; object-fit:cover; }
+.product-card-content { padding:20px; }
+.product-card-content h3 { font-size:20px; margin-bottom:10px; }
+.product-card-content p { font-size:14px; color:#666; margin-bottom:15px; }
+.product-card-content .btn { display:inline-block; padding:10px 20px; background:#ff6b00; color:#fff; border-radius:5px; font-weight:bold; transition:0.3s; }
+.product-card-content .btn:hover { background:#ff4c00; }
+
+/* Testimonials */
+.testimonials { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; text-align:center; }
+.testimonial { background:#fff; padding:30px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.testimonial p { font-style:italic; margin-bottom:15px; }
+.testimonial h4 { font-weight:bold; color:#222; }
+
+/* Steps */
+.steps { display:flex; flex-wrap:wrap; justify-content:space-between; gap:30px; max-width:1000px; margin:0 auto; }
+.step { flex:1 1 200px; background:#fff; padding:30px; border-radius:8px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.step h3 { margin-bottom:15px; }
+.step p { color:#666; font-size:14px; }
+
+/* FAQ */
+.faq-item { margin-bottom:20px; background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.faq-item h4 { cursor:pointer; position:relative; padding-right:20px; }
+.faq-item h4::after { content:'+'; position:absolute; right:0; top:0; font-size:18px; }
+.faq-item.active h4::after { content:'−'; }
+.faq-item p { max-height:0; overflow:hidden; transition:0.3s; }
+.faq-item.active p { max-height:200px; margin-top:10px; }
+
+/* Contact Form */
+form { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
+form input, form textarea { padding:12px; border-radius:5px; border:1px solid #ccc; width:100%; }
+form button { padding:12px; background:#ff6b00; color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer; transition:0.3s; }
+form button:hover { background:#ff4c00; }
+
+/* Footer */
+footer { background:#222; color:#fff; text-align:center; padding:40px 0; }
+footer p { margin-bottom:10px; }
+footer a { color:#ff6b00; }
+
+/* Sticky WhatsApp Button */
+#whatsapp-btn { position:fixed; bottom:30px; right:30px; background:#25D366; color:#fff; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow:0 2px 6px rgba(0,0,0,0.3); z-index:1000; cursor:pointer; }
+#whatsapp-btn:hover { transform:scale(1.1); transition:0.3s; }
+</style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <header>
-    <img src="hero.png" alt="Sendora Gift Hero">
-    <h1>One-Stop Corporate Gift Solutions</h1>
-  </header>
-
-  <!-- Navigation -->
+<!-- Header -->
+<header class="container">
+  <div class="logo">Sendora Gift</div>
   <nav>
-    <a href="corporate-gift.html">Corporate Gift</a>
-    <a href="employee-welcome-kit.html">Employee Welcome</a>
-    <a href="promotional-giveaways.html">Promotional Gifts</a>
-    <a href="sports-event-kit.html">Sports Event Kits</a>
+    <a href="#products">Products</a>
+    <a href="#cases">Cases</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
   </nav>
+</header>
 
-  <!-- Product Sections -->
-  <section>
-    <h2>Our Featured Gift Sets</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="corporate.png" alt="Corporate Gift Set">
-        <h3>Corporate Gift Set</h3>
-        <a href="corporate-gift.html">View Details</a>
-      </div>
-      <div class="card">
-        <img src="welcome.png" alt="Employee Welcome Kit">
-        <h3>Employee Welcome Kit</h3>
-        <a href="employee-welcome-kit.html">View Details</a>
-      </div>
-      <div class="card">
-        <img src="promo.png" alt="Promotional Giveaways">
-        <h3>Promotional Giveaways</h3>
-        <a href="promotional-giveaways.html">View Details</a>
-      </div>
-      <div class="card">
-        <img src="sports.png" alt="Sports Event Kit">
-        <h3>Sports Event Kit</h3>
-        <a href="sports-event-kit.html">View Details</a>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Premium Corporate Gift Solutions</h1>
+    <p>Custom high-end gift sets for onboarding, promotions, events, and branding worldwide.</p>
+    <a href="#contact" class="btn">Get a Quote</a>
+  </div>
+</section>
+
+<!-- Product Section -->
+<section id="products">
+  <h2>Our Featured Gift Sets</h2>
+  <div class="container product-grid">
+    <div class="product-card">
+      <img src="umbrella-tumbler-hat.jpg" alt="Corporate Promotion Kit">
+      <div class="product-card-content">
+        <h3>Corporate Promotion Kit</h3>
+        <p>Includes foldable umbrella, stainless steel tumbler, and stylish bucket hat. Perfect for marketing events and exhibitions.</p>
+        <a href="#contact" class="btn">Inquiry</a>
       </div>
     </div>
-  </section>
+    <div class="product-card">
+      <img src="employee-welcome-kit.jpg" alt="Employee Welcome Kit">
+      <div class="product-card-content">
+        <h3>Employee Welcome Kit</h3>
+        <p>Includes tote bag, notebook, pen, and custom mug. Make your new hires feel valued from day one.</p>
+        <a href="#contact" class="btn">Inquiry</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="sports-event-kit.jpg" alt="Sports Event Kit">
+      <div class="product-card-content">
+        <h3>Sports Event Kit</h3>
+        <p>Includes water bottle, cap, towel, and sports bag. Ideal for team building and company sports events.</p>
+        <a href="#contact" class="btn">Inquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Inquiry Form -->
-  <section style="max-width:600px; margin:4rem auto; padding:2rem; border:1px solid #ddd; border-radius:10px;">
-    <h2 style="text-align:center; margin-bottom:1.5rem;">Send Us Your Inquiry</h2>
+<!-- Testimonials -->
+<section class="alt" id="cases">
+  <h2>What Our Clients Say</h2>
+  <div class="container testimonials">
+    <div class="testimonial">
+      <p>"Sendora Gift helped us create a memorable onboarding experience. The quality of gifts is exceptional!"</p>
+      <h4>John D., HR Manager, TechCorp</h4>
+    </div>
+    <div class="testimonial">
+      <p>"Perfect corporate gifts for our marketing events. Clients loved the customization options."</p>
+      <h4>Lisa M., Marketing Director, GlobalBiz</h4>
+    </div>
+    <div class="testimonial">
+      <p>"Professional service and high-quality products. We highly recommend Sendora Gift."</p>
+      <h4>Michael S., Operations, FinServe</h4>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section id="process">
+  <h2>Our Simple Customization Process</h2>
+  <div class="container steps">
+    <div class="step">
+      <h3>1. Inquiry</h3>
+      <p>Tell us your gift requirements and budget.</p>
+    </div>
+    <div class="step">
+      <h3>2. Proposal</h3>
+      <p>We provide a detailed product proposal and quotation.</p>
+    </div>
+    <div class="step">
+      <h3>3. Customization</h3>
+      <p>Branding and personalization on products as per your needs.</p>
+    </div>
+    <div class="step">
+      <h3>4. Production</h3>
+      <p>High-quality manufacturing with strict quality control.</p>
+    </div>
+    <div class="step">
+      <h3>5. Delivery</h3>
+      <p>Worldwide shipping ensures timely arrival.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="alt" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="container">
+    <div class="faq-item">
+      <h4>What is the minimum order quantity?</h4>
+      <p>Most gift sets have a minimum order of 50 units. Contact us for details.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I customize the gifts with my logo?</h4>
+      <p>Yes, we offer full OEM/ODM branding options for all products.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What is the typical production lead time?</h4>
+      <p>Production usually takes 2-4 weeks depending on the quantity and customization.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact">
+  <h2>Contact Us</h2>
+  <div class="container">
     <form action="https://formspree.io/f/mojzqnke" method="POST">
-      <input type="text" name="name" placeholder="Name" required>
-      <input type="email" name="_replyto" placeholder="Email" required>
-      <input type="text" name="company" placeholder="Company" required>
-      <textarea name="message" rows="5" placeholder="Your Requirements" required></textarea>
-      <button type="submit">Submit</button>
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="company" placeholder="Company Name">
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Inquiry</button>
     </form>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2026 Sendora Gift. All rights reserved.
-  </footer>
+<!-- Footer -->
+<footer>
+  <p>&copy; 2026 Sendora Gift. All rights reserved.</p>
+  <p>Email: <a href="mailto:info@sendoragift.com">info@sendoragift.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p>
+</footer>
 
-  <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/8618390800841?text=Hello%2C%20I%20am%20interested%20in%20your%20corporate%20gift%20solutions" 
-     target="_blank" 
-     style="position:fixed; bottom:20px; right:20px; background:#25D366; color:white; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000; font-size:28px;">
-    💬
-  </a>
+<!-- WhatsApp Button -->
+<a id="whatsapp-btn" href="https://wa.me/8618390800841" target="_blank">💬</a>
+
+<script>
+// FAQ toggle
+document.querySelectorAll('.faq-item h4').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    item.parentElement.classList.toggle('active');
+  });
+});
+</script>
 
 </body>
 </html>
