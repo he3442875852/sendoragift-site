@@ -12,222 +12,174 @@
 /* Reset */
 * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 body { line-height: 1.6; color:#333; background:#f8f8f8; }
-a { text-decoration:none; color:inherit; }
-.container { width:90%; max-width:1200px; margin:0 auto; }
-
-/* Header & Hero */
-header { background:#fff; padding:20px 0; box-shadow:0 2px 6px rgba(0,0,0,0.1); position:sticky; top:0; z-index:1000; }
-header .logo { font-size:24px; font-weight:bold; color:#222; }
-nav { float:right; }
-nav a { margin-left:20px; font-weight:bold; color:#555; }
-.hero { background:url('https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png') center/cover no-repeat; height:600px; display:flex; align-items:center; justify-content:center; position:relative; color:#fff; text-align:center; }
-.hero::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
-.hero-content { position:relative; max-width:800px; }
-.hero h1 { font-size:48px; margin-bottom:20px; }
-.hero p { font-size:18px; margin-bottom:30px; }
-.hero .btn { padding:15px 30px; background:#ff6b00; color:#fff; font-weight:bold; border-radius:5px; transition:0.3s; }
-.hero .btn:hover { background:#ff4c00; }
-
+/* Header */
+header{position:sticky;top:0;background:#fff;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.08);}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:auto;padding:0 20px;height:80px;}
+.header-inner .logo{font-size:28px;font-weight:bold;color:#222;}
+.header-inner nav a{margin-left:25px;font-weight:bold;color:#555;transition:0.3s;}
+.header-inner nav a:hover{color:#ff6b00;}
+/* Hero */
+.hero{width:100%;min-height:750px;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png');background-size:cover;background-position:center center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;}
+.hero-content{max-width:900px;padding:20px;}
+.hero h1{font-size:48px;margin-bottom:20px;}
+.hero p{font-size:20px;margin-bottom:30px;}
+.hero .btn{padding:15px 35px;background:#ff6b00;color:#fff;font-weight:bold;border-radius:5px;transition:0.3s;}
+.hero .btn:hover{background:#ff4c00;}
 /* Sections */
-section { padding:80px 0; background:#fff; }
-section.alt { background:#f0f0f0; }
-section h2 { text-align:center; margin-bottom:50px; font-size:32px; color:#222; }
-
-/* Product Cards */
-.product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; }
-.product-card { background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition:0.3s; }
-.product-card:hover { transform:translateY(-5px); }
-.product-card img { width:100%; height:220px; object-fit:cover; }
-.product-card-content { padding:20px; }
-.product-card-content h3 { font-size:20px; margin-bottom:10px; }
-.product-card-content p { font-size:14px; color:#666; margin-bottom:15px; }
-.product-card-content .btn { display:inline-block; padding:10px 20px; background:#ff6b00; color:#fff; border-radius:5px; font-weight:bold; transition:0.3s; }
-.product-card-content .btn:hover { background:#ff4c00; }
-
+section{padding:80px 0;background:#fff;}
+section.alt{background:#f0f0f0;}
+section h2{text-align:center;margin-bottom:50px;font-size:32px;color:#222;}
+.container{width:90%;max-width:1200px;margin:0 auto;}
+/* Product Grid */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.product-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.1);transition:0.3s;}
+.product-card:hover{transform:translateY(-5px);}
+.product-card img{width:100%;height:220px;object-fit:cover;}
+.product-card-content{padding:20px;}
+.product-card-content h3{font-size:20px;margin-bottom:10px;}
+.product-card-content p{font-size:14px;color:#666;margin-bottom:15px;}
+.product-card-content .btn{display:inline-block;padding:10px 20px;background:#ff6b00;color:#fff;border-radius:5px;font-weight:bold;transition:0.3s;}
+.product-card-content .btn:hover{background:#ff4c00;}
 /* Testimonials */
-.testimonials { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; text-align:center; }
-.testimonial { background:#fff; padding:30px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-.testimonial p { font-style:italic; margin-bottom:15px; }
-.testimonial h4 { font-weight:bold; color:#222; }
-
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;text-align:center;}
+.testimonial{background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.testimonial p{font-style:italic;margin-bottom:15px;}
+.testimonial h4{font-weight:bold;color:#222;}
 /* Steps */
-.steps { display:flex; flex-wrap:wrap; justify-content:space-between; gap:30px; max-width:1000px; margin:0 auto; }
-.step { flex:1 1 200px; background:#fff; padding:30px; border-radius:8px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-.step h3 { margin-bottom:15px; }
-.step p { color:#666; font-size:14px; }
-
+.steps{display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px;max-width:1000px;margin:0 auto;}
+.step{flex:1 1 200px;background:#fff;padding:30px;border-radius:8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.step h3{margin-bottom:15px;}
+.step p{color:#666;font-size:14px;}
 /* FAQ */
-.faq-item { margin-bottom:20px; background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-.faq-item h4 { cursor:pointer; position:relative; padding-right:20px; }
-.faq-item h4::after { content:'+'; position:absolute; right:0; top:0; font-size:18px; }
-.faq-item.active h4::after { content:'−'; }
-.faq-item p { max-height:0; overflow:hidden; transition:0.3s; }
-.faq-item.active p { max-height:200px; margin-top:10px; }
-
+.faq-item{margin-bottom:20px;background:#fff;border-radius:8px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.faq-item h4{cursor:pointer;position:relative;padding-right:20px;}
+.faq-item h4::after{content:'+';position:absolute;right:0;top:0;font-size:18px;}
+.faq-item.active h4::after{content:'−';}
+.faq-item p{max-height:0;overflow:hidden;transition:0.3s;}
+.faq-item.active p{max-height:200px;margin-top:10px;}
 /* Contact Form */
-form { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
-form input, form textarea { padding:12px; border-radius:5px; border:1px solid #ccc; width:100%; }
-form button { padding:12px; background:#ff6b00; color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer; transition:0.3s; }
-form button:hover { background:#ff4c00; }
-
+form{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:15px;}
+form input,form textarea{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;}
+form button{padding:12px;background:#ff6b00;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;transition:0.3s;}
+form button:hover{background:#ff4c00;}
 /* Footer */
-footer { background:#222; color:#fff; text-align:center; padding:40px 0; }
-footer p { margin-bottom:10px; }
-footer a { color:#ff6b00; }
-
-/* Sticky WhatsApp Button */
-#whatsapp-btn { position:fixed; bottom:30px; right:30px; background:#25D366; color:#fff; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow:0 2px 6px rgba(0,0,0,0.3); z-index:1000; cursor:pointer; }
-#whatsapp-btn:hover { transform:scale(1.1); transition:0.3s; }
+footer{background:#222;color:#fff;text-align:center;padding:40px 0;}
+footer p{margin-bottom:10px;}
+footer a{color:#ff6b00;}
+/* WhatsApp */
+#whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.3);z-index:1000;cursor:pointer;}
+#whatsapp-btn:hover{transform:scale(1.1);transition:0.3s;}
 </style>
 </head>
 <body>
 
 <!-- Header -->
-<header class="container">
-  <div class="logo">Sendora Gift</div>
-  <nav>
-    <a href="#products">Products</a>
-    <a href="#cases">Cases</a>
-    <a href="#process">Process</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<header>
+<div class="header-inner">
+<div class="logo">Sendora Gift</div>
+<nav>
+<a href="#products">Products</a>
+<a href="#cases">Cases</a>
+<a href="#process">Process</a>
+<a href="#faq">FAQ</a>
+<a href="#contact">Contact</a>
+</nav>
+</div>
 </header>
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-content">
-    <h1>Premium Corporate Gift Solutions</h1>
-    <p>Custom high-end gift sets for onboarding, promotions, events, and branding worldwide.</p>
-    <a href="#contact" class="btn">Get a Quote</a>
-  </div>
+<div class="hero-content">
+<h1>Custom Corporate Gift Sets For Global Brands</h1>
+<p>OEM & ODM corporate gifts for employee onboarding, marketing campaigns, exhibitions, conferences, customer appreciation and promotional events.</p>
+<a href="#contact" class="btn">Get A Quote</a>
+</div>
 </section>
 
-<!-- Product Section -->
+<!-- Trust Bar -->
+<section class="alt">
+<div class="container" style="display:flex;justify-content:space-around;flex-wrap:wrap;text-align:center;">
+<div>✔ OEM & ODM Service</div>
+<div>✔ Low MOQ</div>
+<div>✔ Fast Global Shipping</div>
+<div>✔ 10+ Years Manufacturing Experience</div>
+<div>✔ One-stop Gift Packaging Solution</div>
+</div>
+</section>
+
+<!-- Product Categories -->
 <section id="products">
-  <h2>Our Featured Gift Sets</h2>
-  <div class="container product-grid">
-    <div class="product-card">
-      <img src="umbrella-tumbler-hat.jpg" alt="Corporate Promotion Kit">
-      <div class="product-card-content">
-        <h3>Corporate Promotion Kit</h3>
-        <p>Includes foldable umbrella, stainless steel tumbler, and stylish bucket hat. Perfect for marketing events and exhibitions.</p>
-        <a href="#contact" class="btn">Inquiry</a>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="employee-welcome-kit.jpg" alt="Employee Welcome Kit">
-      <div class="product-card-content">
-        <h3>Employee Welcome Kit</h3>
-        <p>Includes tote bag, notebook, pen, and custom mug. Make your new hires feel valued from day one.</p>
-        <a href="#contact" class="btn">Inquiry</a>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="sports-event-kit.jpg" alt="Sports Event Kit">
-      <div class="product-card-content">
-        <h3>Sports Event Kit</h3>
-        <p>Includes water bottle, cap, towel, and sports bag. Ideal for team building and company sports events.</p>
-        <a href="#contact" class="btn">Inquiry</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section class="alt" id="cases">
-  <h2>What Our Clients Say</h2>
-  <div class="container testimonials">
-    <div class="testimonial">
-      <p>"Sendora Gift helped us create a memorable onboarding experience. The quality of gifts is exceptional!"</p>
-      <h4>John D., HR Manager, TechCorp</h4>
-    </div>
-    <div class="testimonial">
-      <p>"Perfect corporate gifts for our marketing events. Clients loved the customization options."</p>
-      <h4>Lisa M., Marketing Director, GlobalBiz</h4>
-    </div>
-    <div class="testimonial">
-      <p>"Professional service and high-quality products. We highly recommend Sendora Gift."</p>
-      <h4>Michael S., Operations, FinServe</h4>
-    </div>
-  </div>
+<h2>Gift Categories</h2>
+<div class="container product-grid">
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Corporate Gift Sets"><div class="product-card-content"><h3>Corporate Gift Sets</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Employee Welcome Kits"><div class="product-card-content"><h3>Employee Welcome Kits</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Promotional Giveaways"><div class="product-card-content"><h3>Promotional Giveaways</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Event Gift Kits"><div class="product-card-content"><h3>Event Gift Kits</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Executive Gift Boxes"><div class="product-card-content"><h3>Executive Gift Boxes</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Conference Gifts"><div class="product-card-content"><h3>Conference Gifts</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Sports Event Kits"><div class="product-card-content"><h3>Sports Event Kits</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+<div class="product-card"><img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png" alt="Holiday Gift Sets"><div class="product-card-content"><h3>Holiday Gift Sets</h3><a href="#contact" class="btn">Inquiry</a></div></div>
+</div>
 </section>
 
 <!-- Process Section -->
 <section id="process">
-  <h2>Our Simple Customization Process</h2>
-  <div class="container steps">
-    <div class="step">
-      <h3>1. Inquiry</h3>
-      <p>Tell us your gift requirements and budget.</p>
-    </div>
-    <div class="step">
-      <h3>2. Proposal</h3>
-      <p>We provide a detailed product proposal and quotation.</p>
-    </div>
-    <div class="step">
-      <h3>3. Customization</h3>
-      <p>Branding and personalization on products as per your needs.</p>
-    </div>
-    <div class="step">
-      <h3>4. Production</h3>
-      <p>High-quality manufacturing with strict quality control.</p>
-    </div>
-    <div class="step">
-      <h3>5. Delivery</h3>
-      <p>Worldwide shipping ensures timely arrival.</p>
-    </div>
-  </div>
+<h2>Customization Process</h2>
+<div class="container steps">
+<div class="step"><h3>1. Inquiry</h3><p>Tell us your gift requirements and budget.</p></div>
+<div class="step"><h3>2. Proposal</h3><p>We provide a detailed product proposal and quotation.</p></div>
+<div class="step"><h3>3. Customization</h3><p>Branding and personalization on products as per your needs.</p></div>
+<div class="step"><h3>4. Production</h3><p>High-quality manufacturing with strict quality control.</p></div>
+<div class="step"><h3>5. Delivery</h3><p>Worldwide shipping ensures timely arrival.</p></div>
+</div>
 </section>
 
-<!-- FAQ Section -->
+<!-- Testimonials -->
+<section class="alt" id="cases">
+<h2>Client Testimonials</h2>
+<div class="container testimonials">
+<div class="testimonial"><p>"Sendora Gift helped us create a memorable onboarding experience. The quality of gifts is exceptional!"</p><h4>John D., HR Manager, TechCorp</h4></div>
+<div class="testimonial"><p>"Perfect corporate gifts for our marketing events. Clients loved the customization options."</p><h4>Lisa M., Marketing Director, GlobalBiz</h4></div>
+<div class="testimonial"><p>"Professional service and high-quality products. We highly recommend Sendora Gift."</p><h4>Michael S., Operations, FinServe</h4></div>
+</div>
+</section>
+
+<!-- FAQ -->
 <section class="alt" id="faq">
-  <h2>Frequently Asked Questions</h2>
-  <div class="container">
-    <div class="faq-item">
-      <h4>What is the minimum order quantity?</h4>
-      <p>Most gift sets have a minimum order of 50 units. Contact us for details.</p>
-    </div>
-    <div class="faq-item">
-      <h4>Can I customize the gifts with my logo?</h4>
-      <p>Yes, we offer full OEM/ODM branding options for all products.</p>
-    </div>
-    <div class="faq-item">
-      <h4>What is the typical production lead time?</h4>
-      <p>Production usually takes 2-4 weeks depending on the quantity and customization.</p>
-    </div>
-  </div>
+<h2>Frequently Asked Questions</h2>
+<div class="container">
+<div class="faq-item"><h4>What is the minimum order quantity?</h4><p>Most gift sets have a minimum order of 50 units. Contact us for details.</p></div>
+<div class="faq-item"><h4>Can I customize the gifts with my logo?</h4><p>Yes, we offer full OEM/ODM branding options for all products.</p></div>
+<div class="faq-item"><h4>What is the typical production lead time?</h4><p>Production usually takes 2-4 weeks depending on the quantity and customization.</p></div>
+</div>
 </section>
 
-<!-- Contact Form -->
+<!-- Contact -->
 <section id="contact">
-  <h2>Contact Us</h2>
-  <div class="container">
-    <form action="https://formspree.io/f/mojzqnke" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <input type="text" name="company" placeholder="Company Name">
-      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Inquiry</button>
-    </form>
-  </div>
+<h2>Contact Us</h2>
+<div class="container">
+<form action="https://formspree.io/f/mojzqnke" method="POST">
+<input type="text" name="name" placeholder="Your Name" required>
+<input type="email" name="email" placeholder="Your Email" required>
+<input type="text" name="company" placeholder="Company Name">
+<textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+<button type="submit">Send Inquiry</button>
+</form>
+</div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <p>&copy; 2026 Sendora Gift. All rights reserved.</p>
-  <p>Email: <a href="mailto:info@sendoragift.com">info@sendoragift.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p>
+<p>&copy; 2026 Sendora Gift. All rights reserved.</p>
+<p>Email: <a href="mailto:info@sendoragift.com">info@sendoragift.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p>
 </footer>
 
 <!-- WhatsApp Button -->
 <a id="whatsapp-btn" href="https://wa.me/8618390800841" target="_blank">💬</a>
 
 <script>
-// FAQ toggle
 document.querySelectorAll('.faq-item h4').forEach(item=>{
-  item.addEventListener('click', ()=>{
-    item.parentElement.classList.toggle('active');
-  });
+  item.addEventListener('click',()=>{item.parentElement.classList.toggle('active');});
 });
 </script>
 
