@@ -4,94 +4,95 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Corporate Gift Sets | Sendora Gift</title>
-<meta name="description" content="Premium curated corporate gift sets for clients, partners, and business events.">
-
-<meta name="keywords" content="Corporate Gift Sets, Client Gifts, Business Gifts, Branded Corporate Gifts, Premium Corporate Gift Sets">
-
+<meta name="description" content="Premium Corporate Gift Sets for employee onboarding, client appreciation, and business promotions. Customizable with your brand logo.">
+<meta name="keywords" content="Corporate Gifts, Custom Gift Sets, Employee Onboarding Gifts, Business Promotions, Branded Gifts">
+<link rel="icon" href="favicon.ico">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
 body{line-height:1.6;color:#333;background:#f8f8f8;}
-a{text-decoration:none;}
-header{position:sticky;top:0;background:#fff;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.08);padding:15px 20px;text-align:center;}
-.back-btn{display:inline-block;padding:10px 25px;background:#ff6b00;color:#fff;border-radius:6px;font-weight:bold;transition:.3s;}
-.back-btn:hover{background:#ff4c00;}
-.hero{background:#fff;padding:70px 20px;text-align:center;}
-.hero h1{font-size:42px;margin-bottom:20px;color:#222;}
-.hero p{max-width:800px;margin:auto;font-size:18px;color:#666;}
-.hero img{width:100%;max-width:900px;margin-top:35px;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.15);}
-.container{width:90%;max-width:1200px;margin:60px auto;text-align:center;}
-.container h2{font-size:30px;margin-bottom:25px;color:#222;}
-.container ul{width:max-content;margin:0 auto 20px;text-align:left;padding-left:25px;}
-.container li{margin-bottom:8px;}
-.feature-box{background:#fff;padding:40px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
-form{display:flex;flex-direction:column;gap:15px;max-width:650px;margin:0 auto;}
-input,textarea{padding:14px;border:1px solid #ddd;border-radius:6px;width:100%;}
-button{padding:14px;background:#ff6b00;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;}
-button:hover{background:#ff4c00;}
-#whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:1000;}
-#whatsapp-btn:hover{transform:scale(1.1);}
-footer{background:#222;color:#fff;text-align:center;padding:30px;margin-top:60px;}
-@media(max-width:768px){.hero h1{font-size:30px;}.hero p{font-size:16px;}.hero img{max-width:100%;}}
+a{text-decoration:none;color:#ff6b00;}
+a:hover{color:#ff4c00;}
+header{position:sticky;top:0;background:#fff;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.08);}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:auto;padding:0 20px;height:80px;}
+.header-inner .logo{font-size:28px;font-weight:bold;color:#222;}
+.header-inner nav a{margin-left:25px;font-weight:bold;color:#555;transition:0.3s;}
+.hero{width:100%;min-height:400px;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/corporate.png');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;}
+.hero-content{max-width:900px;padding:20px;}
+.hero h1{font-size:36px;margin-bottom:20px;}
+.hero p{font-size:18px;margin-bottom:20px;}
+.hero .btn{padding:12px 25px;background:#ff6b00;color:#fff;font-weight:bold;border-radius:5px;transition:0.3s;}
+.hero .btn:hover{background:#ff4c00;}
+section{padding:60px 0;background:#fff;}
+section.alt{background:#f0f0f0;}
+section h2{text-align:center;margin-bottom:40px;font-size:28px;color:#222;}
+.container{width:90%;max-width:1200px;margin:0 auto;}
+.product-details{display:flex;flex-wrap:wrap;gap:30px;justify-content:center;}
+.product-details img{width:100%;max-width:500px;border-radius:8px;}
+.product-info{flex:1 1 400px;}
+.product-info h3{font-size:24px;margin-bottom:20px;}
+.product-info p{margin-bottom:15px;font-size:16px;color:#555;}
+form{max-width:600px;margin:40px auto;display:flex;flex-direction:column;gap:15px;}
+form input,form textarea{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;}
+form button{padding:12px;background:#ff6b00;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;transition:0.3s;}
+form button:hover{background:#ff4c00;}
+#whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.3);z-index:1000;cursor:pointer;}
+#whatsapp-btn:hover{transform:scale(1.1);transition:0.3s;}
 </style>
 </head>
 <body>
 
 <header>
-<a href="index.html" class="back-btn">← Back to Homepage</a>
+<div class="header-inner">
+<div class="logo">Sendora Gift</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="index.html#products">Products</a>
+<a href="index.html#process">Process</a>
+<a href="index.html#faq">FAQ</a>
+<a href="index.html#contact">Contact</a>
+</nav>
+</div>
 </header>
 
 <section class="hero">
+<div class="hero-content">
 <h1>Corporate Gift Sets</h1>
-<p>Premium curated corporate gift sets designed for clients, business partners, and special corporate events. Strengthen relationships and leave a lasting impression with high-quality, branded gifts.</p>
-<img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/corporate.png" alt="Corporate Gift Sets">
-</section>
-
-<section class="container">
-<div class="feature-box">
-<h2>Popular Items Included</h2>
-<ul>
-<li>Vacuum Tumbler</li>
-<li>Notebook</li>
-<li>Wireless Charger</li>
-<li>Umbrella</li>
-<li>Power Bank</li>
-<li>Bluetooth Speaker</li>
-<li>Pen Set</li>
-<li>Gift Box Packaging</li>
-</ul>
+<p>Premium corporate gift sets for employee onboarding, client appreciation, and business promotions. Customizable with your brand logo.</p>
+<a href="#contact" class="btn">Request a Quote</a>
 </div>
 </section>
 
-<section class="container">
-<div class="feature-box">
-<h2>Customization Options</h2>
-<ul>
-<li>Logo Printing</li>
-<li>Custom Packaging</li>
-<li>Color Matching</li>
-<li>OEM & ODM Support</li>
-<li>Worldwide Shipping</li>
-</ul>
+<section>
+<div class="container product-details">
+<img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/corporate.png" alt="Corporate Gift Set">
+<div class="product-info">
+<h3>Why Choose Our Corporate Gift Sets?</h3>
+<p>Our corporate gift sets are thoughtfully curated to impress clients and employees. Each set can be customized with your brand logo and messaging.</p>
+<p>We offer OEM & ODM services with low minimum order quantities and fast worldwide shipping.</p>
+<p>Perfect for onboarding, business meetings, promotional campaigns, and holiday gifts.</p>
+</div>
 </div>
 </section>
 
-<section class="container">
-<div class="feature-box">
-<h2>Request A Quote</h2>
+<section class="alt" id="contact">
+<h2>Contact Us</h2>
+<div class="container">
 <form action="https://formspree.io/f/mojzqnke" method="POST">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Your Email" required>
 <input type="text" name="company" placeholder="Company Name">
-<textarea name="message" rows="5" placeholder="Tell us your corporate gift requirements"></textarea>
+<textarea name="message" rows="5" placeholder="Your Message" required></textarea>
 <button type="submit">Send Inquiry</button>
 </form>
 </div>
 </section>
 
-<footer>
-<p>© 2026 Sendora Gift. All Rights Reserved.</p>
+<footer style="background:#222;color:#fff;text-align:center;padding:40px 0;">
+<p>&copy; 2026 Sendora Gift. All rights reserved.</p>
+<p>Email: <a href="mailto:info@sendoragift.com">info@sendoragift.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p>
 </footer>
 
 <a id="whatsapp-btn" href="https://wa.me/8618390800841" target="_blank">💬</a>
+
 </body>
 </html>
