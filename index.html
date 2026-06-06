@@ -15,67 +15,72 @@
 <link rel="icon" href="favicon.ico">
 
 <style>
-/* 保留你原CSS（不动） */
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+body { line-height: 1.6; color:#333; background:#f8f8f8; }
+/* Header */
+header{position:sticky;top:0;background:#fff;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.08);}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:auto;padding:0 20px;height:80px;}
+.header-inner .logo{font-size:28px;font-weight:bold;color:#222;}
+.header-inner nav a{margin-left:25px;font-weight:bold;color:#555;transition:0.3s;}
+.header-inner nav a:hover{color:#ff6b00;}
+/* Hero */
+.hero{width:100%;min-height:750px;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/hero.png');background-size:cover;background-position:center center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;}
+.hero-content{max-width:900px;padding:20px;}
+.hero h1{font-size:48px;margin-bottom:20px;}
+.hero p{font-size:20px;margin-bottom:30px;}
+.hero .btn{padding:15px 35px;background:#ff6b00;color:#fff;font-weight:bold;border-radius:5px;transition:0.3s;}
+.hero .btn:hover{background:#ff4c00;}
+/* Sections */
+section{padding:80px 0;background:#fff;}
+section.alt{background:#f0f0f0;}
+section h2{text-align:center;margin-bottom:50px;font-size:32px;color:#222;}
+.container{width:90%;max-width:1200px;margin:0 auto;}
+/* Product Grid */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.product-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.1);transition:0.3s;}
+.product-card:hover{transform:translateY(-5px);}
+.product-card img{width:100%;height:220px;object-fit:cover;}
+.product-card-content{padding:20px;}
+.product-card-content h3{font-size:20px;margin-bottom:10px;}
+.product-card-content p{font-size:14px;color:#666;margin-bottom:15px;}
+.product-card-content .btn{display:inline-block;padding:10px 20px;background:#ff6b00;color:#fff;border-radius:5px;font-weight:bold;transition:0.3s;}
+.product-card-content .btn:hover{background:#ff4c00;}
+/* Testimonials */
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;text-align:center;}
+.testimonial{background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.testimonial p{font-style:italic;margin-bottom:15px;}
+.testimonial h4{font-weight:bold;color:#222;}
+/* Steps */
+.steps{display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px;max-width:1000px;margin:0 auto;}
+.step{flex:1 1 200px;background:#fff;padding:30px;border-radius:8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.step h3{margin-bottom:15px;}
+.step p{color:#666;font-size:14px;}
+/* FAQ */
+.faq-item{margin-bottom:20px;background:#fff;border-radius:8px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.faq-item h4{cursor:pointer;position:relative;padding-right:20px;}
+.faq-item h4::after{content:'+';position:absolute;right:0;top:0;font-size:18px;}
+.faq-item.active h4::after{content:'−';}
+.faq-item p{max-height:0;overflow:hidden;transition:0.3s;}
+.faq-item.active p{max-height:200px;margin-top:10px;}
+/* Contact Form */
+form{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:15px;}
+form input,form textarea{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;}
+form button{padding:12px;background:#ff6b00;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;transition:0.3s;}
+form button:hover{background:#ff4c00;}
+/* Footer */
+footer{background:#222;color:#fff;text-align:center;padding:40px 0;}
+footer p{margin-bottom:10px;}
+footer a{color:#ff6b00;}
+/* WhatsApp */
+#whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.3);z-index:1000;cursor:pointer;}
+#whatsapp-btn:hover{transform:scale(1.1);transition:0.3s;}
 </style>
 
-<!-- SEO STRUCTURED DATA (V3 ENHANCED) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Sendora Gift",
-  "url": "https://sendoragift.com",
-  "description": "Corporate gift supplier specializing in custom gift sets, promotional merchandise, and OEM/ODM manufacturing solutions.",
-  "sameAs": []
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Are you a corporate gift manufacturer or trading company?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We are a direct manufacturer specializing in OEM and ODM corporate gift solutions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is your minimum order quantity?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "MOQ depends on product type, typically starting from 50-100 units."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can you customize all products with our logo?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, we provide full branding services including logo printing, embroidery, engraving, and packaging customization."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do you support worldwide shipping?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, we provide global shipping for all corporate gift orders."
-      }
-    }
-  ]
-}
-</script>
-
 </head>
-
 <body>
 
-<!-- HEADER（不改结构） -->
+<!-- Header -->
 <header>
 <div class="header-inner">
 <div class="logo">Sendora Gift</div>
@@ -89,21 +94,16 @@
 </div>
 </header>
 
-<!-- HERO（增强SEO词） -->
+<!-- Hero -->
 <section class="hero">
 <div class="hero-content">
 <h1>Corporate Gift Supplier for Global Brands</h1>
-
-<p>
-Custom corporate gifts, employee onboarding kits, promotional merchandise, executive gift boxes, and branded business gifts for global companies.
-OEM & ODM manufacturing with full customization and worldwide delivery.
-</p>
-
+<p>Custom corporate gifts, employee onboarding kits, promotional merchandise, executive gift boxes, and branded business gifts for global companies. OEM & ODM manufacturing with full customization and worldwide delivery.</p>
 <a href="#contact" class="btn">Get Free Quote</a>
 </div>
 </section>
 
-<!-- TRUST -->
+<!-- Trust Bar -->
 <section class="alt">
 <div class="container" style="display:flex;justify-content:space-around;flex-wrap:wrap;text-align:center;">
 <div>✔ OEM / ODM Manufacturer</div>
@@ -114,115 +114,161 @@ OEM & ODM manufacturing with full customization and worldwide delivery.
 </div>
 </section>
 
-<!-- PRODUCT -->
-<section id="products">
-<h2>Custom Corporate Gift Categories</h2>
-
-<div class="container product-grid">
-
-<div class="product-card">
-<img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/corporate.png" alt="Custom Corporate Gift Sets OEM Supplier">
-<div class="product-card-content">
-<h3>Corporate Gift Sets</h3>
-<a href="corporate-gift.html" class="btn">View Details</a>
-</div>
-</div>
-
-<div class="product-card">
-<img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/welcome.png" alt="Employee Onboarding Kit Custom Gifts">
-<div class="product-card-content">
-<h3>Employee Welcome Kits</h3>
-<a href="employee-welcome.html" class="btn">View Details</a>
-</div>
-</div>
-
-<div class="product-card">
-<img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/promo.png" alt="Promotional Corporate Gifts Wholesale Supplier">
-<div class="product-card-content">
-<h3>Promotional Giveaways</h3>
-<a href="promotional-giveaways.html" class="btn">View Details</a>
-</div>
-</div>
-
-</div>
-</section>
-
-<!-- SEO CONTENT BLOCK（核心新增） -->
-<section class="container">
-<h2>One-Stop Corporate Gift Manufacturing Solution</h2>
-
-<p>
-Sendora Gift is a professional corporate gift supplier and OEM/ODM manufacturer specializing in high-quality customized business gifts for global companies.
-We help brands build stronger relationships with employees, customers, and partners through thoughtful and premium gift solutions.
-</p>
-
-<p>
-Our product range includes custom corporate gift sets, employee onboarding kits, promotional giveaways, conference gifts, executive gift boxes, and branded merchandise.
-All products can be fully customized with logo printing, packaging design, and branding elements.
-</p>
-
-<p>
-We support industries including technology, finance, healthcare, education, retail, and international trade companies.
-Our mission is to provide scalable corporate gifting solutions that enhance brand value and customer engagement.
-</p>
-</section>
-
-<!-- USE CASES（SEO扩展） -->
-<section class="container">
-<h2>Corporate Gift Solutions by Business Scenario</h2>
-
-<p><b>Employee Onboarding:</b> Create impactful welcome kits for new employees.</p>
-<p><b>Trade Shows:</b> Stand out with branded promotional merchandise.</p>
-<p><b>Client Gifts:</b> Strengthen relationships with premium executive gift boxes.</p>
-<p><b>Marketing Campaigns:</b> Boost brand visibility through customized giveaways.</p>
-<p><b>Holiday Seasons:</b> Deliver meaningful seasonal corporate gifts worldwide.</p>
-
-</section>
-
-<!-- PROCESS（强化关键词） -->
-<section id="process">
-<h2>Custom Gift Production Process</h2>
-
-<div class="container steps">
-<div class="step"><h3>Inquiry</h3><p>Share your corporate gift requirements and branding needs.</p></div>
-<div class="step"><h3>Design</h3><p>We create customized product and packaging solutions.</p></div>
-<div class="step"><h3>Production</h3><p>Mass production with strict quality control standards.</p></div>
-<div class="step"><h3>Delivery</h3><p>Global shipping with reliable logistics support.</p></div>
-</div>
-</section>
-
-<!-- FAQ（增强SEO） -->
-<section id="faq" class="alt">
-<h2>Frequently Asked Questions</h2>
-
+<!-- SEO Content Block -->
+<section class="alt">
 <div class="container">
-<p><b>What is your MOQ?</b> 100-500 units depending on product type.</p>
-<p><b>Do you offer OEM services?</b> Yes, full customization is available.</p>
-<p><b>Can you print our logo?</b> Yes, we offer full branding solutions.</p>
-<p><b>Do you ship globally?</b> Yes, worldwide delivery is supported.</p>
-<p><b>Can I request samples?</b> Yes, sample orders are available.</p>
+<h2>Custom Corporate Gift Solutions</h2>
+<p>Sendora Gift is a professional corporate gift supplier and OEM/ODM manufacturer specializing in custom business gift sets, employee onboarding kits, promotional products, and executive gift boxes for global companies. We help brands improve customer relationships and employee experience through high-quality branded merchandise.</p>
+<p>Our products include tumblers, notebooks, backpacks, caps, umbrellas, apparel, and premium gift boxes. All items can be fully customized with logo printing, engraving, embroidery, and packaging design.</p>
+<p>We support industries including technology, finance, healthcare, education, retail, and international trade. Our mission is to provide scalable corporate gifting solutions that enhance brand value and customer engagement.</p>
 </div>
-
 </section>
 
-<!-- CONTACT -->
+<!-- Product Categories -->
+<section id="products">
+<h2>Gift Categories</h2>
+<div class="container product-grid">
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/corporate.png" alt="Corporate Gift Sets">
+    <div class="product-card-content">
+      <h3>Corporate Gift Sets</h3>
+      <a href="corporate-gift.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/welcome.png" alt="Employee Welcome Kits">
+    <div class="product-card-content">
+      <h3>Employee Welcome Kits</h3>
+      <a href="employee-welcome.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/promo.png" alt="Promotional Giveaways">
+    <div class="product-card-content">
+      <h3>Promotional Giveaways</h3>
+      <a href="promotional-giveaways.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/event gift.png" alt="Event Gift Kits">
+    <div class="product-card-content">
+      <h3>Event Gift Kits</h3>
+      <a href="event-gift.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/executive gift.png" alt="Executive Gift Boxes">
+    <div class="product-card-content">
+      <h3>Executive Gift Boxes</h3>
+      <a href="executive-gift.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/conference gift.png" alt="Conference Gifts">
+    <div class="product-card-content">
+      <h3>Conference Gifts</h3>
+      <a href="conference-gift.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/sports.png" alt="Sports Event Kits">
+    <div class="product-card-content">
+      <h3>Sports Event Kits</h3>
+      <a href="sports-event.html" class="btn">View Details</a>
+    </div>
+  </div>
+  <div class="product-card">
+    <img src="https://raw.githubusercontent.com/he3442875852/sendoragift-site/main/holiday gift.png" alt="Holiday Gift Sets">
+    <div class="product-card-content">
+      <h3>Holiday Gift Sets</h3>
+      <a href="holiday-gift.html" class="btn">View Details</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Process Section -->
+<section id="process">
+<h2>Customization Process</h2>
+<div class="container steps">
+<div class="step"><h3>1. Inquiry</h3><p>Share your corporate gift requirements and branding needs.</p></div>
+<div class="step"><h3>2. Design</h3><p>We create customized product and packaging solutions.</p></div>
+<div class="step"><h3>3. Production</h3><p>High-quality manufacturing with strict quality control.</p></div>
+<div class="step"><h3>4. Delivery</h3><p>Global shipping ensures timely arrival.</p></div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section class="alt" id="cases">
+<h2>Client Testimonials</h2>
+<div class="container testimonials">
+<div class="testimonial"><p>"Sendora Gift helped us create a memorable onboarding experience. The quality of gifts is exceptional!"</p><h4>John D., HR Manager, TechCorp</h4></div>
+<div class="testimonial"><p>"Perfect corporate gifts for our marketing events. Clients loved the customization options."</p><h4>Lisa M., Marketing Director, GlobalBiz</h4></div>
+<div class="testimonial"><p>"Professional service and high-quality products. We highly recommend Sendora Gift."</p><h4>Michael S., Operations, FinServe</h4></div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="alt" id="faq">
+<h2>Frequently Asked Questions</h2>
+<div class="container">
+
+<div class="faq-item">
+<h4>What is your minimum order quantity?</h4>
+<p>Most products start from 100-500 units depending on customization requirements.</p>
+</div>
+
+<div class="faq-item">
+<h4>Can you customize all products with our logo?</h4>
+<p>Yes, we provide full OEM/ODM branding services including printing, embroidery, and engraving.</p>
+</div>
+
+<div class="faq-item">
+<h4>Do you support worldwide shipping?</h4>
+<p>Yes, we ship globally with reliable logistics partners.</p>
+</div>
+
+<div class="faq-item">
+<h4>Can I request samples before bulk order?</h4>
+<p>Yes, sample orders are available for quality verification.</p>
+</div>
+
+<div class="faq-item">
+<h4>What is the production lead time?</h4>
+<p>Typically 3–5 weeks depending on product type and order size.</p>
+</div>
+
+</div>
+</section>
+
+<!-- Contact -->
 <section id="contact">
 <h2>Get Your Custom Corporate Gift Quote</h2>
-
 <div class="container">
 <form action="https://formspree.io/f/mojzqnke" method="POST">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Business Email" required>
 <input type="text" name="company" placeholder="Company Name">
-<textarea name="message" placeholder="Tell us your gift requirements" required></textarea>
+<textarea name="message" rows="5" placeholder="Tell us your gift requirements" required></textarea>
 <button type="submit">Request Quote</button>
 </form>
 </div>
 </section>
 
+<!-- Footer -->
 <footer>
 <p>&copy; 2026 Sendora Gift. Corporate Gift Supplier & OEM Manufacturer</p>
+<p>Email: <a href="mailto:info@sendoragift.com">info@sendoragift.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p>
 </footer>
+
+<!-- WhatsApp Button -->
+<a id="whatsapp-btn" href="https://wa.me/8618390800841" target="_blank">💬</a>
+
+<script>
+document.querySelectorAll('.faq-item h4').forEach(item=>{
+  item.addEventListener('click',()=>{item.parentElement.classList.toggle('active');});
+});
+</script>
 
 </body>
 </html>
