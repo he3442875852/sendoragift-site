@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- 首页 -->
   <url>
     <loc>https://www.sendoragift.com/</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Corporate Gift Sets -->
   <url>
-    <loc>https://www.sendoragift.com/#contact</loc>
-    <priority>0.8</priority>
+    <loc>https://www.sendoragift.com/corporate-gift.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Employee Welcome Kits -->
+  <url>
+    <loc>https://www.sendoragift.com/employee-welcome.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Promotional Giveaways -->
+  <url>
+    <loc>https://www.sendoragift.com/promotional-giveaways.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Event Gift Kits -->
+  <url>
+    <loc>https://www.sendoragift.com/event-gift.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Executive Gift Boxes -->
+  <url>
+    <loc>https://www.sendoragift.com/executive-gift.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Conference Gifts -->
+  <url>
+    <loc>https://www.sendoragift.com/conference-gift.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Sports Event Kits -->
+  <url>
+    <loc>https://www.sendoragift.com/sports-event.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Holiday Gift Sets -->
+  <url>
+    <loc>https://www.sendoragift.com/holiday-gift.html</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
 
 </urlset>
