@@ -1,0 +1,43 @@
+name: Refresh gallery images
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/refresh-gallery-images.yml'
+permissions:
+  contents: write
+jobs:
+  refresh-gallery-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download clearer gallery images
+        run: |
+          set -euo pipefail
+          mkdir -p assets
+          curl -L --retry 3 -o assets/custom-luxury-gift-box-packaging.jpg 'https://tmpfiles.org/dl/wxw1nJXv1j6m/custom-luxury-gift-box-packaging.jpg'
+          curl -L --retry 3 -o assets/corporate-gift-set-use-cases.jpg 'https://tmpfiles.org/dl/wlw0nhXE1BA9/corporate-gift-set-use-cases.jpg'
+          curl -L --retry 3 -o assets/oem-odm-logo-customization-gifts.jpg 'https://tmpfiles.org/dl/wAwHnuXx15UE/oem-odm-logo-customization-gifts.jpg'
+          curl -L --retry 3 -o assets/branded-tumbler-notebook-gift-set.jpg 'https://tmpfiles.org/dl/wqwmncXmYgPM/branded-tumbler-notebook-gift-set.jpg'
+          python3 - <<'PY'
+          from pathlib import Path
+          expected = {
+              'assets/custom-luxury-gift-box-packaging.jpg': 40000,
+              'assets/corporate-gift-set-use-cases.jpg': 50000,
+              'assets/oem-odm-logo-customization-gifts.jpg': 50000,
+              'assets/branded-tumbler-notebook-gift-set.jpg': 45000,
+          }
+          for path, minimum in expected.items():
+              size = Path(path).stat().st_size
+              if size < minimum:
+                  raise SystemExit(f'{path} is too small: {size}')
+              print(path, size)
+          PY
+      - name: Commit clearer gallery images
+        run: |
+          if git diff --quiet -- assets/*.jpg; then echo 'No image changes needed.'; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/custom-luxury-gift-box-packaging.jpg assets/corporate-gift-set-use-cases.jpg assets/oem-odm-logo-customization-gifts.jpg assets/branded-tumbler-notebook-gift-set.jpg
+          git commit -m 'Refresh gallery images with clearer versions'
+          git push
