@@ -1,0 +1,104 @@
+name: Upgrade inquiry forms
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/update-inquiry-forms.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade-forms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace inquiry forms with enhanced quote form
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          files = [
+              'branded-drinkware-gifts.html',
+              'branded-employee-onboarding-kits.html',
+              'bulk-corporate-gifts.html',
+              'company-swag-kits.html',
+              'conference-gift.html',
+              'corporate-gift.html',
+              'corporate-gifts-for-clients.html',
+              'corporate-holiday-gifts.html',
+              'custom-gift-box-packaging.html',
+              'custom-logo-gifts.html',
+              'employee-welcome.html',
+              'event-gift.html',
+              'executive-gift.html',
+              'holiday-gift.html',
+              'index.html',
+              'promotional-giveaways.html',
+              'sports-event.html',
+              'trade-show-giveaways.html',
+          ]
+
+          enhanced_form = '''<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+          <input type="text" name="company" placeholder="Company Name">
+          <input type="text" name="whatsapp_phone" placeholder="WhatsApp / Phone">
+          <select name="product_type" required>
+          <option value="">Select Product Type</option>
+          <option>Corporate gift sets</option>
+          <option>Employee welcome kits</option>
+          <option>Promotional giveaways</option>
+          <option>Executive gift boxes</option>
+          <option>Conference or event gifts</option>
+          <option>Holiday gift sets</option>
+          <option>Drinkware gifts</option>
+          <option>Custom packaging only</option>
+          <option>Not sure, need recommendation</option>
+          </select>
+          <input type="number" name="quantity" min="1" placeholder="Estimated Quantity, e.g. 500" required>
+          <input type="text" name="target_budget" placeholder="Target Budget, e.g. USD 8-15 per set">
+          <input type="text" name="delivery_destination" placeholder="Delivery Country / City">
+          <input type="date" name="target_delivery_date">
+          <select name="branding_need">
+          <option value="">Logo / Branding Need</option>
+          <option>Logo printing</option>
+          <option>Laser engraving</option>
+          <option>Embroidery</option>
+          <option>Custom gift box packaging</option>
+          <option>Logo + packaging</option>
+          <option>Need recommendation</option>
+          </select>
+          <input type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip">
+          <textarea name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
+          <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
+          <button type="submit">Send Quote Request</button>
+          </form>'''
+
+          changed = []
+          pattern = re.compile(r'<form[\s\S]*?</form>', re.IGNORECASE)
+          for name in files:
+              path = Path(name)
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              new_text, count = pattern.subn(enhanced_form, text, count=1)
+              if count and new_text != text:
+                  path.write_text(new_text, encoding='utf-8')
+                  changed.append(name)
+
+          print('Updated files:', ', '.join(changed) if changed else 'none')
+          PY
+      - name: Commit enhanced forms
+        run: |
+          if git diff --quiet; then
+            echo "No form changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add *.html
+          git commit -m "Upgrade inquiry forms with file upload fields"
+          git push
