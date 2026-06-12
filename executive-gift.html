@@ -368,12 +368,40 @@ section{padding:60px 0;}
 <section class="alt" id="contact">
 <h2>Get Your Executive Gift Box Quote</h2>
 <div class="container">
-<form action="https://formspree.io/f/mojzqnke" method="POST">
+<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Your Email" required>
 <input type="text" name="company" placeholder="Company Name">
-<textarea name="message" rows="5" placeholder="Tell us your executive gift box requirements, quantity and target delivery date" required></textarea>
-<button type="submit">Send Inquiry</button>
+<input type="text" name="whatsapp_phone" placeholder="WhatsApp / Phone">
+<select name="product_type" required>
+<option value="">Select Product Type</option>
+<option>Corporate gift sets</option>
+<option>Employee welcome kits</option>
+<option>Promotional giveaways</option>
+<option>Executive gift boxes</option>
+<option>Conference or event gifts</option>
+<option>Holiday gift sets</option>
+<option>Drinkware gifts</option>
+<option>Custom packaging only</option>
+<option>Not sure, need recommendation</option>
+</select>
+<input type="number" name="quantity" min="1" placeholder="Estimated Quantity, e.g. 500" required>
+<input type="text" name="target_budget" placeholder="Target Budget, e.g. USD 8-15 per set">
+<input type="text" name="delivery_destination" placeholder="Delivery Country / City">
+<input type="date" name="target_delivery_date">
+<select name="branding_need">
+<option value="">Logo / Branding Need</option>
+<option>Logo printing</option>
+<option>Laser engraving</option>
+<option>Embroidery</option>
+<option>Custom gift box packaging</option>
+<option>Logo + packaging</option>
+<option>Need recommendation</option>
+</select>
+<input type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip">
+<textarea name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
+<input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
+<button type="submit">Send Quote Request</button>
 </form>
 </div>
 </section>
