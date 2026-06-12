@@ -37,6 +37,13 @@ footer{background:#222;color:#fff;text-align:center;padding:40px 0;}footer p{mar
 #whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff!important;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:1000;}
 @media(max-width:900px){.quote-wrap{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.field.full{grid-column:auto;}}
 @media(max-width:768px){.header-inner{height:auto;flex-direction:column;padding:15px;}nav{margin-top:10px;text-align:center;}nav a{display:inline-block;margin:8px;}.hero h1{font-size:34px;}section{padding:55px 0;}.quote-form{padding:22px;}}
+
+select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size:15px;background:#fff;color:#555;}
+.file-upload{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #ccc;border-radius:5px;background:#fff;color:#555;font-size:15px;cursor:pointer;}
+.file-upload input[type="file"]{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none;}
+.file-upload-label{display:inline-block;background:#f0f0f0;color:#222;border-radius:4px;padding:7px 12px;font-weight:bold;}
+.file-name{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ContactPage","name":"Request a Custom Corporate Gift Quote","url":"https://www.sendoragift.com/quote.html","provider":{"@type":"Organization","name":"Sendora Gift","url":"https://www.sendoragift.com/","email":"rita@mcpatch.com"}}
@@ -46,28 +53,60 @@ footer{background:#222;color:#fff;text-align:center;padding:40px 0;}footer p{mar
 <header><div class="header-inner"><div class="logo">Sendora Gift</div><nav><a href="index.html">Home</a><a href="index.html#products">Products</a><a href="blog/">Blog</a><a href="quote.html">Get Quote</a><a href="index.html#contact">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-content"><h1>Request a Custom Gift Quote</h1><p>Upload your logo, design file or reference image and share the key details so we can quote faster.</p></div></section>
 <section><div class="container quote-wrap">
-<form class="quote-form" action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
-<div class="form-grid">
-<div class="field"><label for="name">Your Name *</label><input id="name" type="text" name="name" placeholder="Full name" required></div>
-<div class="field"><label for="email">Email *</label><input id="email" type="email" name="email" placeholder="name@company.com" required></div>
-<div class="field"><label for="company">Company Name</label><input id="company" type="text" name="company" placeholder="Company / organization"></div>
-<div class="field"><label for="whatsapp">WhatsApp / Phone</label><input id="whatsapp" type="text" name="whatsapp_phone" placeholder="Country code + number"></div>
-<div class="field"><label for="product_type">Product Type *</label><select id="product_type" name="product_type" required><option value="">Select product type</option><option>Corporate gift sets</option><option>Employee welcome kits</option><option>Promotional giveaways</option><option>Executive gift boxes</option><option>Conference or event gifts</option><option>Holiday gift sets</option><option>Drinkware gifts</option><option>Custom packaging only</option><option>Not sure, need recommendation</option></select></div>
-<div class="field"><label for="quantity">Estimated Quantity *</label><input id="quantity" type="number" name="quantity" min="1" placeholder="Example: 500" required></div>
-<div class="field"><label for="budget">Target Budget</label><input id="budget" type="text" name="target_budget" placeholder="Example: USD 8-15 per set"></div>
-<div class="field"><label for="deadline">Target Delivery Date</label><input id="deadline" type="date" name="target_delivery_date"></div>
-<div class="field"><label for="destination">Delivery Country / City</label><input id="destination" type="text" name="delivery_destination" placeholder="Example: Germany / Berlin"></div>
-<div class="field"><label for="logo_method">Logo / Branding Need</label><select id="logo_method" name="branding_need"><option value="">Select branding need</option><option>Logo printing</option><option>Laser engraving</option><option>Embroidery</option><option>Custom gift box packaging</option><option>Logo + packaging</option><option>Need recommendation</option></select></div>
-<div class="field full"><label for="attachment">Upload Logo / Design / Reference Image</label><input id="attachment" type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip"><p class="help">Accepted examples: PNG, JPG, WEBP, PDF, AI, EPS, PSD or ZIP. If you have multiple files, please compress them into one ZIP file.</p></div>
-<div class="field full"><label for="message">Project Details *</label><textarea id="message" name="message" placeholder="Tell us what products you want, how they should be packed, logo position, colors, deadline, target users, and any reference ideas." required></textarea></div>
+<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+<input type="text" name="name" placeholder="Your Name" required>
+<input type="email" name="email" placeholder="Your Email" required>
+<input type="text" name="company" placeholder="Company Name">
+<input type="text" name="whatsapp_phone" placeholder="WhatsApp / Phone">
+<select name="product_type" required>
+<option value="">Select Product Type</option>
+<option>Corporate gift sets</option>
+<option>Employee welcome kits</option>
+<option>Promotional giveaways</option>
+<option>Executive gift boxes</option>
+<option>Conference or event gifts</option>
+<option>Holiday gift sets</option>
+<option>Drinkware gifts</option>
+<option>Custom packaging only</option>
+<option>Not sure, need recommendation</option>
+</select>
+<input type="number" name="quantity" min="1" placeholder="Estimated Quantity, e.g. 500" required>
+<input type="text" name="target_budget" placeholder="Target Budget, e.g. USD 8-15 per set">
+<input type="text" name="delivery_destination" placeholder="Delivery Country / City">
+<input type="text" name="target_delivery_date" placeholder="Target Delivery Date, e.g. 2026-08-30">
+<select name="branding_need">
+<option value="">Logo / Branding Need</option>
+<option>Logo printing</option>
+<option>Laser engraving</option>
+<option>Embroidery</option>
+<option>Custom gift box packaging</option>
+<option>Logo + packaging</option>
+<option>Need recommendation</option>
+</select>
+<label class="file-upload">
+<span class="file-upload-label">Upload Logo / Design File</span>
+<input type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip">
+<span class="file-name">No file selected</span>
+</label>
+<textarea name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
 <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
-<div class="field full"><button type="submit">Send Quote Request</button></div>
-</div>
+<button type="submit">Send Quote Request</button>
 </form>
 <aside class="side-card"><h2>For a Faster Quote</h2><ul><li>Quantity and target budget</li><li>Product type or reference image</li><li>Logo file or design artwork</li><li>Packaging preference</li><li>Delivery country and deadline</li><li>Any sample or quality requirements</li></ul><p class="help">The more details you provide, the faster we can recommend products and calculate pricing.</p></aside>
 </div></section>
 <section class="alt"><div class="container trust-grid"><div class="trust-card"><h3>Logo Customization</h3><p>We can advise on printing, engraving, embroidery, UV printing and packaging labels.</p></div><div class="trust-card"><h3>Gift Set Planning</h3><p>Share your budget and audience, and we can recommend product combinations.</p></div><div class="trust-card"><h3>Packaging Support</h3><p>Custom boxes, paper bags, sleeves, greeting cards and insert cards are available.</p></div><div class="trust-card"><h3>Worldwide Shipping</h3><p>We support express, air, sea and door-to-door shipping based on your deadline.</p></div></div></section>
 <footer><p>&copy; 2026 Sendora Gift. All rights reserved.</p><p>Email: <a href="mailto:rita@mcpatch.com">rita@mcpatch.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank">Chat Now</a></p></footer>
 <a id="whatsapp-btn" href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20want%20to%20request%20a%20custom%20gift%20quote." target="_blank">💬</a>
+
+<script>
+document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
+  input.addEventListener('change',()=>{
+    const fileName=input.files&&input.files.length?input.files[0].name:'No file selected';
+    const display=input.closest('.file-upload').querySelector('.file-name');
+    if(display) display.textContent=fileName;
+  });
+});
+</script>
+
 </body>
 </html>

@@ -88,6 +88,13 @@ nav a{display:inline-block;margin:8px;}
 .hero p{font-size:17px;}
 section{padding:60px 0;}
 }
+
+select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size:15px;background:#fff;color:#555;}
+.file-upload{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #ccc;border-radius:5px;background:#fff;color:#555;font-size:15px;cursor:pointer;}
+.file-upload input[type="file"]{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none;}
+.file-upload-label{display:inline-block;background:#f0f0f0;color:#222;border-radius:4px;padding:7px 12px;font-weight:bold;}
+.file-name{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
 </style>
 <script type="application/ld+json" data-seo="codex">
 [
@@ -418,7 +425,7 @@ section{padding:60px 0;}
 <input type="number" name="quantity" min="1" placeholder="Estimated Quantity, e.g. 500" required>
 <input type="text" name="target_budget" placeholder="Target Budget, e.g. USD 8-15 per set">
 <input type="text" name="delivery_destination" placeholder="Delivery Country / City">
-<input type="date" name="target_delivery_date">
+<input type="text" name="target_delivery_date" placeholder="Target Delivery Date, e.g. 2026-08-30">
 <select name="branding_need">
 <option value="">Logo / Branding Need</option>
 <option>Logo printing</option>
@@ -428,7 +435,11 @@ section{padding:60px 0;}
 <option>Logo + packaging</option>
 <option>Need recommendation</option>
 </select>
+<label class="file-upload">
+<span class="file-upload-label">Upload Logo / Design File</span>
 <input type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip">
+<span class="file-name">No file selected</span>
+</label>
 <textarea name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
 <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
 <button type="submit">Send Quote Request</button>
@@ -447,6 +458,17 @@ section{padding:60px 0;}
 document.querySelectorAll('.faq-item h4').forEach(item=>{
   item.addEventListener('click',()=>{
     item.parentElement.classList.toggle('active');
+  });
+});
+</script>
+
+
+<script>
+document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
+  input.addEventListener('change',()=>{
+    const fileName=input.files&&input.files.length?input.files[0].name:'No file selected';
+    const display=input.closest('.file-upload').querySelector('.file-name');
+    if(display) display.textContent=fileName;
   });
 });
 </script>
