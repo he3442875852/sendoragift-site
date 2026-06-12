@@ -1,4 +1,4 @@
-name: Add gallery images
+name: Add homepage gallery section
 on:
   workflow_dispatch:
   push:
@@ -7,20 +7,14 @@ on:
 permissions:
   contents: write
 jobs:
-  add-gallery-images:
+  add-gallery-section:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add optimized images and homepage gallery
+      - name: Insert homepage gallery section
         run: |
           python3 <<'PY'
           from pathlib import Path
-          import base64
-          files = {
-            'assets/custom-luxury-gift-box-packaging.jpg': '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',
-          }
-          Path('assets').mkdir(exist_ok=True)
-          for path, encoded in files.items(): Path(path).write_bytes(base64.b64decode(encoded))
           index = Path('index.html')
           text = index.read_text(encoding='utf-8')
           css = '''
@@ -42,13 +36,15 @@ jobs:
 </div>
 </section>
 '''
-          if '.gallery-grid' not in text: text = text.replace('</style>', css + '\n</style>')
-          if 'Custom Gift Set Gallery' not in text: text = text.replace('<section id="products">', gallery + '\n<section id="products">')
+          if '.gallery-grid' not in text:
+              text = text.replace('</style>', css + '\n</style>')
+          if 'Custom Gift Set Gallery' not in text:
+              text = text.replace('<section id="products">', gallery + '\n<section id="products">')
           index.write_text(text, encoding='utf-8')
           PY
-          if git diff --quiet; then echo "No gallery changes needed."; exit 0; fi
+          if git diff --quiet; then echo "No homepage gallery changes needed."; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html assets/custom-luxury-gift-box-packaging.jpg assets/corporate-gift-set-use-cases.jpg assets/oem-odm-logo-customization-gifts.jpg assets/branded-tumbler-notebook-gift-set.jpg
-          git commit -m "Add homepage custom gift set gallery images"
+          git add index.html
+          git commit -m "Add homepage custom gift set gallery"
           git push
