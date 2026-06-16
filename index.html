@@ -16,58 +16,110 @@
 body{line-height:1.6;color:#333;background:#f8f8f8}
 a{text-decoration:none;color:#ff6b00}
 a:hover{color:#ff4c00}
+
 header{position:sticky;top:0;background:#fff;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.08)}
 .header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:auto;padding:0 20px;height:80px}
 .logo{font-size:28px;font-weight:bold;color:#222}
 nav a{margin-left:22px;font-weight:bold;color:#555;transition:.3s}
 nav a:hover{color:#ff6b00}
-.hero{position:relative;width:100%;min-height:680px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.46)),url('assets/premium-hero.jpg') center/cover no-repeat;background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.46)),image-set(url('assets/premium-hero.webp') type('image/webp'),url('assets/premium-hero.jpg') type('image/jpeg'));overflow:hidden}
+
+.hero{
+  position:relative;
+  width:100%;
+  min-height:680px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
+  background:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.46)),url('assets/premium-hero.jpg') center/cover no-repeat;
+  background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.46)),image-set(url('assets/premium-hero.webp') type('image/webp'),url('assets/premium-hero.jpg') type('image/jpeg'));
+  overflow:hidden
+}
 .hero-content{position:relative;z-index:1;max-width:940px;padding:20px}
 .hero h1{font-size:48px;margin-bottom:20px}
 .hero p{font-size:20px;margin-bottom:30px}
+
 .btn{display:inline-block;padding:12px 26px;background:#ff6b00;color:#fff!important;border-radius:5px;font-weight:bold;transition:.3s}
 .btn:hover{background:#ff4c00}
 .btn-secondary{background:#333}
+.btn-secondary:hover{background:#111}
 .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
 section{padding:76px 0;background:#fff}
 section.alt{background:#f0f0f0}
 section h2{text-align:center;margin-bottom:18px;font-size:32px;color:#222}
 .section-intro{max-width:860px;margin:0 auto 38px;text-align:center;color:#555}
 .container{width:90%;max-width:1200px;margin:0 auto}
+
 .trust-bar{display:flex;justify-content:space-around;flex-wrap:wrap;text-align:center;gap:20px;font-weight:bold;color:#333}
+
 .visual-split{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
 .visual-split img{display:block;width:100%;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.14)}
 .visual-copy h2{text-align:left;margin-bottom:16px}
 .visual-copy p{color:#555;margin-bottom:16px}
+
 .check-list{display:grid;gap:10px;margin-top:18px}
 .check-list div{background:#fff;padding:14px 16px;border-left:4px solid #ff6b00;box-shadow:0 2px 8px rgba(0,0,0,.08);color:#555}
-.image-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-.image-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.image-card img{display:block;width:100%;height:210px;object-fit:cover}
-.image-card div{padding:20px}
-.image-card h3{color:#222;margin-bottom:8px}
-.image-card p{color:#555;font-size:15px}
+
 .path-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
 .path-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .path-card img{display:block;width:100%;height:auto;aspect-ratio:800/533;object-fit:cover;background:#f6f6f6}
 .path-content{padding:24px}
 .path-content h3{font-size:21px;margin-bottom:12px;color:#222}
 .path-content p{font-size:15px;color:#555;margin-bottom:16px}
+
+.idea-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.idea-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:.25s}
+.idea-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.idea-card img{display:block;width:100%;height:190px;object-fit:cover;background:#f6f6f6}
+.idea-content{padding:22px}
+.idea-content h3{font-size:20px;line-height:1.35;margin-bottom:10px;color:#222}
+.idea-content p{color:#555;font-size:15px;margin-bottom:14px}
+.idea-content a{font-weight:bold}
+
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px}
 .step{background:#fff;padding:26px;border-radius:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .step h3{margin-bottom:10px;color:#222}
+
 .text-block{max-width:920px;margin:0 auto;text-align:center}
 .text-block p{margin-bottom:18px;color:#555}
+
+.mini-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.mini-item{background:#fff;padding:18px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);color:#555}
+
+.image-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.image-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.image-card img{display:block;width:100%;height:210px;object-fit:cover}
+.image-card div{padding:20px}
+.image-card h3{color:#222;margin-bottom:8px}
+.image-card p{color:#555;font-size:15px}
+
 .link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .link-card{background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .link-card h3{margin-bottom:10px;color:#222}
 .link-card p{color:#555;margin-bottom:14px}
-.mini-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
-.mini-item{background:#fff;padding:18px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);color:#555}
+
 footer{background:#222;color:#fff;text-align:center;padding:40px 0}
 footer p{margin-bottom:10px}
 footer a{color:#ff6b00}
-#whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff!important;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:1000}
+
+#whatsapp-btn{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#25D366;
+  color:#fff!important;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);
+  z-index:1000
+}
 
 @media(max-width:768px){
   .header-inner{height:auto;flex-direction:column;padding:15px}
@@ -79,6 +131,7 @@ footer a{color:#ff6b00}
   section{padding:56px 0}
   .visual-split{grid-template-columns:1fr}
   .visual-copy h2{text-align:center}
+  .idea-card img{height:180px}
   .image-card img{height:190px}
 }
 </style>
@@ -208,46 +261,85 @@ footer a{color:#ff6b00}
   </div>
 </section>
 
-<section>
+<section class="alt">
   <h2>Ready-to-Customize Corporate Gift Set Ideas</h2>
-  <p class="section-intro">Not sure which gift set to choose? Start from these practical corporate gift ideas, or send us your quantity, budget, logo file and delivery country. We can recommend a suitable product mix for your project.</p>
+  <p class="section-intro">Start from these practical corporate gift set ideas, or send us your quantity, budget, logo file and delivery country. We can recommend a suitable product mix for your project.</p>
 
-  <div class="container link-grid">
-    <div class="link-card">
-      <h3>Client Thank You Gift Box</h3>
-      <p>A practical appreciation gift box for customers, partners and VIP accounts. Common items include ceramic mug, coaster, metal pen, thank-you card, paper bag and branded gift box.</p>
-      <a href="client-thank-you-gift-boxes.html">View Gift Idea →</a>
+  <div class="container idea-grid">
+
+    <div class="idea-card">
+      <img src="assets/client-thank-you-gift-box.webp" alt="Client thank you gift box with mug pen coaster card and custom packaging" loading="lazy">
+      <div class="idea-content">
+        <h3>Client Thank You Gift Box</h3>
+        <p>A practical appreciation gift box for customers, partners and VIP accounts with mug, pen, coaster, thank-you card and branded gift box.</p>
+        <a href="client-thank-you-gift-boxes.html">View Gift Idea →</a>
+      </div>
     </div>
 
-    <div class="link-card">
-      <h3>Executive Business Gift Set</h3>
-      <p>A premium business gift set for executives, partners and important clients. Suggested items include tumbler, leather-style notebook, metal pen, card holder and rigid gift box.</p>
-      <a href="executive-business-gift-sets.html">View Gift Idea →</a>
+    <div class="idea-card">
+      <img src="assets/executive-business-gift-set.webp" alt="Executive business gift set with tumbler notebook pen card holder and gift box" loading="lazy">
+      <div class="idea-content">
+        <h3>Executive Business Gift Set</h3>
+        <p>A premium business gift set for executives, partners and important clients with tumbler, notebook, metal pen and rigid gift box.</p>
+        <a href="executive-business-gift-sets.html">View Gift Idea →</a>
+      </div>
     </div>
 
-    <div class="link-card">
-      <h3>Custom Mug Gift Set</h3>
-      <p>A popular office gift direction for employees, clients and events. Combine ceramic mug, coaster, spoon, notebook, greeting card and custom packaging.</p>
-      <a href="custom-mug-gift-sets.html">View Gift Idea →</a>
+    <div class="idea-card">
+      <img src="assets/custom-mug-gift-set.webp" alt="Custom mug gift set with ceramic mug coaster spoon card and gift box" loading="lazy">
+      <div class="idea-content">
+        <h3>Custom Mug Gift Set</h3>
+        <p>A popular office gift direction for employees, clients and events with mug, coaster, spoon, notebook, greeting card and packaging.</p>
+        <a href="custom-mug-gift-sets.html">View Gift Idea →</a>
+      </div>
     </div>
 
-    <div class="link-card">
-      <h3>Coffee Break Office Gift Set</h3>
-      <p>A warm and practical office gift box with ceramic mug, coaster, spoon, sticky notes, thank-you card and branded packaging for employees, clients and meetings.</p>
-      <a href="coffee-break-office-gift-sets.html">View Gift Idea →</a>
+    <div class="idea-card">
+      <img src="assets/coffee-break-office-gift-set.webp" alt="Coffee break office gift set with mug coaster spoon sticky notes card and packaging" loading="lazy">
+      <div class="idea-content">
+        <h3>Coffee Break Office Gift Set</h3>
+        <p>A warm office gift box with ceramic mug, coaster, spoon, sticky notes, thank-you card and branded packaging.</p>
+        <a href="coffee-break-office-gift-sets.html">View Gift Idea →</a>
+      </div>
     </div>
 
-    <div class="link-card">
-      <h3>Conference Giveaway Kit</h3>
-      <p>A useful giveaway kit for meetings, exhibitions and conferences. Common products include tote bag, notebook, pen, lanyard, badge holder and event card.</p>
-      <a href="conference-gift.html">View Conference Gifts →</a>
+    <div class="idea-card">
+      <img src="assets/conference-giveaway-kit.webp" alt="Conference giveaway kit with tote bag notebook pen lanyard badge holder and event card" loading="lazy">
+      <div class="idea-content">
+        <h3>Conference Giveaway Kit</h3>
+        <p>A useful giveaway kit for meetings, exhibitions and conferences with tote bag, notebook, pen, lanyard, badge holder and event card.</p>
+        <a href="conference-giveaway-kits.html">View Gift Idea →</a>
+      </div>
     </div>
 
-    <div class="link-card">
-  <h3>Trade Show Giveaway Kits</h3>
-  <p>Custom giveaway kits for exhibitions, booth visitors and marketing campaigns. Common items include tote bag, notebook, pen, lanyard, badge holder, sticker, tumbler and insert card.</p>
-  <a href="trade-show-giveaway-kits.html">View Gift Idea →</a>
-</div>
+    <div class="idea-card">
+      <img src="assets/trade-show-giveaway-kits.webp" alt="Trade show giveaway kit with tote bag notebook pen lanyard badge holder tumbler and insert card" loading="lazy">
+      <div class="idea-content">
+        <h3>Trade Show Giveaway Kits</h3>
+        <p>Custom giveaway kits for exhibitions, booth visitors and marketing campaigns with tote bag, notebook, pen, lanyard and tumbler.</p>
+        <a href="trade-show-giveaway-kits.html">View Gift Idea →</a>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <img src="assets/new-employee-welcome-mug-gift-sets.webp" alt="New employee welcome mug gift set with mug notebook pen tote bag welcome card and gift box" loading="lazy">
+      <div class="idea-content">
+        <h3>New Employee Welcome Mug Gift Sets</h3>
+        <p>Branded onboarding gift boxes with mug, notebook, pen, tote bag, welcome card and custom packaging for new hires.</p>
+        <a href="new-employee-welcome-mug-gift-sets.html">View Gift Idea →</a>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <img src="assets/corporate-gift-box-packaging.webp" alt="Corporate gift box packaging with rigid box sleeve insert card sticker paper bag and inner tray" loading="lazy">
+      <div class="idea-content">
+        <h3>Corporate Gift Box Packaging</h3>
+        <p>Custom packaging options for gift sets, including rigid boxes, mailer boxes, sleeves, insert cards, stickers and paper bags.</p>
+        <a href="corporate-gift-box-packaging.html">View Packaging Options →</a>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <section class="alt">
@@ -326,7 +418,7 @@ footer a{color:#ff6b00}
   </div>
 </section>
 
-<section class="alt">
+<section>
   <h2>Next Steps for B2B Buyers</h2>
 
   <div class="container link-grid">
