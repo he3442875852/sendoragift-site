@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.sendoragift.com/</loc><lastmod>2026-06-15</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+
+  <url><loc>https://www.sendoragift.com/</loc><lastmod>2026-06-16</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://www.sendoragift.com/about/</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/contact/</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.sendoragift.com/products/</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.sendoragift.com/products/</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.sendoragift.com/custom-gifts/</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.sendoragift.com/solutions.html</loc><lastmod>2026-06-12</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.sendoragift.com/quote.html</loc><lastmod>2026-06-12</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
@@ -16,6 +17,15 @@
   <url><loc>https://www.sendoragift.com/conference-gift.html</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.sendoragift.com/sports-event.html</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.sendoragift.com/holiday-gift.html</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <url><loc>https://www.sendoragift.com/client-thank-you-gift-boxes.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/executive-business-gift-sets.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/custom-mug-gift-sets.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/coffee-break-office-gift-sets.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/conference-giveaway-kits.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/trade-show-giveaway-kits.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/new-employee-welcome-mug-gift-sets.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.sendoragift.com/corporate-gift-box-packaging.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <url><loc>https://www.sendoragift.com/custom-logo-gifts.html</loc><lastmod>2026-06-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/bulk-corporate-gifts.html</loc><lastmod>2026-06-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -42,11 +52,13 @@
   <url><loc>https://www.sendoragift.com/custom-branded-bags.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/corporate-gifts-for-events.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/corporate-gift-supplier-for-distributors.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <url><loc>https://www.sendoragift.com/quality-control.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/production-process.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/shipping-delivery.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/moq-bulk-order-guide.html</loc><lastmod>2026-06-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/corporate-gift-faq.html</loc><lastmod>2026-06-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <url><loc>https://www.sendoragift.com/privacy-policy.html</loc><lastmod>2026-06-15</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.sendoragift.com/terms.html</loc><lastmod>2026-06-15</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
 
@@ -66,4 +78,5 @@
   <url><loc>https://www.sendoragift.com/cases/vip-client-gift-boxes-with-custom-packaging.html</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/cases/trade-show-giveaways-for-exhibition-booth.html</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.sendoragift.com/cases/holiday-gift-sets-for-employee-appreciation.html</loc><lastmod>2026-06-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
 </urlset>
