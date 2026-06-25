@@ -7,285 +7,396 @@
   <meta name="description" content="Sendora Gift helps procurement teams build custom corporate gift sets, employee welcome kits, event giveaways and branded packaging with sample support, logo customization and global delivery planning.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.sendoragift.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sendora Gift | Custom Corporate Gift Sets for B2B Buyers">
+  <meta property="og:description" content="Custom corporate gift sets, logo branding, premium packaging and delivery planning for global B2B buyers.">
+  <meta property="og:url" content="https://www.sendoragift.com/">
+  <meta property="og:image" content="https://www.sendoragift.com/assets/sendora-hero-realistic.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sendora Gift | Custom Corporate Gift Sets for B2B Buyers">
+  <meta name="twitter:description" content="Bespoke corporate gifting support from sourcing and branding to packaging and global delivery planning.">
+  <meta name="twitter:image" content="https://www.sendoragift.com/assets/sendora-hero-realistic.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/sendora-hero-realistic.webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/home-v5.css">
+  <script defer src="assets/home-v5.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sendora Gift",
+    "url": "https://www.sendoragift.com/",
+    "description": "Sendora Gift helps global B2B buyers create customized corporate gift sets through product sourcing, logo branding, packaging and delivery planning."
+  }
+  </script>
 </head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="./">Sendora Gift</a>
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="products/">Products</a>
-        <a href="blog/">Blog</a>
+<body class="home-page">
+  <header class="site-header home-header" data-home-header>
+    <div class="home-container header-inner">
+      <a class="home-logo" href="./" aria-label="Sendora Gift home">
+        <span>SENDORA</span>
+        <small>CORPORATE GIFTING</small>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="home-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="home-nav" class="home-nav" aria-label="Primary navigation">
+        <a href="#solutions">Solutions</a>
+        <a href="#concepts">Gift Concepts</a>
+        <a href="#customization">Customization</a>
         <a href="#process">Process</a>
-        <a href="#proof">Proof</a>
+        <a href="about/">About</a>
         <a href="contact/">Contact</a>
-        <a class="nav-cta" href="contact/">Get Price Range</a>
+        <a class="nav-project" href="contact/">Start a Project</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="eyebrow">Custom gifts for procurement teams, agencies and distributors</div>
-          <h1>Corporate Gift Sets Buyers Can Approve Faster</h1>
-          <p>Share your quantity, target budget and delivery country. Sendora Gift will recommend practical product mixes, logo methods, packaging options and shipment plans before you commit to bulk production.</p>
-          <div class="btn-row">
-            <a class="btn" href="contact/">Get Gift Ideas & Price Range</a>
-            <a class="btn secondary" href="products/">Browse Ready-to-Customize Sets</a>
+    <section class="home-hero section-reveal" aria-labelledby="home-title">
+      <div class="home-container hero-layout">
+        <div class="hero-copy">
+          <p class="home-eyebrow">BESPOKE CORPORATE GIFTING &middot; GLOBAL B2B SUPPLY</p>
+          <h1 id="home-title">Corporate Gifts,<br>Curated to Carry Your Brand.</h1>
+          <p class="hero-lede">One partner for product sourcing, logo customization, premium packaging and global delivery&mdash;built for employee, client and event gifting.</p>
+          <div class="home-actions">
+            <a class="home-btn primary" href="contact/">Start Your Project</a>
+            <a class="home-btn secondary" href="#concepts">Explore Gift Concepts</a>
+          </div>
+          <ul class="trust-list" aria-label="Project support">
+            <li>Typical MOQ from 100 sets</li>
+            <li>Sample support</li>
+            <li>Custom packaging</li>
+            <li>Global delivery planning</li>
+          </ul>
+        </div>
+        <figure class="hero-media">
+          <img src="assets/sendora-hero-realistic.webp" width="1672" height="941" alt="Premium black corporate gift boxes with drinkware notebook pen and branded packaging" fetchpriority="high">
+        </figure>
+      </div>
+    </section>
+
+    <section class="home-section service-value section-reveal" aria-labelledby="service-title">
+      <div class="home-container">
+        <div class="section-kicker">
+          <p class="home-eyebrow">ONE PARTNER, END TO END</p>
+          <h2 id="service-title">One Brief. A Complete Gifting Solution.</h2>
+          <p>From first idea to final delivery, we connect product selection, branding, packaging and logistics into one clear B2B workflow.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 14h30v25H9z"/><path d="M15 14a9 9 0 0 1 18 0"/><path d="M16 25h16M16 31h10"/></svg>
+            <h3>Curated Product Mix</h3>
+            <p>Practical combinations selected around your audience, occasion, quantity and target budget.</p>
+          </article>
+          <article class="service-card">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36l24-24"/><path d="M15 18l15 15"/><path d="M8 40h32"/><path d="M31 9l8 8"/></svg>
+            <h3>Brand-Led Customization</h3>
+            <p>Logo placement, color, printing, engraving, embroidery and packaging details aligned with your brand.</p>
+          </article>
+          <article class="service-card">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 16l17-8 17 8-17 8z"/><path d="M7 16v18l17 8 17-8V16"/><path d="M24 24v18"/></svg>
+            <h3>Packaging &amp; Global Delivery</h3>
+            <p>Gift boxes, inserts, cards, bulk packing and shipping planning for offices, events and multiple destinations.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solutions" class="home-section occasion-section section-reveal" aria-labelledby="solutions-title">
+      <div class="home-container">
+        <div class="section-kicker row">
+          <div>
+            <p class="home-eyebrow">BUILT AROUND THE MOMENT</p>
+            <h2 id="solutions-title">Gifting Solutions for Every Business Occasion</h2>
           </div>
         </div>
+        <div class="occasion-grid">
+          <article class="occasion-card">
+            <a href="employee-welcome.html">
+              <img src="assets/product-employee-welcome-kits.webp" width="1448" height="1086" alt="Employee welcome kit with tote bag mug notebook pen bottle and branded card" loading="lazy">
+              <span>Employee Welcome</span>
+              <p>Onboarding kits and branded essentials that help new hires feel part of the team from day one.</p>
+            </a>
+          </article>
+          <article class="occasion-card">
+            <a href="client-thank-you-gift-boxes.html">
+              <img src="assets/product-client-thank-you-boxes.webp" width="1448" height="1086" alt="Client appreciation gift box with mug pen notebook card and premium packaging" loading="lazy">
+              <span>Client Appreciation</span>
+              <p>Thoughtful gift boxes for customers, partners, VIP accounts and long-term relationships.</p>
+            </a>
+          </article>
+          <article class="occasion-card">
+            <a href="conference-gift.html">
+              <img src="assets/product-conference-giveaway-kits.webp" width="1448" height="1086" alt="Conference giveaway kit with tote bottle notebook lanyard pen and card" loading="lazy">
+              <span>Events &amp; Campaigns</span>
+              <p>Useful, easy-to-distribute gift sets for conferences, exhibitions, launches and marketing campaigns.</p>
+            </a>
+          </article>
+        </div>
       </div>
     </section>
 
-    <div class="proof-strip">
-      <div class="container proof-grid">
-        <div class="proof-item"><strong>100-500+</strong><span>Typical starter MOQ range depending on item and branding method</span></div>
-        <div class="proof-item"><strong>Sample</strong><span>Confirm item, logo position and packaging before bulk order</span></div>
-        <div class="proof-item"><strong>One Brief</strong><span>Product sourcing, logo method, packaging and delivery plan together</span></div>
-        <div class="proof-item"><strong>Global</strong><span>Express, air, sea and door-to-door shipment planning</span></div>
-      </div>
-    </div>
-
-    <section>
-      <div class="container split">
-        <div class="image-frame">
-          <img src="assets/sendora-quality-control-realistic.png" alt="Quality control inspection for custom corporate gift sets">
-        </div>
-        <div>
-          <h2>Less Guesswork Before You Ask for a Quote</h2>
-          <p>Most corporate gift projects fail at the details: the item looks good but the MOQ is wrong, the logo method is unsuitable, the packaging is too expensive, or the delivery date is too tight.</p>
-          <p>Sendora Gift helps buyers compare realistic choices early so each click moves toward a workable order, not another vague supplier conversation.</p>
-          <div class="checklist">
-            <div class="check">Budget-matched product mixes for employees, clients, events and campaigns</div>
-            <div class="check">Logo placement, material and packaging suggestions before sampling</div>
-            <div class="check">Bulk packing and shipment planning for global B2B buyers</div>
+    <section id="customization" class="home-section customization-section section-reveal" aria-labelledby="custom-title">
+      <div class="home-container custom-layout">
+        <figure class="custom-media">
+          <img src="assets/sendora-quality-control-realistic.webp" width="1448" height="1086" alt="Logo placement and sample detail review for custom corporate gift items" loading="lazy">
+        </figure>
+        <div class="custom-copy">
+          <p class="home-eyebrow">MADE AROUND YOUR BRAND</p>
+          <h2 id="custom-title">Start With a Concept.<br>Make Every Detail Yours.</h2>
+          <p>Choose from proven gift directions or build a completely custom combination around your brand, recipient and budget.</p>
+          <div class="tag-groups">
+            <div>
+              <h3>Product Categories</h3>
+              <ul class="pill-list">
+                <li>Drinkware</li>
+                <li>Notebooks &amp; Pens</li>
+                <li>Bags &amp; Travel</li>
+                <li>Desk Accessories</li>
+                <li>Event Merchandise</li>
+                <li>Gift Box Packaging</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Branding Methods</h3>
+              <ul class="pill-list">
+                <li>Printing</li>
+                <li>Laser Engraving</li>
+                <li>Embroidery</li>
+                <li>Embossing</li>
+                <li>Custom Inserts</li>
+                <li>Branded Cards</li>
+              </ul>
+            </div>
           </div>
+          <a class="home-btn primary dark" href="custom-gifts/">Explore Custom Options</a>
         </div>
       </div>
     </section>
 
-    <section class="alt">
-      <div class="container">
-        <div class="section-head">
-          <h2>Gift Ideas by Budget Level</h2>
-          <p>Tell us your target budget instead of choosing from a fixed price list. We will recommend a realistic product mix after checking quantity, logo method, packaging and delivery country.</p>
-          <div class="note">Prices are not listed because each gift set is customized. Final quotation depends on item selection, order quantity, logo process, packaging structure, delivery deadline and shipping destination.</div>
+    <section id="concepts" class="home-section concepts-section section-reveal" aria-labelledby="concepts-title">
+      <div class="home-container">
+        <div class="section-kicker">
+          <p class="home-eyebrow">SELECTED DIRECTIONS</p>
+          <h2 id="concepts-title">Gift Concepts Ready to Customize</h2>
         </div>
-        <div class="info-grid">
-          <article class="info-card">
-            <div class="badge">Practical campaign budget</div>
-            <h3>Simple Giveaways for Events</h3>
-            <p>Good for trade shows, conferences and marketing campaigns where quantity and logo visibility matter most.</p>
-            <div class="specs">
-              <div class="spec"><span>Common mix</span><span>Tote, pen, notebook, lanyard</span></div>
-              <div class="spec"><span>Best focus</span><span>Useful, light, easy to carry</span></div>
-              <div class="spec"><span>Packaging</span><span>Simple bag or bulk packing</span></div>
+        <div class="concept-grid">
+          <article class="concept-card featured">
+            <img src="assets/product-client-thank-you-boxes.webp" width="1448" height="1086" alt="Executive client gift box with drinkware notebook pen card and packaging" loading="lazy">
+            <div>
+              <h3>Executive Client Gift Box</h3>
+              <p><strong>Use case:</strong> VIP clients and business partners</p>
+              <p><strong>Representative items:</strong> Tumbler &middot; Notebook &middot; Metal Pen &middot; Gift Box</p>
+              <a href="client-thank-you-gift-boxes.html">View Concept</a>
             </div>
           </article>
-          <article class="info-card">
-            <div class="badge">Balanced company budget</div>
-            <h3>Welcome Kits for Teams</h3>
-            <p>Suitable for employee onboarding, staff appreciation and internal brand programs that need daily-use items.</p>
-            <div class="specs">
-              <div class="spec"><span>Common mix</span><span>Mug, notebook, pen, tote, card</span></div>
-              <div class="spec"><span>Best focus</span><span>Practical branded experience</span></div>
-              <div class="spec"><span>Packaging</span><span>Mailer box or gift box</span></div>
-            </div>
-          </article>
-          <article class="info-card">
-            <div class="badge">Premium relationship budget</div>
-            <h3>Client & Executive Gift Boxes</h3>
-            <p>Designed for VIP clients, partners and executive gifting where presentation and perceived value are important.</p>
-            <div class="specs">
-              <div class="spec"><span>Common mix</span><span>Tumbler, mug, notebook, pen</span></div>
-              <div class="spec"><span>Best focus</span><span>Packaging and unboxing</span></div>
-              <div class="spec"><span>Packaging</span><span>Rigid box, sleeve, insert card</span></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="alt">
-      <div class="container">
-        <div class="section-head">
-          <h2>Popular Gift Sets With Clear Buying Context</h2>
-          <p>Each direction can be adjusted by budget, item mix, logo method, packaging style and delivery deadline.</p>
-        </div>
-        <div class="product-grid">
-          <article class="product-card">
-            <img src="assets/product-client-thank-you-boxes.png" alt="Premium client gift box with mug pen coaster card and packaging">
-            <div class="body">
-              <h3>Executive Client Gift Boxes</h3>
-              <p>For VIP accounts, partner appreciation and sales teams that need a polished gift presentation.</p>
-              <div class="specs">
-                <div class="spec"><span>Good for</span><span>Clients / partners</span></div>
-                <div class="spec"><span>Budget style</span><span>Mid-range to premium</span></div>
-                <div class="spec"><span>Includes</span><span>Box, card, logo items</span></div>
-              </div>
-              <div class="card-actions">
-                <a class="btn" href="contact/?product=executive-client-gift-boxes">Ask Price Range</a>
-                <a class="text-link" href="products/">View products</a>
-              </div>
-            </div>
-          </article>
-          <article class="product-card">
-            <img src="assets/product-employee-welcome-kits.png" alt="Employee welcome kit with tote mug notebook pen welcome card and box">
-            <div class="body">
-              <h3>Employee Welcome Kits</h3>
-              <p>Practical onboarding sets with drinkware, notebook, pen, tote bag, welcome card and custom packaging.</p>
-              <div class="specs">
-                <div class="spec"><span>Good for</span><span>New hires / HR</span></div>
-                <div class="spec"><span>Budget style</span><span>Flexible by quantity</span></div>
-                <div class="spec"><span>Includes</span><span>Daily-use branded items</span></div>
-              </div>
-              <div class="card-actions">
-                <a class="btn" href="contact/?product=employee-welcome-kits">Get Kit Ideas</a>
-                <a class="text-link" href="products/">View products</a>
-              </div>
-            </div>
-          </article>
-          <article class="product-card">
-            <img src="assets/product-conference-giveaway-kits.png" alt="Conference giveaway kit with tote notebook pen lanyard badge holder and bottle">
-            <div class="body">
-              <h3>Event Giveaway Kits</h3>
-              <p>Easy-to-carry gifts for conferences, exhibitions and campaigns where logo visibility matters.</p>
-              <div class="specs">
-                <div class="spec"><span>Good for</span><span>Events / trade shows</span></div>
-                <div class="spec"><span>Budget style</span><span>Cost-effective options</span></div>
-                <div class="spec"><span>Includes</span><span>Bags, pens, lanyards</span></div>
-              </div>
-              <div class="card-actions">
-                <a class="btn" href="contact/?product=event-giveaway-kits">Get Event Options</a>
-                <a class="text-link" href="products/">View products</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container split">
-        <div>
-          <h2>MOQ, Sample and Production Timeline</h2>
-          <p>These are typical planning references for custom corporate gift projects. Exact timing depends on item availability, logo method, packaging complexity, order quantity and shipping route.</p>
-          <div class="timeline-list">
-            <div><strong>MOQ</strong><span>Regular stock colors usually start from 100 sets. Special custom colors usually start from 1000 sets.</span></div>
-            <div><strong>Sample</strong><span>Sample timing is confirmed after item selection, logo artwork and packaging direction are clear.</span></div>
-            <div><strong>Production</strong><span>Bulk production starts after sample approval and final artwork confirmation.</span></div>
-            <div><strong>Delivery</strong><span>Shipping can be planned by express, air, sea or door-to-door service depending on deadline and destination.</span></div>
-          </div>
-        </div>
-        <div class="image-frame">
-          <img src="assets/sendora-bulk-packing-realistic.png" alt="Bulk packing and shipment preparation for corporate gift sets">
-        </div>
-      </div>
-    </section>
-
-    <section class="alt">
-      <div class="container">
-        <div class="section-head">
-          <h2>Example Project Concepts</h2>
-          <p>These are concept examples to help buyers describe what they need. They are not presented as previous customer orders.</p>
-        </div>
-        <div class="product-grid">
-          <article class="product-card">
-            <img src="assets/home-concept-practical-event.png" alt="Concept example of a practical event giveaway set">
-            <div class="body">
-              <div class="concept-label">Concept example</div>
-              <h3>Event Visitor Giveaway</h3>
-              <p>A simple event set for booth visitors or conference attendees, focused on low weight, clear branding and easy distribution.</p>
-              <div class="specs">
-                <div class="spec"><span>Use case</span><span>Trade shows / conferences</span></div>
-                <div class="spec"><span>Suggested items</span><span>Tote, notebook, pen, lanyard</span></div>
-              </div>
-            </div>
-          </article>
-          <article class="product-card">
-            <img src="assets/home-concept-balanced-welcome.png" alt="Concept example of a balanced employee welcome kit">
-            <div class="body">
-              <div class="concept-label">Concept example</div>
+          <article class="concept-card featured">
+            <img src="assets/product-employee-welcome-kits.webp" width="1448" height="1086" alt="New employee welcome kit with mug notebook pen tote and welcome card" loading="lazy">
+            <div>
               <h3>New Employee Welcome Kit</h3>
-              <p>A practical onboarding set for HR teams that need a branded welcome experience without overcomplicating packaging.</p>
-              <div class="specs">
-                <div class="spec"><span>Use case</span><span>New hire onboarding</span></div>
-                <div class="spec"><span>Suggested items</span><span>Mug, tote, notebook, card</span></div>
-              </div>
+              <p><strong>Use case:</strong> Onboarding and staff appreciation</p>
+              <p><strong>Representative items:</strong> Mug &middot; Notebook &middot; Pen &middot; Tote &middot; Welcome Card</p>
+              <a href="employee-welcome.html">View Concept</a>
             </div>
           </article>
-          <article class="product-card">
-            <img src="assets/home-concept-premium-client.png" alt="Concept example of a premium client gift box">
-            <div class="body">
-              <div class="concept-label">Concept example</div>
-              <h3>Premium Client Gift Box</h3>
-              <p>A stronger presentation for partners, VIP accounts or executive gifting where the box and insert card matter as much as the items.</p>
-              <div class="specs">
-                <div class="spec"><span>Use case</span><span>Client appreciation</span></div>
-                <div class="spec"><span>Suggested items</span><span>Tumbler, mug, notebook, pen</span></div>
-              </div>
+          <article class="concept-card compact">
+            <img src="assets/product-conference-giveaway-kits.webp" width="1448" height="1086" alt="Conference giveaway kit with tote notebook pen and lanyard" loading="lazy">
+            <div>
+              <h3>Conference Giveaway Kit</h3>
+              <p><strong>Use case:</strong> Exhibitions and business events</p>
+              <p><strong>Representative items:</strong> Tote &middot; Notebook &middot; Pen &middot; Lanyard</p>
+              <a href="conference-gift.html">View Concept</a>
             </div>
           </article>
-        </div>
-        <div class="note">Need a different direction? Send your quantity, target budget, delivery country and logo needs. We can suggest a product mix before preparing the final quotation.</div>
-      </div>
-    </section>
-
-    <section id="process">
-      <div class="container">
-        <div class="section-head">
-          <h2>A Simple Buying Process</h2>
-          <p>Designed for B2B buyers who need approval-ready options, not endless product lists.</p>
-        </div>
-        <div class="workflow">
-          <div class="step"><b>1</b><h3>Brief</h3><p>Quantity, budget, recipient, logo needs and delivery country.</p></div>
-          <div class="step"><b>2</b><h3>Options</h3><p>Recommended product mix, packaging direction and branding method.</p></div>
-          <div class="step"><b>3</b><h3>Price Range</h3><p>Compare practical choices before selecting samples or final items.</p></div>
-          <div class="step"><b>4</b><h3>Sample</h3><p>Confirm quality, logo placement, color and packaging details.</p></div>
-          <div class="step"><b>5</b><h3>Delivery</h3><p>Bulk packing, inspection and shipment planning for your schedule.</p></div>
+          <article class="concept-card compact">
+            <img src="assets/coffee-break-office-gift-set.webp" width="800" height="533" alt="Coffee break gift set with mug coaster spoon card and gift box" loading="lazy">
+            <div>
+              <h3>Coffee Break Gift Set</h3>
+              <p><strong>Use case:</strong> Employee and client appreciation</p>
+              <p><strong>Representative items:</strong> Mug &middot; Coaster &middot; Spoon &middot; Card &middot; Gift Box</p>
+              <a href="coffee-break-office-gift-sets.html">View Concept</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="proof" class="alt">
-      <div class="container split">
+    <section id="process" class="home-section process-section section-reveal" aria-labelledby="process-title">
+      <div class="home-container">
+        <div class="section-kicker">
+          <p class="home-eyebrow">A CLEAR B2B WORKFLOW</p>
+          <h2 id="process-title">From Brief to Delivery</h2>
+        </div>
+        <div class="process-line">
+          <article>
+            <span>01</span>
+            <h3>Brief</h3>
+            <p>Share your audience, quantity, target budget, logo needs, destination and deadline.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Curate</h3>
+            <p>We recommend suitable products, branding methods and packaging directions.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Approve</h3>
+            <p>Confirm samples, colors, artwork, logo placement and packaging details.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Produce &amp; Deliver</h3>
+            <p>Bulk production, quality checks, packing and shipment planning follow the approved details.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section quality-section section-reveal" aria-labelledby="quality-title">
+      <div class="home-container quality-layout">
+        <div class="quality-copy">
+          <p class="home-eyebrow">PROJECT EXECUTION</p>
+          <h2 id="quality-title">Details Checked Before Every Bulk Delivery</h2>
+          <ul class="quality-list">
+            <li>Logo and artwork confirmation</li>
+            <li>Sample approval before production</li>
+            <li>Packaging structure review</li>
+            <li>Product and carton quality checks</li>
+            <li>Express, air, sea and door-to-door planning</li>
+          </ul>
+        </div>
+        <div class="quality-media">
+          <figure>
+            <img src="assets/sendora-quality-control-realistic.webp" width="1448" height="1086" alt="Quality control process for logo and product details before bulk order" loading="lazy">
+            <figcaption>Quality Control Process</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/sendora-bulk-packing-realistic.webp" width="1448" height="1086" alt="Bulk packing support for boxed corporate gift sets before shipment" loading="lazy">
+            <figcaption>Bulk Packing Support</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section faq-section section-reveal" aria-labelledby="faq-title" aria-label="Corporate gifting FAQ">
+      <div class="home-container faq-layout">
         <div>
-          <h2>Real Supplier Details Buyers Look For</h2>
-          <p>Use the inquiry form to ask for MOQ, sample timing, packaging options, logo method and delivery route for your target country. The goal is to help your team choose a realistic direction quickly.</p>
-          <div class="checklist">
-            <div class="check">Custom packaging: rigid boxes, mailer boxes, sleeves, insert cards and paper bags</div>
-            <div class="check">Branding methods: printing, engraving, embroidery and packaging labels</div>
-            <div class="check">Pre-shipment checks for product details, logo position and carton packing</div>
+          <p class="home-eyebrow">FAQ</p>
+          <h2 id="faq-title">Common Questions Before a Brief</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary aria-controls="faq-a1">What is the typical minimum order quantity?</summary>
+            <div id="faq-a1"><p>Typical stock-color projects may start from around 100 sets, while fully customized colors or packaging may require a higher quantity. Final MOQ depends on the selected products and branding method.</p></div>
+          </details>
+          <details>
+            <summary aria-controls="faq-a2">Can I choose different items for my gift set?</summary>
+            <div id="faq-a2"><p>Yes. You can start from one of our gift concepts or create a custom combination based on your audience, budget and occasion.</p></div>
+          </details>
+          <details>
+            <summary aria-controls="faq-a3">Can you make samples before bulk production?</summary>
+            <div id="faq-a3"><p>Yes. Sample timing and cost are confirmed after the products, logo artwork and packaging direction are selected.</p></div>
+          </details>
+          <details>
+            <summary aria-controls="faq-a4">What branding methods are available?</summary>
+            <div id="faq-a4"><p>Common options include printing, laser engraving, embroidery, embossing, labels, custom cards and branded packaging.</p></div>
+          </details>
+          <details>
+            <summary aria-controls="faq-a5">Can you arrange international shipping?</summary>
+            <div id="faq-a5"><p>Shipping can be planned by express, air, sea or door-to-door service depending on destination, quantity and deadline.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section final-cta section-reveal" aria-labelledby="cta-title">
+      <div class="home-container cta-layout">
+        <div class="cta-copy">
+          <p class="home-eyebrow">START A PROJECT</p>
+          <h2 id="cta-title">Tell Us What You Need.<br>We'll Build the Right Direction.</h2>
+          <p>Share your quantity, target budget, delivery country and deadline. We'll recommend a suitable gift mix, branding method and packaging approach.</p>
+          <p class="whatsapp-note">Prefer WhatsApp? <a href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20project%20recommendation." target="_blank" rel="noopener">Chat with us.</a></p>
+        </div>
+        <form class="mini-brief" action="https://formspree.io/f/mojzqnke" method="POST">
+          <input type="hidden" name="_subject" value="New homepage project brief from Sendora Gift">
+          <input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
+          <input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="source_context" value="Homepage mini brief">
+          <div class="field">
+            <label for="home-name">Name *</label>
+            <input id="home-name" type="text" name="name" autocomplete="name" required>
           </div>
-        </div>
-        <div class="image-frame">
-          <img src="assets/sendora-bulk-packing-realistic.png" alt="Finished corporate gift sets packed for bulk shipment">
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-band">
-      <div class="container cta-inner">
-        <div>
-          <h2>Send One Brief. Get a More Useful Recommendation.</h2>
-          <p>Tell us the recipient, quantity, target budget and delivery country. We will suggest suitable gift directions and next steps.</p>
-        </div>
-        <div class="btn-row">
-          <a class="btn" href="contact/">Get Gift Ideas & Price Range</a>
-          <a class="btn secondary" href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20corporate%20gift%20ideas%20and%20a%20price%20range." target="_blank" rel="noopener">WhatsApp</a>
-        </div>
+          <div class="field">
+            <label for="home-email">Business Email *</label>
+            <input id="home-email" type="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="home-quantity">Estimated Quantity *</label>
+            <input id="home-quantity" type="text" name="quantity" placeholder="e.g. 300 sets" required>
+          </div>
+          <div class="field">
+            <label for="home-country">Delivery Country</label>
+            <input id="home-country" type="text" name="delivery_destination" placeholder="e.g. United States">
+          </div>
+          <div class="field full">
+            <label for="home-details">Project Details *</label>
+            <textarea id="home-details" name="message" rows="5" placeholder="Recipient, occasion, target budget, logo needs, packaging ideas and deadline." required></textarea>
+          </div>
+          <button class="home-btn primary" type="submit">Send My Project Brief</button>
+        </form>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Sendora Gift. Custom corporate gifts, branded packaging and global delivery support.</p>
-      <p>Email: <a href="mailto:rita@mcpatch.com">rita@mcpatch.com</a> | WhatsApp: <a href="https://wa.me/8618390800841" target="_blank" rel="noopener">Chat Now</a></p>
+  <footer class="home-footer">
+    <div class="home-container footer-grid">
+      <div>
+        <a class="home-logo footer-logo" href="./" aria-label="Sendora Gift home">
+          <span>SENDORA</span>
+          <small>CORPORATE GIFTING</small>
+        </a>
+        <p>Sendora Gift helps global B2B buyers create customized corporate gift sets through product sourcing, logo branding, packaging and delivery planning.</p>
+        <div class="footer-actions">
+          <a href="contact/">Contact Us</a>
+          <a href="https://wa.me/8618390800841" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="contact/">Start a Project</a>
+        </div>
+      </div>
+      <nav aria-label="Footer solutions">
+        <h2>Solutions</h2>
+        <a href="employee-welcome.html">Employee Gifts</a>
+        <a href="client-thank-you-gift-boxes.html">Client Gifts</a>
+        <a href="corporate-gifts-for-events.html">Event Gifts</a>
+        <a href="custom-gift-box-packaging.html">Custom Packaging</a>
+      </nav>
+      <nav aria-label="Footer company">
+        <h2>Company</h2>
+        <a href="about/">About</a>
+        <a href="#process">Process</a>
+        <a href="blog/">Blog</a>
+        <a href="contact/">Contact</a>
+      </nav>
+      <nav aria-label="Footer support">
+        <h2>Support</h2>
+        <a href="moq-bulk-order-guide.html">MOQ &amp; Bulk Orders</a>
+        <a href="shipping-delivery.html">Shipping</a>
+        <a href="quality-control.html">Quality Control</a>
+        <a href="#faq-title">FAQ</a>
+      </nav>
+    </div>
+    <div class="home-container footer-bottom">
+      <span>&copy; 2026 Sendora Gift. All rights reserved.</span>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
     </div>
   </footer>
-  <a class="whatsapp" href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20corporate%20gift%20ideas%20and%20a%20price%20range." target="_blank" rel="noopener">WA</a>
+  <a class="home-whatsapp" href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20corporate%20gift%20ideas%20and%20a%20price%20range." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp">WA</a>
 </body>
 </html>

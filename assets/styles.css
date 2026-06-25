@@ -53,7 +53,7 @@ a:hover{color:var(--brand-dark)}
   color:#fff;
   background:
     linear-gradient(90deg,rgba(12,18,24,.84) 0%,rgba(12,18,24,.63) 43%,rgba(12,18,24,.22) 100%),
-    url("sendora-hero-realistic.png") center/cover no-repeat;
+    url("sendora-hero-realistic.webp") center/cover no-repeat;
 }
 .hero-grid{max-width:760px;padding:72px 0}
 .eyebrow{
