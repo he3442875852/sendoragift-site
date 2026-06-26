@@ -1,0 +1,39 @@
+{
+  "redirects": [
+    {
+      "source": "/corporate-gift-box-packaging.html",
+      "destination": "/custom-gift-box-packaging.html",
+      "permanent": true
+    },
+    {
+      "source": "/executive-business-gift-sets.html",
+      "destination": "/executive-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/conference-giveaway-kits.html",
+      "destination": "/conference-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/trade-show-giveaway-kits.html",
+      "destination": "/trade-show-giveaways.html",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-gifts-for-events.html",
+      "destination": "/event-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/branded-employee-onboarding-kits.html",
+      "destination": "/employee-welcome.html",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-holiday-gifts.html",
+      "destination": "/holiday-gift.html",
+      "permanent": true
+    }
+  ]
+}
