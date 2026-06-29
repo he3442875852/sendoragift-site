@@ -327,3 +327,6 @@ button{font-family:inherit}
   .proof-item{padding:18px 16px}
   .timeline-list div{grid-template-columns:1fr;gap:4px}
 }
+/* Codex image ratio guard */
+img,picture,video,canvas,svg{max-width:100%;height:auto}img{display:block;object-fit:cover}
+.privacy-consent{display:flex;gap:.55rem;align-items:flex-start}

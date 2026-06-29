@@ -1,3 +1,4 @@
+# llms.txt added for AI crawler context; pages should still follow robots and sitemap rules.
 User-agent: *
 Allow: /
 
