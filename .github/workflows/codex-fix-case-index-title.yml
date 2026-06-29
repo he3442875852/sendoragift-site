@@ -1,0 +1,40 @@
+name: Codex fix case index title
+
+on:
+  push:
+    branches: [codex/geo-trust-optimization]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/geo-trust-optimization
+      - name: Fix case index title wording
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('cases/index.html')
+          t=p.read_text(encoding='utf-8')
+          t=t.replace('Custom Corporate Gift Case Studies','Custom Corporate Gift Sample References')
+          p.write_text(t,encoding='utf-8')
+          PY
+      - name: Audit optimized site
+        run: python scripts/audit_site.py
+      - name: Commit case index title fix
+        run: |
+          rm -f .github/workflows/codex-fix-case-index-title.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Rename case index as sample references"
+            git push origin codex/geo-trust-optimization
+          fi
