@@ -1,0 +1,220 @@
+name: Codex apply full GEO optimization
+
+on:
+  push:
+    branches: [codex/geo-trust-optimization]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/geo-trust-optimization
+      - name: Apply site optimization plan
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re, html
+          ROOT = Path('.').resolve()
+          BRAND = 'Sendora Gift'
+          COMPANY = 'Shenzhen Gelinhong Technology Co., Ltd.'
+          ADDRESS = 'Room 202, Building D, No. 122 Tongxin Road, Pingdong, Central Community, Pingdi Subdistrict, Shenzhen, China'
+          EMAIL = 'rita@mcpatch.com'
+          WHATSAPP = '+86 183 9080 0841'
+          WA_URL = 'https://wa.me/8618390800841'
+          ALIBABA = 'https://gelinhong.en.alibaba.com/'
+          LASTMOD = '2026-06-29'
+          INTERNAL_MARKERS = ['codex-2026-06-27','data-content-expansion','data-final-expansion','data-seo-schema']
+          def p(path): return ROOT / path
+          def read(path):
+              f = p(path)
+              return f.read_text(encoding='utf-8') if f.exists() else ''
+          def write(path, text):
+              f = p(path); f.parent.mkdir(parents=True, exist_ok=True); f.write_text(text, encoding='utf-8')
+          def rel(path): return path.as_posix()
+          def html_files(): return sorted([x for x in ROOT.rglob('*.html') if '.git' not in x.parts])
+          def add_site_css(text):
+              if '<head' in text and 'assets/site-v6.css' not in text:
+                  href = 'assets/site-v6.css'
+                  return text.replace('</head>', f'  <link rel="stylesheet" href="{href}">\n</head>', 1)
+              return text
+          def cleanup_html(text):
+              for marker in INTERNAL_MARKERS:
+                  text = text.replace(marker, '')
+              text = re.sub(r'\s+=""', '', text)
+              text = re.sub(r'\s{2,}>', '>', text)
+              return text
+          def add_footer_fact(text):
+              if '<footer' in text and COMPANY not in text:
+                  fact = f'\n    <p class="footer-company">{COMPANY} · {ADDRESS} · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{ALIBABA}">Alibaba supplier profile</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/trust-center/">Trust Center</a></p>\n  '
+                  text = text.replace('</footer>', fact + '</footer>', 1)
+              return text
+          def insert_before_body_end(text, block):
+              return text.replace('</body>', block + '\n</body>', 1) if '</body>' in text and block.strip() not in text else text
+          def ensure_section(path, title, body):
+              text = read(path)
+              if not text or title in text: return
+              block = f'\n<section class="geo-trust-note">\n  <h2>{title}</h2>\n  {body}\n</section>\n'
+              if '</main>' in text: text = text.replace('</main>', block + '</main>', 1)
+              else: text = insert_before_body_end(text, block)
+              write(path, text)
+          write('SITE_FACTS.md', f'''# Sendora Gift Site Facts\n\n- Brand: {BRAND}\n- Legal company: {COMPANY}\n- Address: {ADDRESS}\n- Contact email: {EMAIL}\n- WhatsApp: {WHATSAPP}\n- WhatsApp URL: {WA_URL}\n- Alibaba supplier profile: {ALIBABA}\n\n## Publishing Rules\n\n- Use the legal company name exactly as written above when describing the business entity.\n- Use only the confirmed email and WhatsApp contact details above.\n- Do not claim certifications, awards, factory ownership, platform verification, customer reviews or completed client results unless evidence is available in the repository.\n- Buyer-provided photos and showroom images should be labeled as sample references, project planning examples or reference solutions until the final customer, order quantity, destination and delivery result are confirmed.\n- Keep Formspree fields, file upload fields, `_next` redirects and WhatsApp links intact when editing inquiry forms.\n''')
+          write('llms.txt', f'''# Sendora Gift\n\nSendora Gift is the B2B corporate gifting site for {COMPANY}. The company supports custom corporate gift sets, branded packaging, product sourcing, sample planning and delivery coordination for business buyers.\n\nConfirmed contact: {EMAIL}; WhatsApp: {WA_URL}.\n\nLegal address: {ADDRESS}.\n\nAlibaba supplier profile: {ALIBABA}.\n\nImportant content rules: do not invent certifications, factory ownership, reviews or completed customer outcomes. Treat buyer-provided showroom photos, product mockups and sample cases as reference solutions unless evidence confirms a finished order.\n''')
+          write('SEO_PAGE_MAP.md', '''# SEO Page Map\n\n| Page | Primary Intent | Schema | Trust Notes |\n| --- | --- | --- | --- |\n| / | Custom corporate gift sets | Organization, WebSite | Legal entity, contact, Alibaba profile |\n| /about/ | Company background | AboutPage, Organization | Confirmed address and contact only |\n| /trust-center/ | Buyer trust and compliance | WebPage | Verification checklist, evidence boundaries |\n| /contact/ | Inquiry and RFQ | ContactPage, Organization | Consent note, Formspree preserved |\n| /corporate-gift-faq.html | Corporate gift FAQ | FAQPage | Questions visible in body and JSON-LD |\n| /products/ | Product planning | CollectionPage | Material, logo, MOQ and packaging considerations |\n| /cases/ | Sample references | Article | Reference/sample labels unless verified |\n| /privacy-policy.html | Privacy policy | WebPage | Contact email and data usage disclosure |\n''')
+          write('assets/site-v6.css', '''/* Shared GEO/trust consistency layer. */\nhtml{scroll-behavior:smooth}body{letter-spacing:0}img,picture,video,canvas,svg{max-width:100%;height:auto}img{display:block;object-fit:cover}.footer-company{font-size:.85rem;line-height:1.6;opacity:.82;margin-top:1rem}.footer-company a{color:inherit}.geo-trust-note,.company-facts,.proof-grid,.buyer-planning,.case-disclaimer,.privacy-consent{max-width:1120px;margin:48px auto;padding:0 24px}.geo-trust-note ul,.company-facts ul,.proof-grid ul,.buyer-planning ul{padding-left:1.2rem}.proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.proof-grid article,.geo-trust-note,.company-facts,.buyer-planning,.case-disclaimer{border:1px solid rgba(15,23,42,.12);border-radius:8px;padding:22px;background:#fff}.privacy-consent{display:flex;gap:.55rem;align-items:flex-start;font-size:.92rem;line-height:1.5}.privacy-consent input{margin-top:.25rem}.case-label{display:inline-block;margin:.5rem 0 1rem;padding:.35rem .65rem;border:1px solid rgba(15,23,42,.18);border-radius:999px;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}.product-spec-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}.product-spec-list article{border:1px solid rgba(15,23,42,.12);border-radius:8px;padding:18px;background:#fff}@media(max-width:760px){.geo-trust-note,.company-facts,.proof-grid,.buyer-planning,.case-disclaimer,.privacy-consent{margin:32px auto;padding-left:18px;padding-right:18px}}\n''')
+          for css in ['assets/styles.css','assets/home-v5.css']:
+              t = read(css)
+              if t:
+                  add = '\n/* Codex image ratio guard */\nimg,picture,video,canvas,svg{max-width:100%;height:auto}img{display:block;object-fit:cover}\n.privacy-consent{display:flex;gap:.55rem;align-items:flex-start}\n'
+                  if 'Codex image ratio guard' not in t: write(css, t.rstrip()+add)
+          org = {"@context":"https://schema.org","@type":"Organization","name":BRAND,"legalName":COMPANY,"url":"https://www.sendoragift.com/","email":EMAIL,"address":{"@type":"PostalAddress","streetAddress":"Room 202, Building D, No. 122 Tongxin Road, Pingdong, Central Community, Pingdi Subdistrict","addressLocality":"Shenzhen","addressCountry":"CN"},"sameAs":[ALIBABA,WA_URL],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":EMAIL,"telephone":WHATSAPP,"availableLanguage":["English","Chinese"]}}
+          home = read('index.html')
+          if home:
+              home = re.sub(r'<title>.*?</title>', '<title>Sendora Gift | Custom Corporate Gift Sets for Global Buyers</title>', home, count=1, flags=re.S)
+              home = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Sendora Gift helps global B2B buyers plan custom corporate gift sets with sourcing, logo branding, packaging, samples, QC and delivery coordination.">', home, count=1)
+              home = re.sub(r'<h1[^>]*>.*?</h1>', '<h1>Custom Corporate Gift Sets for Global Buyers</h1>', home, count=1, flags=re.S)
+              if COMPANY not in home:
+                  block = f'''\n<section class="company-facts">\n  <h2>Company Identity</h2>\n  <ul>\n    <li>Brand: {BRAND}</li>\n    <li>Legal company: {COMPANY}</li>\n    <li>Address: {ADDRESS}</li>\n    <li>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></li>\n    <li>WhatsApp: <a href="{WA_URL}">{WHATSAPP}</a></li>\n    <li>Alibaba profile: <a href="{ALIBABA}">{ALIBABA}</a></li>\n  </ul>\n</section>\n<section class="proof-grid">\n  <article><h2>What Buyers Can Verify</h2><p>Company identity, contact details, sample options, packaging structure and delivery requirements can be confirmed before production.</p></article>\n  <article><h2>What We Do Not Overclaim</h2><p>Certifications, customer results and order outcomes are published only when supporting evidence is available.</p></article>\n  <article><h2>Sample Reference Policy</h2><p>Showroom photos and buyer-provided images are labeled as planning references unless a completed order has been verified.</p></article>\n</section>\n'''
+                  home = home.replace('</main>', block + '</main>', 1)
+              if 'application/ld+json' in home and COMPANY not in home.split('</head>',1)[0]:
+                  home = home.replace('</head>', f'  <script type="application/ld+json">{json.dumps(org, ensure_ascii=False)}</script>\n</head>', 1)
+              elif 'application/ld+json' not in home:
+                  home = home.replace('</head>', f'  <script type="application/ld+json">{json.dumps(org, ensure_ascii=False)}</script>\n</head>', 1)
+              write('index.html', home)
+          about = read('about/index.html')
+          if about:
+              about = re.sub(r'<title>.*?</title>', '<title>About Sendora Gift | Shenzhen Gelinhong Technology Co., Ltd.</title>', about, count=1, flags=re.S)
+              about = re.sub(r'<h1[^>]*>.*?</h1>', '<h1>About Sendora Gift</h1>', about, count=1, flags=re.S)
+              if COMPANY not in about:
+                  about = about.replace('</main>', f'''\n<section class="company-facts">\n  <h2>Confirmed Company Details</h2>\n  <ul>\n    <li>Legal company: {COMPANY}</li>\n    <li>Address: {ADDRESS}</li>\n    <li>Contact: <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{WA_URL}">{WHATSAPP}</a></li>\n    <li>Alibaba profile: <a href="{ALIBABA}">{ALIBABA}</a></li>\n  </ul>\n</section>\n</main>''', 1)
+              write('about/index.html', about)
+          trust = f'''<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Trust Center | Sendora Gift</title>\n  <meta name="description" content="Verified company identity, contact details, Alibaba profile and publishing rules for Sendora Gift corporate gift buyers.">\n  <link rel="canonical" href="https://www.sendoragift.com/trust-center/">\n  <link rel="stylesheet" href="../assets/styles.css">\n  <link rel="stylesheet" href="../assets/site-v6.css">\n</head>\n<body>\n<header><nav><a href="../">Sendora Gift</a> <a href="../products/">Products</a> <a href="../contact/">Contact</a></nav></header>\n<main>\n<section class="company-facts">\n  <h1>Trust Center</h1>\n  <p>Use this page to verify the confirmed public business details for Sendora Gift before sending an RFQ or sharing project files.</p>\n  <ul>\n    <li>Brand: {BRAND}</li>\n    <li>Legal company: {COMPANY}</li>\n    <li>Address: {ADDRESS}</li>\n    <li>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></li>\n    <li>WhatsApp: <a href="{WA_URL}">{WHATSAPP}</a></li>\n    <li>Alibaba profile: <a href="{ALIBABA}">{ALIBABA}</a></li>\n  </ul>\n</section>\n<section class="proof-grid">\n  <article><h2>Evidence Boundary</h2><p>We publish company identity, contact and planning information that can be checked by buyers. Certifications, awards, factory claims and customer reviews are not added unless supporting documents are available.</p></article>\n  <article><h2>Sample Photo Policy</h2><p>Showroom images, prototype photos and buyer-provided samples are treated as sample references or project planning examples until final order facts are confirmed.</p></article>\n  <article><h2>RFQ Handling</h2><p>Inquiry forms may collect name, company, email, WhatsApp, project details and uploaded reference files only for quotation and project communication.</p></article>\n</section>\n</main>\n<footer><p class="footer-company">{COMPANY} · {ADDRESS} · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{ALIBABA}">Alibaba supplier profile</a> · <a href="/privacy-policy.html">Privacy Policy</a></p></footer>\n</body>\n</html>\n'''
+          write('trust-center/index.html', trust)
+          privacy = f'''<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Privacy Policy | Sendora Gift</title>\n  <meta name="description" content="Privacy policy for Sendora Gift inquiry forms, file uploads and buyer communication.">\n  <link rel="canonical" href="https://www.sendoragift.com/privacy-policy.html">\n  <link rel="stylesheet" href="assets/styles.css">\n  <link rel="stylesheet" href="assets/site-v6.css">\n</head>\n<body>\n<header><nav><a href="/">Sendora Gift</a> <a href="/contact/">Contact</a> <a href="/trust-center/">Trust Center</a></nav></header>\n<main class="company-facts">\n  <h1>Privacy Policy</h1>\n  <p>Sendora Gift is operated by {COMPANY}. This policy explains how we handle information submitted through inquiry forms, email, WhatsApp and uploaded reference files.</p>\n  <h2>Information We Collect</h2>\n  <p>We may collect your name, company, country, email, WhatsApp number, project details, quantity, destination, deadline and uploaded reference files.</p>\n  <h2>How We Use Information</h2>\n  <p>We use this information to reply to RFQs, prepare quotations, discuss samples, coordinate packaging and delivery requirements, and maintain project communication.</p>\n  <h2>Sharing</h2>\n  <p>We do not sell buyer information. Project details may be shared with production or logistics partners only when needed to prepare a quotation or fulfill a confirmed order.</p>\n  <h2>Contact</h2>\n  <p>For privacy requests, email <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>\n</main>\n<footer><p class="footer-company">{COMPANY} · {ADDRESS} · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{ALIBABA}">Alibaba supplier profile</a></p></footer>\n</body>\n</html>\n'''
+          write('privacy-policy.html', privacy)
+          contact = read('contact/index.html')
+          if contact:
+              contact = re.sub(r'<title>.*?</title>', '<title>Contact Sendora Gift | Custom Corporate Gift RFQ</title>', contact, count=1, flags=re.S)
+              if COMPANY not in contact:
+                  contact = contact.replace('</main>', f'''\n<section class="company-facts">\n  <h2>Confirmed Contact Details</h2>\n  <ul>\n    <li>Legal company: {COMPANY}</li>\n    <li>Address: {ADDRESS}</li>\n    <li>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></li>\n    <li>WhatsApp: <a href="{WA_URL}">{WHATSAPP}</a></li>\n    <li>Alibaba profile: <a href="{ALIBABA}">{ALIBABA}</a></li>\n  </ul>\n</section>\n</main>''', 1)
+              if 'privacy-consent' not in contact:
+                  contact = re.sub(r'(<button[^>]*type="submit"[^>]*>)', f'<label class="privacy-consent"><input type="checkbox" name="privacy_consent" required> I agree that {BRAND} may use my submitted details and uploaded files to respond to this quotation request. See <a href="/privacy-policy.html">Privacy Policy</a>.</label>\n          \\1', contact, count=1)
+              if 'Shenzhen Gelinhong Technology' not in contact.split('</head>',1)[0]:
+                  contact = contact.replace('</head>', f'  <script type="application/ld+json">{json.dumps({**org,"@type":"Organization"}, ensure_ascii=False)}</script>\n</head>', 1)
+              write('contact/index.html', contact)
+          faqs = [
+            ('What types of corporate gift sets can Sendora Gift support?','We help buyers plan branded notebooks, drinkware, pens, bags, apparel, packaging and mixed corporate gift sets based on recipient group, budget and delivery needs.'),
+            ('Can you add our logo to products and packaging?','Yes. Logo feasibility depends on material, surface, color count, artwork size and order quantity. We confirm decoration options during sampling or quotation.'),
+            ('Can you help with sample references before bulk production?','Yes. Sample references and showroom photos can guide planning, but final materials, colors, logo placement and packaging should be confirmed before production.'),
+            ('Do you provide custom gift box packaging?','Yes. We can discuss box structure, insert layout, logo position, color and protective packing based on the selected product mix.'),
+            ('What information should I send for a quotation?','Please share product type, quantity, logo artwork, target budget, delivery country, deadline and any reference photos or packaging requirements.'),
+            ('Can you ship internationally?','We can help plan international delivery requirements with the buyer. Shipping method, destination rules, carton size and timeline need to be confirmed for each order.'),
+            ('Do you publish certifications or customer reviews?','We only publish certifications, reviews or completed case results when supporting evidence is available. Unverified examples are labeled as sample references.'),
+            ('Can I contact you on WhatsApp?','Yes. You can contact Sendora Gift through WhatsApp at +86 183 9080 0841 or email rita@mcpatch.com.'),
+            ('Is Sendora Gift connected to an Alibaba supplier profile?','Yes. The confirmed Alibaba supplier profile is https://gelinhong.en.alibaba.com/.'),
+            ('How are buyer-provided images used?','Buyer-provided images are used for quotation and planning communication. They should not be presented as completed customer results unless verified.'),
+            ('Who operates Sendora Gift?','Sendora Gift is operated by Shenzhen Gelinhong Technology Co., Ltd. in Shenzhen, China.')]
+          faq_schema = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faqs]}
+          faq_body = ''.join([f'<article><h2>{html.escape(q)}</h2><p>{html.escape(a)}</p></article>\n' for q,a in faqs])
+          write('corporate-gift-faq.html', f'''<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Corporate Gift FAQ | Sendora Gift</title>\n  <meta name="description" content="Answers for corporate gift buyers about samples, logo branding, packaging, quotation details, shipping planning and verified Sendora Gift contact details.">\n  <link rel="canonical" href="https://www.sendoragift.com/corporate-gift-faq.html">\n  <link rel="stylesheet" href="assets/styles.css">\n  <link rel="stylesheet" href="assets/site-v6.css">\n  <script type="application/ld+json">{json.dumps(faq_schema, ensure_ascii=False)}</script>\n</head>\n<body>\n<header><nav><a href="/">Sendora Gift</a> <a href="/products/">Products</a> <a href="/contact/">Contact</a></nav></header>\n<main class="company-facts">\n  <h1>Corporate Gift FAQ</h1>\n  {faq_body}\n</main>\n<footer><p class="footer-company">{COMPANY} · {ADDRESS} · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{ALIBABA}">Alibaba supplier profile</a> · <a href="/privacy-policy.html">Privacy Policy</a></p></footer>\n</body>\n</html>\n''')
+          products = read('products/index.html')
+          if products:
+              products = re.sub(r'<title>.*?</title>', '<title>Corporate Gift Products and Planning | Sendora Gift</title>', products, count=1, flags=re.S)
+              if 'product-spec-list' not in products:
+                  spec = '''\n<section class="buyer-planning">\n  <h2>Product Planning Checklist</h2>\n  <div class="product-spec-list">\n    <article><h3>Materials</h3><p>Confirm surface, durability, color and logo compatibility before sample approval.</p></article>\n    <article><h3>Logo Area</h3><p>Share vector artwork, Pantone colors and preferred placement for feasibility review.</p></article>\n    <article><h3>MOQ and Budget</h3><p>Quantity, packaging level and decoration method affect unit cost and timeline.</p></article>\n    <article><h3>Packaging</h3><p>Choose box, insert, sleeve, card and carton protection based on product mix.</p></article>\n  </div>\n</section>\n'''
+                  products = products.replace('</main>', spec + '</main>', 1)
+              write('products/index.html', products)
+          core_pages = ['corporate-gift.html','employee-welcome.html','client-thank-you-gift-boxes.html','conference-gift.html','executive-gift.html','custom-gift-box-packaging.html']
+          core_note = '''<p>Before bulk production, compare material, color, logo area, packaging fit, quantity, budget, destination and delivery deadline. Buyer-provided showroom or sample photos should be treated as planning references until final order details are confirmed.</p>'''
+          for page in core_pages:
+              ensure_section(page, 'Buyer Planning Notes', core_note)
+          for f in sorted((ROOT/'cases').glob('*.html')) if (ROOT/'cases').exists() else []:
+              t = f.read_text(encoding='utf-8')
+              t = t.replace('Case Study', 'Sample Reference').replace('case study', 'sample reference').replace('Case study', 'Sample reference')
+              t = t.replace('Customer Case', 'Sample Reference').replace('Client Case', 'Sample Reference')
+              t = re.sub(r'(<h1[^>]*>.*?</h1>)', r'\1\n<p class="case-label">Sample Project / Reference Solution</p>', t, count=1, flags=re.S) if 'case-label' not in t else t
+              if 'case-disclaimer' not in t:
+                  disclaimer = '<section class="case-disclaimer"><h2>Reference Label</h2><p>This page is a sample project or reference solution for buyer planning. Customer name, final quantity, destination and delivery result should be confirmed before presenting it as a completed order.</p></section>\n'
+                  t = t.replace('</main>', disclaimer+'</main>', 1) if '</main>' in t else t.replace('</body>', disclaimer+'</body>',1)
+              f.write_text(t, encoding='utf-8')
+          robots = read('robots.txt')
+          if robots:
+              note = '# llms.txt added for AI crawler context; pages should still follow robots and sitemap rules.\n'
+              if 'llms.txt added' not in robots: robots = note + robots
+              write('robots.txt', robots)
+          sitemap = read('sitemap.xml')
+          if sitemap and 'llms.txt' not in sitemap:
+              item = f'  <url><loc>https://www.sendoragift.com/llms.txt</loc><lastmod>{LASTMOD}</lastmod></url>\n'
+              sitemap = sitemap.replace('</urlset>', item + '</urlset>') if '</urlset>' in sitemap else sitemap
+              write('sitemap.xml', sitemap)
+          for f in html_files():
+              path = f.relative_to(ROOT).as_posix()
+              t = f.read_text(encoding='utf-8')
+              old = t
+              t = cleanup_html(add_footer_fact(add_site_css(t)))
+              if t != old: f.write_text(t, encoding='utf-8')
+          audit = r'''from pathlib import Path
+          import re, sys
+          ROOT=Path('.').resolve(); errors=[]; warnings=[]
+          COMPANY='Shenzhen Gelinhong Technology Co., Ltd.'; EMAIL='rita@mcpatch.com'; ALIBABA='https://gelinhong.en.alibaba.com/'
+          def fail(p,m): errors.append(f'{p}: {m}')
+          def warn(p,m): warnings.append(f'{p}: {m}')
+          htmls=[p for p in ROOT.rglob('*.html') if '.git' not in p.parts and not p.name.startswith('google')]
+          for p in htmls:
+              t=p.read_text(encoding='utf-8')
+              name=p.relative_to(ROOT).as_posix()
+              if any(x in t for x in ['codex-2026-06-27','data-content-expansion','data-final-expansion','data-seo-schema']): fail(name,'internal Codex marker remains')
+              if t.count('<h1') != 1: warn(name,f'H1 count is {t.count("<h1")}')
+              if '<title>' not in t: warn(name,'missing title')
+              if '<img' in t and 'site-v6.css' not in t and 'image ratio guard' not in t: warn(name,'no shared image ratio CSS')
+              if '<footer' in t and COMPANY not in t: warn(name,'footer lacks legal company')
+              for m in re.findall(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', t):
+                  if m.lower()!=EMAIL: fail(name,f'unexpected email {m}')
+              for forbidden in ['ISO 9001 certified','certified factory','verified factory','5-star reviews','trusted by Fortune']:
+                  if forbidden.lower() in t.lower(): fail(name,f'unsupported claim: {forbidden}')
+          c=ROOT/'contact/index.html'
+          if c.exists():
+              t=c.read_text(encoding='utf-8')
+              for needed in ['formspree','_next','type="file"','privacy_consent','wa.me/8618390800841']:
+                  if needed not in t: fail('contact/index.html',f'missing preserved contact feature {needed}')
+          faq=ROOT/'corporate-gift-faq.html'
+          if faq.exists():
+              t=faq.read_text(encoding='utf-8')
+              if t.count('@type":"Question"')<8 and t.count('"@type": "Question"')<8: fail('corporate-gift-faq.html','FAQ schema appears incomplete')
+          cases=ROOT/'cases'
+          if cases.exists():
+              for p in cases.glob('*.html'):
+                  t=p.read_text(encoding='utf-8')
+                  if 'Sample Project / Reference Solution' not in t or 'case-disclaimer' not in t: fail(p.relative_to(ROOT).as_posix(),'case not clearly labeled as sample/reference')
+          facts=ROOT/'SITE_FACTS.md'
+          if not facts.exists() or COMPANY not in facts.read_text(encoding='utf-8'): fail('SITE_FACTS.md','missing confirmed company facts')
+          if not (ROOT/'llms.txt').exists(): fail('llms.txt','missing')
+          css=''.join([p.read_text(encoding='utf-8') for p in [ROOT/'assets/site-v6.css',ROOT/'assets/styles.css'] if p.exists()])
+          if 'height:auto' not in css: fail('assets css','missing image height:auto guard')
+          print('SITE AUDIT')
+          print(f'errors={len(errors)} warnings={len(warnings)}')
+          for e in errors: print('ERROR '+e)
+          for w in warnings[:40]: print('WARN '+w)
+          sys.exit(1 if errors else 0)
+          '''
+          write('scripts/audit_site.py', audit.replace('          ', ''))
+          PY
+      - name: Audit optimized site
+        run: python scripts/audit_site.py
+      - name: Commit optimization changes
+        run: |
+          rm -f .github/workflows/codex-apply-full-geo-spec.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Apply GEO trust optimization plan"
+            git push origin codex/geo-trust-optimization
+          fi
