@@ -1,0 +1,72 @@
+name: Codex fix case language
+
+on:
+  push:
+    branches: [codex/geo-trust-optimization]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/geo-trust-optimization
+      - name: Remove unverified completed-order wording from cases
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          root=Path('.').resolve()
+          replacements={
+            'Explore custom corporate gift case studies for employee welcome kits, conference gifts, VIP client gift boxes, trade show giveaways and holiday gift sets.':'Explore sample reference solutions for employee welcome kits, conference gifts, VIP client gift boxes, trade show giveaways and holiday gift sets.',
+            'Example B2B gift projects for onboarding, conferences, client appreciation, exhibitions and holiday campaigns.':'Sample B2B gift planning references for onboarding, conferences, client appreciation, exhibitions and holiday campaigns.',
+            'How to Use These Case Studies':'How to Use These Sample References',
+            'Each case is a reference for planning quantity':'Each sample reference is for planning quantity',
+            'Read Case':'View Reference',
+            'Quote Similar Box':'Quote Similar Reference',
+            'case-studies':'sample-references',
+            'The completed gift boxes supported the client\'s annual appreciation campaign and created a premium branded experience for partners and key accounts.':'This reference direction shows how a premium branded experience can be planned for partners and key accounts before final order details are confirmed.',
+            'The final giveaway sets helped the booth team start conversations with visitors and increased brand visibility across the exhibition hall.':'This reference direction shows how booth giveaway sets can support visitor conversations and brand visibility planning before final order details are confirmed.',
+            'The holiday gift sets gave employees a consistent appreciation experience and helped the HR team complete year-end gifting with clearer planning and delivery control.':'This reference direction shows how holiday gift sets can be planned for a consistent employee appreciation experience with clearer timeline and delivery requirements.',
+            'The final welcome kits helped the client create a consistent onboarding experience for new employees. The buyer received a practical kit structure that can be reordered for future hiring batches.':'This reference direction shows how welcome kits can be planned for a consistent onboarding experience and adjusted for future hiring batches after final details are confirmed.',
+            'The conference organizer received ready-to-distribute gift bags with consistent branding across all items. The kit improved attendee experience and gave the event a more professional first impression.':'This reference direction shows how ready-to-distribute gift bags can be planned with consistent branding to support attendee experience and event presentation.',
+            'The client needed holiday gift sets':'The buyer brief requested holiday gift set planning',
+            'for important clients and long-term partners':'for important recipients and long-term partners',
+            'premium client appreciation':'premium recipient appreciation',
+            'VIP clients':'VIP recipients',
+            'client appreciation':'recipient appreciation',
+            'for clients':'for recipients',
+            'to clients':'to recipients',
+          }
+          for p in (root/'cases').glob('*.html'):
+              t=p.read_text(encoding='utf-8')
+              for a,b in replacements.items(): t=t.replace(a,b)
+              t=t.replace('<h2>Result</h2>','<h2>Planning Outcome</h2>')
+              p.write_text(t,encoding='utf-8')
+          audit=root/'scripts/audit_site.py'
+          if audit.exists():
+              t=audit.read_text(encoding='utf-8')
+              needle="if 'Sample Project / Reference Solution' not in t or 'case-disclaimer' not in t: fail(p.relative_to(ROOT).as_posix(),'case not clearly labeled as sample/reference')"
+              repl=needle+"\n        for phrase in ['The completed','The final','received ready-to-distribute','completed order']:\n            if phrase.lower() in t.lower(): fail(p.relative_to(ROOT).as_posix(),f'unverified completion wording remains: {phrase}')"
+              if 'unverified completion wording remains' not in t:
+                  t=t.replace(needle,repl)
+                  audit.write_text(t,encoding='utf-8')
+          PY
+      - name: Audit optimized site
+        run: python scripts/audit_site.py
+      - name: Commit case language fix
+        run: |
+          rm -f .github/workflows/codex-fix-case-language.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Label cases as planning references"
+            git push origin codex/geo-trust-optimization
+          fi
