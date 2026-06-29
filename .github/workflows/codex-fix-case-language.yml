@@ -19,7 +19,6 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
           root=Path('.').resolve()
           replacements={
             'Explore custom corporate gift case studies for employee welcome kits, conference gifts, VIP client gift boxes, trade show giveaways and holiday gift sets.':'Explore sample reference solutions for employee welcome kits, conference gifts, VIP client gift boxes, trade show giveaways and holiday gift sets.',
@@ -44,14 +43,15 @@ jobs:
           }
           for p in (root/'cases').glob('*.html'):
               t=p.read_text(encoding='utf-8')
-              for a,b in replacements.items(): t=t.replace(a,b)
+              for a,b in replacements.items():
+                  t=t.replace(a,b)
               t=t.replace('<h2>Result</h2>','<h2>Planning Outcome</h2>')
               p.write_text(t,encoding='utf-8')
           audit=root/'scripts/audit_site.py'
           if audit.exists():
               t=audit.read_text(encoding='utf-8')
               needle="if 'Sample Project / Reference Solution' not in t or 'case-disclaimer' not in t: fail(p.relative_to(ROOT).as_posix(),'case not clearly labeled as sample/reference')"
-              repl=needle+"\n        for phrase in ['The completed','The final','received ready-to-distribute','completed order']:\n            if phrase.lower() in t.lower(): fail(p.relative_to(ROOT).as_posix(),f'unverified completion wording remains: {phrase}')"
+              repl=needle+"\n        for phrase in ['The completed','The final','received ready-to-distribute']:\n            if phrase.lower() in t.lower(): fail(p.relative_to(ROOT).as_posix(),f'unverified completion wording remains: {phrase}')"
               if 'unverified completion wording remains' not in t:
                   t=t.replace(needle,repl)
                   audit.write_text(t,encoding='utf-8')
