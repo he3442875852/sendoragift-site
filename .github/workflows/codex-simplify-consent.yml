@@ -1,0 +1,44 @@
+name: Codex simplify consent wording
+
+on:
+  push:
+    branches:
+      - codex/simplify-privacy-consent
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/simplify-privacy-consent
+      - name: Simplify contact form consent copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('contact/index.html')
+          t = p.read_text(encoding='utf-8')
+          old = 'I agree that Sendora Gift may use my submitted details and uploaded files to respond to this quotation request. See <a href="/privacy-policy.html">Privacy Policy</a>.'
+          new = 'I have read and agree to the <a href="/privacy-policy.html">Privacy Policy</a>.'
+          if old not in t:
+              raise SystemExit('old consent copy not found')
+          p.write_text(t.replace(old, new), encoding='utf-8')
+          PY
+      - name: Audit site
+        run: python scripts/audit_site.py
+      - name: Commit cleanup
+        run: |
+          rm -f .github/workflows/codex-simplify-consent.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Simplify contact form consent wording"
+            git push origin codex/simplify-privacy-consent
+          fi
