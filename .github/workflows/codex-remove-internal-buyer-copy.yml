@@ -1,0 +1,64 @@
+name: Codex remove internal buyer copy
+
+on:
+  push:
+    branches: [codex/remove-buyer-internal-copy]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/remove-buyer-internal-copy
+      - name: Remove internal-facing buyer copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          index = Path('index.html')
+          t = index.read_text(encoding='utf-8')
+          old = '''<section class="proof-grid">
+  <article><h2>What Buyers Can Verify</h2><p>Company identity, contact details, sample options, packaging structure and delivery requirements can be confirmed before production.</p></article>
+  <article><h2>What We Do Not Overclaim</h2><p>Certifications, customer results and order outcomes are published only when supporting evidence is available.</p></article>
+  <article><h2>Sample Reference Policy</h2><p>Showroom photos and buyer-provided images are labeled as planning references unless a completed order has been verified.</p></article>
+</section>
+'''
+          t = t.replace(old, '')
+          index.write_text(t, encoding='utf-8')
+
+          trust = Path('trust-center/index.html')
+          t = trust.read_text(encoding='utf-8')
+          t = t.replace('<title>Trust Center | Sendora Gift</title>', '<title>Contact and Company Details | Sendora Gift</title>')
+          t = t.replace('Verified company identity, contact details, Alibaba profile and publishing rules for Sendora Gift corporate gift buyers.', 'Confirmed Sendora Gift company details, contact email, WhatsApp and Alibaba supplier profile for corporate gift buyers.')
+          t = t.replace('<h1>Trust Center</h1>\n  <p>Use this page to verify the confirmed public business details for Sendora Gift before sending an RFQ or sharing project files.</p>', '<h1>Contact and Company Details</h1>\n  <p>Here are the confirmed business details for Sendora Gift. Share your quantity, target budget, logo needs and delivery country, and our team will help you plan a practical corporate gift solution.</p>')
+          old_grid = '''<section class="proof-grid">
+  <article><h2>Evidence Boundary</h2><p>We publish company identity, contact and planning information that can be checked by buyers. Certifications, awards, factory claims and customer reviews are not added unless supporting documents are available.</p></article>
+  <article><h2>Sample Photo Policy</h2><p>Showroom images, prototype photos and buyer-provided samples are treated as sample references or project planning examples until final order facts are confirmed.</p></article>
+  <article><h2>RFQ Handling</h2><p>Inquiry forms may collect name, company, email, WhatsApp, project details and uploaded reference files only for quotation and project communication.</p></article>
+</section>'''
+          new_grid = '''<section class="proof-grid">
+  <article><h2>Project Support</h2><p>We help compare gift ideas, logo methods, packaging options, sample details and delivery requirements before bulk production.</p></article>
+  <article><h2>Fast RFQ Review</h2><p>Send your quantity, product direction, logo file, destination and deadline so we can prepare a practical recommendation and price range.</p></article>
+  <article><h2>Direct Communication</h2><p>You can reach us by email, WhatsApp or Alibaba to discuss samples, packaging details and next production steps.</p></article>
+</section>'''
+          t = t.replace(old_grid, new_grid)
+          trust.write_text(t, encoding='utf-8')
+          PY
+      - name: Audit site
+        run: python scripts/audit_site.py
+      - name: Commit cleanup
+        run: |
+          rm -f .github/workflows/codex-remove-internal-buyer-copy.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Remove internal-facing trust copy from buyer pages"
+            git push origin codex/remove-buyer-internal-copy
+          fi
