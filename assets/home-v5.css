@@ -1067,3 +1067,6 @@ img{max-width:100%;height:auto;display:block}
     animation-iteration-count: 1 !important;
   }
 }
+/* Codex image ratio guard */
+img,picture,video,canvas,svg{max-width:100%;height:auto}img{display:block;object-fit:cover}
+.privacy-consent{display:flex;gap:.55rem;align-items:flex-start}
