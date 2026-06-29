@@ -624,6 +624,15 @@
   font-weight: 800;
 }
 
+.proof-section{background:var(--home-white)}
+.proof-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.proof-card{overflow:hidden;border:1px solid var(--home-line);background:var(--home-white);display:flex;flex-direction:column}
+.proof-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.proof-card div{padding:22px}
+.proof-card h3{margin:0 0 10px;color:var(--home-dark);font-size:20px}
+.proof-card p{margin:0;color:var(--home-muted);line-height:1.68}
+.proof-card a{display:inline-flex;margin-top:14px;color:var(--home-bronze-dark);font-weight:800}
+
 .faq-layout {
   align-items: start;
 }
@@ -951,6 +960,7 @@
   .occasion-grid,
   .concept-grid,
   .quality-media,
+  .proof-card-grid,
   .footer-grid {
     grid-template-columns: 1fr;
   }
