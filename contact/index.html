@@ -117,6 +117,14 @@
                 <option>Conference or event giveaways</option>
                 <option>Executive client gift boxes</option>
                 <option>Custom packaging</option>
+                <option>Custom Corporate Office Gift Set</option>
+                <option>Custom Employee Welcome Kit</option>
+                <option>Custom Client Appreciation Gift Box</option>
+                <option>Custom Conference and Meeting Gift Set</option>
+                <option>Custom Trade Show Giveaway Kit</option>
+                <option>Custom Sports Event Giveaway Kit</option>
+                <option>Custom Golf Tournament Gift Set</option>
+                <option>Custom Pickleball Team Gift Set</option>
               </select>
             </div>
             <div class="field">
@@ -210,11 +218,12 @@
       const params=new URLSearchParams(window.location.search);
       const raw=params.get('product')||params.get('case')||params.get('source');
       if(!raw) return;
-      const label=raw.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+      const productNames={"corporate-office-gift-set":"Custom Corporate Office Gift Set","employee-welcome-kit":"Custom Employee Welcome Kit","client-appreciation-gift-box":"Custom Client Appreciation Gift Box","conference-meeting-gift-set":"Custom Conference and Meeting Gift Set","trade-show-giveaway-kit":"Custom Trade Show Giveaway Kit","sports-event-giveaway-kit":"Custom Sports Event Giveaway Kit","golf-tournament-gift-set":"Custom Golf Tournament Gift Set","pickleball-team-gift-set":"Custom Pickleball Team Gift Set"};
+      const label=productNames[raw]||raw.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
       const source=document.getElementById('source_context');
       const message=document.getElementById('message');
       if(source) source.value=label;
-      if(message&&!message.value) message.value='I am interested in '+label+'. Please recommend suitable gift ideas, MOQ guidance and a price range.';
+      if(message&&!message.value) message.value='I am interested in '+label+'. Quantity: ___. Target budget: ___. Delivery country: ___. Deadline: ___. Preferred product combination: ___.';
     })();
   </script>
 </body>
