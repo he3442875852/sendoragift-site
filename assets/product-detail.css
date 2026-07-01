@@ -1,0 +1,48 @@
+.product-detail-page .site-header{background:rgba(255,255,255,.97)}
+.product-hero{padding:64px 0;background:#111820;color:#fff}
+.product-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,520px);gap:42px;align-items:center}
+.breadcrumb{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;color:#d8dee6;font-size:14px}
+.breadcrumb a{color:#ffe1ca}
+.product-copy h1{font-size:48px;line-height:1.08;margin:12px 0 18px;color:#fff}
+.product-copy p{font-size:18px;color:#edf1f5;max-width:760px}
+.product-hero-media{margin:0;border:1px solid rgba(255,255,255,.18);border-radius:8px;overflow:hidden;background:#fff}
+.product-hero-media img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.product-section{padding:72px 0}
+.product-section.alt{background:var(--soft)}
+.fact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.fact-grid article,.included-grid article,.panel,.related-card,.representative-card,.representative-mini-grid article{border:1px solid var(--line);border-radius:8px;background:#fff;padding:20px}
+.fact-grid span{display:block;color:var(--muted);font-size:13px;font-weight:800;text-transform:uppercase;margin-bottom:7px}
+.fact-grid strong{display:block;color:var(--navy);line-height:1.25;margin-bottom:7px}
+.fact-grid p,.included-grid p,.panel p,.related-card p,.representative-card p,.representative-mini-grid p{color:var(--muted);margin:0}
+.included-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.included-grid h3,.related-card h3,.representative-card h3,.representative-mini-grid h3{margin:0 0 8px;font-size:20px;line-height:1.25}
+.split-detail{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.split-detail h2{font-size:32px;line-height:1.16;margin:6px 0 14px}
+.tag-list{display:flex;gap:10px;flex-wrap:wrap;list-style:none;padding:0;margin:18px 0 0}
+.tag-list li{border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800;color:#39404a}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery-grid img,.related-card img,.representative-card img,.representative-mini-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#eef2f5}
+.faq-layout{display:grid;grid-template-columns:320px 1fr;gap:34px}
+.faq-list{display:grid;gap:12px}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.faq-list summary{font-weight:800;cursor:pointer;color:var(--navy)}
+.faq-list p{margin:10px 0 0;color:var(--muted)}
+.product-cta{padding:58px 0;background:#111820;color:#fff}
+.product-cta h2{color:#fff;margin:0 0 8px}
+.product-cta p{color:#edf1f5;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.related-card a:not(.btn){font-weight:800}
+.representative-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.representative-card{display:flex;flex-direction:column;gap:14px;padding:14px}
+.representative-card .card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.representative-card .btn{min-height:40px;padding:9px 12px;font-size:14px}
+.representative-home{margin-top:38px}
+.representative-home h3{font-size:30px;margin:0}
+.home-set-grid{grid-template-columns:repeat(3,1fr)}
+.compact-card h3{font-size:19px}
+.compact-card a{font-weight:800}
+.representative-set-strip{padding:64px 0;background:#fff}
+.representative-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.representative-mini-grid .btn{margin-top:14px}
+@media(max-width:1000px){.product-hero-grid,.split-detail,.faq-layout{grid-template-columns:1fr}.fact-grid{grid-template-columns:repeat(2,1fr)}.representative-grid,.home-set-grid{grid-template-columns:repeat(2,1fr)}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.product-copy h1{font-size:36px}.product-hero{padding:42px 0}.product-section{padding:48px 0}.fact-grid,.included-grid,.related-grid,.representative-grid,.home-set-grid,.representative-mini-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.representative-card .card-actions{display:grid}.representative-card .btn{width:100%}}
