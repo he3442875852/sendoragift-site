@@ -6,7 +6,7 @@
 .product-copy h1{font-size:48px;line-height:1.08;margin:12px 0 18px;color:#fff}
 .product-copy p{font-size:18px;color:#edf1f5;max-width:760px}
 .product-hero-media{margin:0;border:1px solid rgba(255,255,255,.18);border-radius:8px;overflow:hidden;background:#fff}
-.product-hero-media img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.product-hero-media img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff}
 .product-section{padding:72px 0}
 .product-section.alt{background:var(--soft)}
 .fact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
@@ -21,7 +21,8 @@
 .tag-list{display:flex;gap:10px;flex-wrap:wrap;list-style:none;padding:0;margin:18px 0 0}
 .tag-list li{border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800;color:#39404a}
 .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.gallery-grid img,.related-card img,.representative-card img,.representative-mini-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#eef2f5}
+.gallery-grid img{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:8px;background:#fff}
+.related-card img,.representative-card img,.representative-mini-grid img{width:100%;aspect-ratio:1000/760;object-fit:contain;border-radius:8px;background:#fff}
 .faq-layout{display:grid;grid-template-columns:320px 1fr;gap:34px}
 .faq-list{display:grid;gap:12px}
 .faq-list details{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px}
