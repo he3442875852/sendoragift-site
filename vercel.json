@@ -1,60 +1,109 @@
 {
-    "redirects":  [
-                      {
-                          "source":  "/blog/index.html",
-                          "destination":  "/blog/",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/index.html",
-                          "destination":  "/",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/corporate-gift-box-packaging.html",
-                          "destination":  "/custom-gift-box-packaging.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/executive-business-gift-sets.html",
-                          "destination":  "/executive-gift.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/conference-giveaway-kits.html",
-                          "destination":  "/conference-gift.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/trade-show-giveaway-kits.html",
-                          "destination":  "/trade-show-giveaways.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/corporate-gifts-for-events.html",
-                          "destination":  "/event-gift.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/branded-employee-onboarding-kits.html",
-                          "destination":  "/employee-welcome.html",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/corporate-holiday-gifts.html",
-                          "destination":  "/holiday-gift.html",
-                          "permanent":  true
-                      }
-                  ],
-    "headers":  [
-                    {
-                        "source":  "/sitemap.xml",
-                        "headers":  [
-                                        {
-                                            "key":  "Content-Type",
-                                            "value":  "application/xml; charset=utf-8"
-                                        }
-                                    ]
-                    }
-                ]
+  "redirects": [
+    {
+      "source": "/blog/index.html",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-gift-box-packaging.html",
+      "destination": "/custom-gift-box-packaging.html",
+      "permanent": true
+    },
+    {
+      "source": "/executive-business-gift-sets.html",
+      "destination": "/executive-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/conference-giveaway-kits.html",
+      "destination": "/conference-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/trade-show-giveaway-kits.html",
+      "destination": "/trade-show-giveaways.html",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-gifts-for-events.html",
+      "destination": "/event-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/branded-employee-onboarding-kits.html",
+      "destination": "/employee-welcome.html",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-holiday-gifts.html",
+      "destination": "/holiday-gift.html",
+      "permanent": true
+    },
+    {
+      "source": "/products/corporate-office-gift-set.html",
+      "destination": "/products/corporate-office-gift-set/",
+      "permanent": true
+    },
+    {
+      "source": "/products/employee-welcome-kit.html",
+      "destination": "/products/employee-welcome-kit/",
+      "permanent": true
+    },
+    {
+      "source": "/products/client-appreciation-gift-box.html",
+      "destination": "/products/client-appreciation-gift-box/",
+      "permanent": true
+    },
+    {
+      "source": "/products/conference-meeting-gift-set.html",
+      "destination": "/products/conference-meeting-gift-set/",
+      "permanent": true
+    },
+    {
+      "source": "/products/trade-show-giveaway-kit.html",
+      "destination": "/products/trade-show-giveaway-kit/",
+      "permanent": true
+    },
+    {
+      "source": "/products/sports-event-giveaway-kit.html",
+      "destination": "/products/sports-event-giveaway-kit/",
+      "permanent": true
+    },
+    {
+      "source": "/products/golf-tournament-gift-set.html",
+      "destination": "/products/golf-tournament-gift-set/",
+      "permanent": true
+    },
+    {
+      "source": "/products/pickleball-team-gift-set.html",
+      "destination": "/products/pickleball-team-gift-set/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
