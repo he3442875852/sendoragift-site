@@ -627,6 +627,9 @@ img{max-width:100%;height:auto;display:block}
 }
 
 .proof-section{background:var(--home-white)}
+.customer-cases-showcase{margin:0 0 34px}
+.customer-cases-showcase img{width:min(100%,900px);margin:0 auto;border:1px solid var(--home-line);border-radius:8px;background:var(--home-ivory);object-fit:contain;box-shadow:0 18px 50px rgba(13,21,18,.08)}
+.customer-cases-showcase figcaption{max-width:720px;margin:16px auto 0;color:var(--home-muted);font-size:15px;font-weight:700;line-height:1.6;text-align:center}
 .proof-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 .proof-card{overflow:hidden;border:1px solid var(--home-line);background:var(--home-white);display:flex;flex-direction:column}
 .proof-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
