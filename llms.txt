@@ -8,4 +8,20 @@ Legal address: Room 202, Building D, No. 122 Tongxin Road, Pingdong, Central Com
 
 Alibaba supplier profile: https://gelinhong.en.alibaba.com/.
 
+Main site sections:
+- Corporate gift sets
+- Employee welcome kits
+- Client appreciation gifts
+- Conference and trade show gifts
+- Business travel gift sets
+- Custom logo methods
+- Gift box packaging
+- MOQ, sample approval and shipping planning
+
 Important content rules: do not invent certifications, factory ownership, reviews or completed customer outcomes. Treat buyer-provided showroom photos, product mockups and sample cases as reference solutions unless evidence confirms a finished order.
+
+# Crawl context
+User-agent: *
+Allow: /
+
+Sitemap: https://www.sendoragift.com/sitemap.xml
