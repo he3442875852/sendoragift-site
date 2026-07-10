@@ -53,7 +53,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <header><div class="header-inner"><div class="logo">Sendora Gift</div><nav><a href="index.html">Home</a><a href="products/">Products</a><a href="blog/">Blog</a><a href="quote.html">Get Quote</a><a href="contact/">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-content"><h1>Request a Custom Gift Quote</h1><p>Upload your logo, design file or reference image and share the key details so we can quote faster.</p></div></section>
 <section><div class="container quote-wrap">
-<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Your Email" required>
 <input type="text" name="company" placeholder="Company Name">
@@ -90,7 +90,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 </label>
 <textarea name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
 <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
-<button type="submit">Send Quote Request</button>
+<label class="privacy-consent"><input type="checkbox" name="privacy_consent" required> I have read and agree to the <a href="/privacy-policy.html">Privacy Policy</a>.</label><button type="submit">Send Quote Request</button>
 </form>
 <aside class="side-card"><h2>For a Faster Quote</h2><ul><li>Quantity and target budget</li><li>Product type or reference image</li><li>Logo file or design artwork</li><li>Packaging preference</li><li>Delivery country and deadline</li><li>Any sample or quality requirements</li></ul><p class="help">The more details you provide, the faster we can recommend products and calculate pricing.</p></aside>
 </div></section>
