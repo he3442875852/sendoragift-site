@@ -262,15 +262,17 @@ img{max-width:100%;height:auto;display:block}
 }
 
 .home-btn.primary {
-  color: var(--home-white);
+  color: var(--home-dark);
   background: var(--home-bronze);
 }
 
 .home-btn.primary:hover {
+  color: var(--home-white);
   background: var(--home-bronze-dark);
 }
 
 .home-btn.primary.dark {
+  color: var(--home-white);
   background: var(--home-dark);
 }
 

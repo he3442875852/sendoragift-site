@@ -4,8 +4,8 @@ img{max-width:100%;height:auto;display:block}
   --muted:#5f6670;
   --line:#dde2e8;
   --soft:#f5f7f9;
-  --brand:#f26a21;
-  --brand-dark:#c94e0d;
+  --brand:#8e6937;
+  --brand-dark:#6f4e24;
   --green:#1f7a55;
   --navy:#20344d;
   --max:1180px;
@@ -293,7 +293,7 @@ button{font-family:inherit}
   padding:36px 0;
   text-align:center;
 }
-.footer a{color:#ffb27d}
+.footer a{color:#d9b779}
 .whatsapp{
   position:fixed;
   right:22px;

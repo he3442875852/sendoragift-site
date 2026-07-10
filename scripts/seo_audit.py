@@ -49,9 +49,10 @@ def route_for(path: str) -> str:
 
 def file_for_href(href: str, source: str, root: Path) -> tuple[Path, str] | None:
     parsed = urllib.parse.urlparse(html.unescape(href.strip()))
-    if parsed.scheme in {"http", "https", "mailto", "tel", "sms"}:
-        if parsed.netloc and parsed.netloc != "www.sendoragift.com":
-            return None
+    if parsed.scheme in {"mailto", "tel", "sms"}:
+        return None
+    if parsed.scheme in {"http", "https"} and parsed.netloc and parsed.netloc != "www.sendoragift.com":
+        return None
     raw_path = parsed.path
     if raw_path.startswith("/"):
         local = raw_path.lstrip("/")
@@ -201,7 +202,13 @@ def main() -> int:
     pages = [analyze_html(path, root) for path in html_files]
     redirect_sources = load_redirect_sources(root)
     utility_pages = {"google7f1dcb10b72d685e.html"}
-    indexable_pages = [p for p in pages if p["path"] not in redirect_sources and p["path"] not in utility_pages and not is_noindex(p)]
+    def is_redirect_only_file(page: dict) -> bool:
+        path = page["path"]
+        # index.html files also back the canonical directory route, even when
+        # the explicit /index.html URL is redirected.
+        return path in redirect_sources and path != "index.html" and not path.endswith("/index.html")
+
+    indexable_pages = [p for p in pages if not is_redirect_only_file(p) and p["path"] not in utility_pages and not is_noindex(p)]
     broken_links, broken_anchors, incoming = find_broken_links(pages, root)
     titles = defaultdict(list)
     descriptions = defaultdict(list)

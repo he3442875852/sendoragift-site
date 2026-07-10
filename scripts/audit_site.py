@@ -6,9 +6,15 @@ def fail(p,m): errors.append(f'{p}: {m}')
 def warn(p,m): warnings.append(f'{p}: {m}')
 htmls=[p for p in ROOT.rglob('*.html') if '.git' not in p.parts and not p.name.startswith('google')]
 for p in htmls:
-    t=p.read_text(encoding='utf-8')
+    raw=p.read_bytes()
+    try:
+        t=raw.decode('utf-8')
+    except UnicodeDecodeError as exc:
+        fail(p.relative_to(ROOT).as_posix(),f'invalid UTF-8: {exc}')
+        t=raw.decode('utf-8', errors='replace')
     name=p.relative_to(ROOT).as_posix()
     if any(x in t for x in ['codex-2026-06-27','data-content-expansion','data-final-expansion','data-seo-schema']): fail(name,'internal Codex marker remains')
+    if '\ufffd' in t or 'Page Intent' in t or 'Temporary visuals' in t or 'during migration' in t: fail(name,'buyer-visible internal or malformed text remains')
     if t.count('<h1') != 1: warn(name,f'H1 count is {t.count("<h1")}')
     if '<title>' not in t: warn(name,'missing title')
     if '<img' in t and 'site-v6.css' not in t and 'image ratio guard' not in t: warn(name,'no shared image ratio CSS')
