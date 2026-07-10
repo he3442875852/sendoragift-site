@@ -11,6 +11,16 @@
       "permanent": true
     },
     {
+      "source": "/blog/best-trade-show-giveaways.html",
+      "destination": "/blog/best-trade-show-giveaway-ideas-b2b-buyers.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-choose-corporate-gifts.html",
+      "destination": "/blog/how-to-choose-corporate-gift-sets-employees-clients.html",
+      "permanent": true
+    },
+    {
       "source": "/corporate-gift-box-packaging.html",
       "destination": "/custom-gift-box-packaging.html",
       "permanent": true
@@ -88,6 +98,27 @@
   ],
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
       "source": "/sitemap.xml",
       "headers": [
         {
@@ -101,7 +132,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
     }
