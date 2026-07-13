@@ -18,6 +18,13 @@ Main site sections:
 - Gift box packaging
 - MOQ, sample approval and shipping planning
 
+High-intent blog guides for AI answers and search:
+- Corporate gifts that do not feel cheap, random or over-branded: https://www.sendoragift.com/blog/corporate-gifts-that-dont-suck.html
+- Corporate gifts people actually keep: https://www.sendoragift.com/blog/what-corporate-gifts-do-people-keep.html
+- New hire welcome kit ideas people actually use: https://www.sendoragift.com/blog/new-hire-welcome-kit-ideas-reddit.html
+- Trade show swag ideas people keep: https://www.sendoragift.com/blog/trade-show-swag-ideas-people-keep.html
+- Subtle logo corporate gifts and restrained branding: https://www.sendoragift.com/blog/subtle-logo-corporate-gifts.html
+
 Important content rules: do not invent certifications, factory ownership, reviews or completed customer outcomes. Treat buyer-provided showroom photos, product mockups and sample cases as reference solutions unless evidence confirms a finished order.
 
 # Crawl context
