@@ -820,6 +820,40 @@ img{max-width:100%;height:auto;display:block}
   margin: 0;
 }
 
+.home-footer .footer-company {
+  width: min(92vw, 860px);
+  max-width: 860px;
+  margin: 18px auto 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.home-footer .footer-company span {
+  display: block;
+}
+
+.home-footer .footer-company-name {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 700;
+}
+
+.home-footer .footer-company-address {
+  margin-top: 4px;
+}
+
+.home-footer .footer-company-contact {
+  margin-top: 6px;
+}
+
+.home-footer .footer-company a {
+  display: inline;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+}
+
 .home-whatsapp {
   position: fixed;
   right: 22px;
@@ -990,6 +1024,11 @@ img{max-width:100%;height:auto;display:block}
 @media (max-width: 560px) {
   .home-container {
     width: min(90vw, 1280px);
+  }
+
+  .home-footer .footer-company {
+    width: min(90vw, 860px);
+    font-size: 12px;
   }
 
   .home-logo span {
