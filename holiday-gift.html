@@ -375,7 +375,9 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <section class="alt" id="contact">
 <h2>Get Your Holiday Gift Set Quote</h2>
 <div class="container">
-<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
+<input type="hidden" name="source_context" value="holiday-gift.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Your Email" required>
 <input type="text" name="company" placeholder="Company Name">

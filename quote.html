@@ -53,7 +53,9 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <header><div class="header-inner"><div class="logo">Sendora Gift</div><nav><a href="/">Home</a><a href="products/">Products</a><a href="blog/">Blog</a><a href="quote.html">Get Quote</a><a href="contact/">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-content"><h1>Request a Custom Gift Quote</h1><p>Upload your logo, design file or reference image and share the key details so we can quote faster.</p></div></section>
 <section><div class="container quote-wrap">
-<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+<form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
+<input type="hidden" name="source_context" value="quote.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
 <input type="text" name="name" placeholder="Your Name" required>
 <input type="email" name="email" placeholder="Your Email" required>
 <input type="text" name="company" placeholder="Company Name">
