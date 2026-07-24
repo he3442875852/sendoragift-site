@@ -266,14 +266,23 @@
   function installWhatsappButton() {
     var buttonId = "sendora-whatsapp-float";
     var styleId = "sendora-whatsapp-float-style";
+    var legacyButtons = Array.prototype.slice.call(document.querySelectorAll(".home-whatsapp, #whatsapp-btn, a.whatsapp"));
 
-    Array.prototype.forEach.call(document.querySelectorAll(".home-whatsapp, #whatsapp-btn, a.whatsapp"), function (oldButton) {
-      if (oldButton.id !== buttonId) {
-        oldButton.style.display = "none";
-        oldButton.setAttribute("aria-hidden", "true");
-        oldButton.setAttribute("tabindex", "-1");
-      }
-    });
+    function hideLegacyButtons() {
+      legacyButtons.forEach(function (oldButton) {
+        if (oldButton.id !== buttonId) {
+          oldButton.style.display = "none";
+          oldButton.setAttribute("aria-hidden", "true");
+          oldButton.setAttribute("tabindex", "-1");
+        }
+      });
+    }
+
+    function isButtonVisible(buttonElement) {
+      if (!buttonElement) return false;
+      var rect = buttonElement.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    }
 
     if (!document.getElementById(styleId)) {
       var style = document.createElement("style");
@@ -288,7 +297,12 @@
       document.head.appendChild(style);
     }
 
-    if (document.getElementById(buttonId)) return;
+    if (document.getElementById(buttonId)) {
+      if (isButtonVisible(document.getElementById(buttonId))) {
+        hideLegacyButtons();
+      }
+      return;
+    }
 
     var button = document.createElement("a");
     button.id = buttonId;
@@ -303,6 +317,10 @@
       "<span>WhatsApp</span>"
     ].join("");
     document.body.appendChild(button);
+
+    if (isButtonVisible(document.getElementById(buttonId))) {
+      hideLegacyButtons();
+    }
   }
 
   function start() {
