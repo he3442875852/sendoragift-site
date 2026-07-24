@@ -1,6 +1,10 @@
 (function () {
   "use strict";
 
+  var WHATSAPP_NUMBER = "8618390800841";
+  var WHATSAPP_MESSAGE = "Hello Sendora Gift, I need a custom corporate gift set with: [type the items here]. Please recommend suitable options and provide the MOQ, price range, and lead time.";
+  var WHATSAPP_URL = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
+
   var FIELD_NAMES = [
     "lead_source",
     "source_type",
@@ -253,10 +257,15 @@
     }
   }
 
+  function normalizeWhatsappLinks() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
+      link.href = WHATSAPP_URL;
+    });
+  }
+
   function installWhatsappButton() {
     var buttonId = "sendora-whatsapp-float";
     var styleId = "sendora-whatsapp-float-style";
-    var whatsappUrl = "https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20corporate%20gift%20ideas%20and%20a%20price%20range.";
 
     Array.prototype.forEach.call(document.querySelectorAll(".home-whatsapp, #whatsapp-btn, a.whatsapp"), function (oldButton) {
       if (oldButton.id !== buttonId) {
@@ -283,7 +292,7 @@
 
     var button = document.createElement("a");
     button.id = buttonId;
-    button.href = whatsappUrl;
+    button.href = WHATSAPP_URL;
     button.target = "_blank";
     button.rel = "noopener";
     button.setAttribute("aria-label", "Chat with Sendora Gift on WhatsApp");
@@ -299,6 +308,7 @@
   function start() {
     initializeVisit();
     fillAllForms();
+    normalizeWhatsappLinks();
     installWhatsappButton();
     debugIfRequested();
     document.addEventListener("submit", handleSubmit, true);
@@ -306,7 +316,12 @@
 
   window.SendoraLeadSourceTracker = {
     getData: getLeadSourceData,
-    fillForms: fillAllForms
+    fillForms: fillAllForms,
+    whatsapp: {
+      number: WHATSAPP_NUMBER,
+      message: WHATSAPP_MESSAGE,
+      url: WHATSAPP_URL
+    }
   };
 
   if (document.readyState === "loading") {
