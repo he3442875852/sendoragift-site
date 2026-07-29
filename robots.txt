@@ -1,4 +1,11 @@
-# llms.txt added for AI crawler context; pages should still follow robots and sitemap rules.
+# Search engine and AI crawler access
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: *
 Allow: /
 
