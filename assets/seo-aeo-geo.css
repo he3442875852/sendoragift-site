@@ -1,0 +1,188 @@
+.sendora-geo-block {
+  width: min(92%, 1180px);
+  margin: 34px auto 58px;
+  color: #1f1d19;
+  font-family: inherit;
+}
+
+.sendora-geo-shell,
+.sendora-geo-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(280px, .88fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.sendora-geo-card,
+.sendora-geo-inner > article,
+.sendora-faq-wrap {
+  background: #fff;
+  border: 1px solid rgba(31, 29, 25, .1);
+  border-radius: 8px;
+  box-shadow: 0 18px 38px rgba(25, 22, 18, .08);
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.sendora-geo-answer,
+.sendora-geo-inner > article {
+  background: linear-gradient(135deg, #1f1d19 0%, #5f4a2e 100%);
+  color: #fff;
+}
+
+.sendora-geo-kicker {
+  margin: 0 0 10px;
+  color: #b88a3a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.sendora-geo-answer .sendora-geo-kicker,
+.sendora-geo-inner > article .sendora-geo-kicker {
+  color: #f2dca9;
+}
+
+.sendora-geo-block h2,
+.sendora-geo-block h3 {
+  margin: 0;
+  color: inherit;
+  letter-spacing: 0;
+}
+
+.sendora-geo-block h2 {
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.16;
+}
+
+.sendora-geo-block h3 {
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.sendora-answer {
+  max-width: 760px;
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, .9);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.sendora-geo-list-grid,
+.sendora-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.sendora-geo-panel {
+  background: #f8f5ef;
+  border: 1px solid rgba(31, 29, 25, .08);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.sendora-geo-panel ul,
+.sendora-geo-panel ol,
+.sendora-process-list {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sendora-geo-panel li,
+.sendora-process-list li {
+  position: relative;
+  margin: 0;
+  padding-left: 18px;
+  color: #5d574f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sendora-geo-panel li::before,
+.sendora-process-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .7em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b88a3a;
+}
+
+.sendora-geo-panel ol {
+  counter-reset: sendora-process;
+}
+
+.sendora-geo-panel ol li {
+  counter-increment: sendora-process;
+}
+
+.sendora-geo-panel ol li::before {
+  content: counter(sendora-process) ".";
+  top: 0;
+  width: auto;
+  height: auto;
+  color: #b88a3a;
+  background: transparent;
+  font-weight: 800;
+}
+
+.sendora-process-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sendora-faq-card,
+.sendora-faq-wrap {
+  margin-top: 18px;
+}
+
+.sendora-faq-grid,
+.sendora-faq-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.sendora-faq-wrap > h2 {
+  grid-column: 1 / -1;
+}
+
+.sendora-faq {
+  border: 1px solid rgba(31, 29, 25, .1);
+  border-radius: 8px;
+  padding: 18px;
+  background: #fff;
+}
+
+.sendora-faq p {
+  margin: 9px 0 0;
+  color: #625f58;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.home-page .sendora-geo-block {
+  margin-top: -8px;
+}
+
+@media (max-width: 900px) {
+  .sendora-geo-shell,
+  .sendora-geo-inner,
+  .sendora-geo-list-grid,
+  .sendora-mini-grid,
+  .sendora-faq-grid,
+  .sendora-process-list {
+    grid-template-columns: 1fr;
+  }
+
+  .sendora-geo-block {
+    margin: 26px auto 44px;
+  }
+}
