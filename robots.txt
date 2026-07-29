@@ -1,5 +1,10 @@
-# llms.txt added for AI crawler context; pages should still follow robots and sitemap rules.
 User-agent: *
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 Sitemap: https://www.sendoragift.com/sitemap.xml
