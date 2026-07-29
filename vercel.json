@@ -1,6 +1,36 @@
 {
   "redirects": [
     {
+      "source": "/blog/corporate-gift-ideas-by-budget.html",
+      "destination": "/corporate-gift-ideas-by-budget.html",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-gift-faq.html",
+      "destination": "/corporate-gift-answers.html",
+      "permanent": true
+    },
+    {
+      "source": "/moq-bulk-order-guide.html",
+      "destination": "/corporate-gift-moq-guide.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/bulk-corporate-gift-sample-approval-guide.html",
+      "destination": "/corporate-gift-sample-approval-process.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/corporate-gift-set-shipping-planning-guide.html",
+      "destination": "/custom-corporate-gift-shipping-from-china.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/custom-logo-printing-methods.html",
+      "destination": "/corporate-gift-logo-methods.html",
+      "permanent": true
+    },
+    {
       "source": "/blog/index.html",
       "destination": "/blog/",
       "permanent": true
