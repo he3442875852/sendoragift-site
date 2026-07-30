@@ -67,6 +67,13 @@
     status.style.color = isError ? "#b42318" : "#1f6f43";
   }
 
+  function isKnownPublicMessage(message) {
+    return message === SUCCESS_MESSAGE ||
+      message === FORM_ERROR_MESSAGE ||
+      message === TURNSTILE_ERROR_MESSAGE ||
+      message === SERVICE_ERROR_MESSAGE;
+  }
+
   function fetchSiteKey() {
     if (turnstileReady) return turnstileReady;
     turnstileReady = fetch(KEY_ENDPOINT, { headers: { Accept: "application/json" } })
@@ -226,7 +233,7 @@
           if (!response.ok) {
             var error = new Error(data.message || FORM_ERROR_MESSAGE);
             error.status = response.status;
-            error.publicMessage = data.message || "";
+            error.publicMessage = isKnownPublicMessage(data.message) ? data.message : "";
             throw error;
           }
           return data;
