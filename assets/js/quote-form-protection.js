@@ -137,7 +137,11 @@
   function resetTurnstile(form) {
     var holder = form.querySelector("[data-sendora-turnstile]");
     var widgetId = holder && holder.getAttribute("data-widget-id");
-    if (widgetId && window.turnstile) window.turnstile.reset(widgetId);
+    try {
+      if (widgetId && window.turnstile) window.turnstile.reset(widgetId);
+    } catch (error) {
+      // A reset failure should not turn a completed customer submission into an error.
+    }
   }
 
   function setPending(form, pending) {
@@ -162,13 +166,26 @@
   }
 
   function resetForm(form) {
-    form.reset();
-    ensureStartedAt(form).value = String(Date.now());
-    updateFileLabels(form);
+    try {
+      form.reset();
+    } catch (error) {}
+
+    try {
+      var startedAt = ensureStartedAt(form);
+      if (startedAt) startedAt.value = String(Date.now());
+    } catch (error) {}
+
+    try {
+      updateFileLabels(form);
+    } catch (error) {}
+
     resetTurnstile(form);
-    if (window.SendoraLeadSourceTracker && typeof window.SendoraLeadSourceTracker.fillForms === "function") {
-      window.SendoraLeadSourceTracker.fillForms();
-    }
+
+    try {
+      if (window.SendoraLeadSourceTracker && typeof window.SendoraLeadSourceTracker.fillForms === "function") {
+        window.SendoraLeadSourceTracker.fillForms();
+      }
+    } catch (error) {}
   }
 
   function handleSubmit(event) {
@@ -209,6 +226,7 @@
           if (!response.ok) {
             var error = new Error(data.message || FORM_ERROR_MESSAGE);
             error.status = response.status;
+            error.publicMessage = data.message || "";
             throw error;
           }
           return data;
@@ -219,9 +237,10 @@
         resetForm(form);
       })
       .catch(function (error) {
-        if (error.message === TURNSTILE_ERROR_MESSAGE) setStatus(form, TURNSTILE_ERROR_MESSAGE, true);
+        if (error.publicMessage) setStatus(form, error.publicMessage, true);
+        else if (error.message === TURNSTILE_ERROR_MESSAGE) setStatus(form, TURNSTILE_ERROR_MESSAGE, true);
         else if (error.status >= 500) setStatus(form, SERVICE_ERROR_MESSAGE, true);
-        else setStatus(form, error.message || FORM_ERROR_MESSAGE, true);
+        else setStatus(form, FORM_ERROR_MESSAGE, true);
         resetTurnstile(form);
       })
       .finally(function () {
