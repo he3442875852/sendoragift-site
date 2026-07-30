@@ -190,7 +190,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <section class="alt"><div class="container"><h2>Why Buyers Choose This Solution</h2><div class="grid"><div class="card"><h3>Brand Experience</h3><p>Consistent colors, logo placement, packaging design and a welcome message help the kit reflect your company culture and HR brand.</p></div><div class="card"><h3>Flexible Programs</h3><p>We support small team onboarding, fast-growing startup kits, multinational employee programs and recurring new hire gift projects.</p></div><div class="card"><h3>One-Stop Service</h3><p>From product sourcing to logo customization, packaging, quality checking and delivery, our team helps simplify the corporate gifting process.</p></div></div></div></section>
 <section><div class="container"><h2>Related Gift Solutions</h2><div class="grid"><div class="card"><h3>Corporate Gift Sets</h3><p>Explore more custom B2B gift options from Sendora Gift.</p><a href="corporate-gift.html">View Details &rarr;</a></div><div class="card"><h3>Employee Welcome Kits</h3><p>Explore more custom B2B gift options from Sendora Gift.</p><a href="employee-welcome.html">View Details &rarr;</a></div><div class="card"><h3>Promotional Giveaways</h3><p>Explore more custom B2B gift options from Sendora Gift.</p><a href="promotional-giveaways.html">View Details &rarr;</a></div><div class="card"><h3>Executive Gift Boxes</h3><p>Explore more custom B2B gift options from Sendora Gift.</p><a href="executive-gift.html">View Details &rarr;</a></div></div></div></section>
 <section class="alt" id="faq"><div class="container"><h2>Frequently Asked Questions</h2><div class="faq-item"><h3>Can we customize every item in the onboarding kit?</h3><p>Yes. Logo printing, embroidery, engraving and custom packaging are available depending on product material.</p></div><div class="faq-item"><h3>Can you include welcome cards?</h3><p>Yes. We can support custom greeting cards, insert cards and branded packaging.</p></div><div class="faq-item"><h3>Can onboarding kits be reordered?</h3><p>Yes. We can help create repeatable kit combinations for recurring employee onboarding needs.</p></div></div></section>
-<section id="contact"><h2>Get A Custom Quote</h2><div class="container"><form action="https://formspree.io/f/mojzqnke" method="POST" enctype="multipart/form-data">
+<section id="contact"><h2>Get A Custom Quote</h2><div class="container"><form action="/api/submit-quote" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
 <input type="hidden" name="source_context" value="branded-employee-onboarding-kits.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
 <input aria-label="Your Name" type="text" name="name" placeholder="Your Name" required>
@@ -198,7 +198,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <input aria-label="Company Name" type="text" name="company" placeholder="Company Name">
 <input aria-label="WhatsApp / Phone" type="text" name="whatsapp_phone" placeholder="WhatsApp / Phone">
 <select aria-label="Product Type" name="product_type" required>
-<option value="">Select Product Type</option>
+<option value="" disabled selected>Select Product Type</option>
 <option>Corporate gift sets</option>
 <option>Employee welcome kits</option>
 <option>Promotional giveaways</option>
@@ -214,7 +214,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <input aria-label="Delivery Country / City" type="text" name="delivery_destination" placeholder="Delivery Country / City">
 <input aria-label="Target Delivery Date" type="text" name="target_delivery_date" placeholder="Target Delivery Date, e.g. 2026-08-30">
 <select aria-label="Branding Need" name="branding_need">
-<option value="">Logo / Branding Need</option>
+<option value="" disabled selected>Logo / Branding Need</option>
 <option>Logo printing</option>
 <option>Laser engraving</option>
 <option>Embroidery</option>
@@ -224,7 +224,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 </select>
 <label class="file-upload">
 <span class="file-upload-label">Upload Logo / Design File</span>
-<input type="file" name="attachment" accept="image/png,image/jpeg,image/webp,application/pdf,.ai,.eps,.psd,.zip">
+<input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf">
 <span class="file-name">No file selected</span>
 </label>
 <textarea aria-label="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
@@ -245,6 +245,7 @@ document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
 </script>
 
   <script src="/assets/js/lead-source-tracker.js" defer></script>
+<script src="/assets/js/quote-form-protection.js" defer></script>
 <a id="sendora-whatsapp-float" href="https://wa.me/8618390800841?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#2ee978 0%,#19b85a 58%,#0f9449 100%);border:2px solid rgba(255,255,255,.96);box-shadow:0 12px 28px rgba(13,21,18,.22),0 0 0 7px rgba(37,211,102,.12);color:#fff!important;font-size:0!important;line-height:0!important;text-decoration:none!important;overflow:hidden;">
   <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" style="width:29px;height:29px;display:block;fill:currentColor;flex:0 0 auto;"><path d="M16.04 3.2A12.75 12.75 0 0 0 5.08 22.5L3.7 28.8l6.44-1.7a12.73 12.73 0 0 0 5.9 1.5h.01A12.7 12.7 0 0 0 28.8 15.9 12.73 12.73 0 0 0 16.04 3.2Zm0 23.24h-.01a10.62 10.62 0 0 1-5.4-1.48l-.39-.23-3.82 1.01.81-3.74-.25-.39a10.58 10.58 0 1 1 9.06 4.83Zm5.8-7.94c-.32-.16-1.88-.93-2.17-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-.99 1.24-.18.21-.37.24-.68.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.58-1.88-1.76-2.19-.18-.32-.02-.49.14-.65.14-.14.32-.37.47-.55.16-.18.21-.32.32-.53.11-.21.05-.39-.03-.55-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54h-.61c-.21 0-.55.08-.84.39-.29.32-1.1 1.08-1.1 2.62 0 1.55 1.13 3.04 1.29 3.25.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.66.76.24 1.45.21 1.99.13.61-.09 1.88-.77 2.14-1.51.26-.74.26-1.38.18-1.51-.08-.13-.29-.21-.61-.37Z"/></svg>
   <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">WhatsApp</span>
