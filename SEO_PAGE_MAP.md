@@ -5,7 +5,7 @@
 | / | Custom corporate gift sets | Organization, WebSite, FAQPage | Legal entity, contact, Alibaba profile |
 | /about/ | Company background | AboutPage, Organization | Confirmed address and contact only |
 | /trust-center/ | Buyer trust and compliance | WebPage | Verification checklist, evidence boundaries |
-| /contact/ | Inquiry and RFQ | ContactPage, Organization, BreadcrumbList | Consent note, Formspree preserved |
+| /contact/ | Inquiry and RFQ | ContactPage, Organization, BreadcrumbList | Consent note, server-side email preserved |
 | /products/ | Product planning | CollectionPage | Material, logo, MOQ and packaging considerations |
 | /blog/ | Corporate gifting education hub | Blog | B2B guides grouped by buyer task |
 | /blog/business-travel-gift-set-guide.html | Business travel gift sets | BlogPosting, FAQPage, BreadcrumbList | No unsupported logistics or certification claims |
