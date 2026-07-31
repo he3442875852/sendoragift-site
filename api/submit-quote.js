@@ -2,10 +2,11 @@
 
 const crypto = require("crypto");
 
-const FORM_FORWARD_URL = process.env.FORM_FORWARD_URL || "";
 const MAX_BODY_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_BODY_BYTES || 4 * 1024 * 1024), 4 * 1024 * 1024);
 const MAX_ATTACHMENT_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_ATTACHMENT_BYTES || MAX_BODY_BYTES), MAX_BODY_BYTES);
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const RESEND_EMAILS_URL = "https://api.resend.com/emails";
+const RESEND_TIMEOUT_MS = Math.min(Math.max(Number(process.env.RESEND_TIMEOUT_MS || 12000), 1000), 15000);
 const SUCCESS_MESSAGE = "Thank you. Your quote request has been submitted successfully.";
 const FORM_ERROR_MESSAGE = "Please check the form information and try again.";
 const TURNSTILE_ERROR_MESSAGE = "We could not verify your submission. Please refresh the page and try again.";
@@ -26,6 +27,7 @@ const FIELD_LIMITS = {
   target_delivery_date: 80,
   branding_need: 120,
   logo_packaging_need: 120,
+  packaging_need: 160,
   source_context: 200,
   lead_source: 80,
   source_type: 80,
@@ -408,6 +410,124 @@ function validateFiles(files) {
   });
 }
 
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function sanitizeSubject(value) {
+  return String(value || "")
+    .replace(/\0/g, "")
+    .replace(/[\u0001-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "")
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[<>]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, FIELD_LIMITS._subject);
+}
+
+function buildEmailSubject(fields) {
+  const requestedSubject = sanitizeSubject(fields._subject || "");
+  if (requestedSubject) return requestedSubject;
+
+  const parts = ["New Sendora Gift Inquiry"];
+  if (fields.company) parts.push(fields.company);
+  if (fields.quantity) parts.push(fields.quantity);
+  return sanitizeSubject(parts.join(" - ")) || "New Sendora Gift Inquiry";
+}
+
+function valueOrFallback(value) {
+  return value === undefined || value === null || value === "" ? "Not provided" : String(value);
+}
+
+function buildEmailRows(fields, context) {
+  return [
+    ["Inquiry time", new Date().toISOString()],
+    ["Customer name", fields.name],
+    ["Company", fields.company],
+    ["Business email", fields.email],
+    ["WhatsApp / phone", fields.whatsapp_phone || fields.phone],
+    ["Gift direction / product type", fields.product_direction || fields.product_type],
+    ["Estimated quantity", fields.quantity],
+    ["Target budget", fields.target_budget],
+    ["Delivery country / city", fields.delivery_destination || fields.delivery_country],
+    ["Target delivery date", fields.target_delivery_date],
+    ["Logo / branding need", fields.logo_packaging_need || fields.branding_need],
+    ["Packaging need", fields.packaging_need],
+    ["Project details / message", fields.message],
+    ["Source context", fields.source_context],
+    ["Lead source", fields.lead_source || fields.source_type],
+    ["First landing page", fields.first_landing_page],
+    ["Current page", fields.current_page],
+    ["Referrer", fields.referrer || fields.first_referrer],
+    ["UTM source", fields.utm_source],
+    ["UTM medium", fields.utm_medium],
+    ["UTM campaign", fields.utm_campaign],
+    ["UTM term", fields.utm_term],
+    ["UTM content", fields.utm_content],
+    ["Browser language", fields.browser_language],
+    ["User timezone", fields.user_timezone],
+    ["Page history", fields.page_history],
+    ["Request ID", context.requestId],
+    ["Customer IP", context.remoteIp],
+    ["User-Agent", context.userAgent]
+  ];
+}
+
+function buildEmailHtml(fields, context = {}) {
+  const rows = buildEmailRows(fields, context).map(([label, value]) => (
+    `<tr><td style="padding:8px 10px;border:1px solid #e5e7eb;background:#f8fafc;font-weight:700;width:190px;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:8px 10px;border:1px solid #e5e7eb;white-space:pre-wrap;">${escapeHtml(valueOrFallback(value))}</td></tr>`
+  )).join("");
+
+  return `<!doctype html><html><body style="margin:0;padding:24px;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;"><div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;"><div style="padding:20px 24px;background:#111827;color:#ffffff;"><h1 style="margin:0;font-size:20px;line-height:1.3;">New Sendora Gift Inquiry</h1></div><div style="padding:22px 24px;"><table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:14px;line-height:1.45;">${rows}</table></div></div></body></html>`;
+}
+
+function buildEmailText(fields, context = {}) {
+  return buildEmailRows(fields, context)
+    .map(([label, value]) => `${label}: ${valueOrFallback(value)}`)
+    .join("\n");
+}
+
+function buildResendAttachments(files) {
+  const attachments = files.map((file) => ({
+    filename: sanitizeFilename(file.filename),
+    content: file.data.toString("base64")
+  }));
+  return attachments.length ? attachments : undefined;
+}
+
+function redactForLog(value) {
+  return String(value || "")
+    .replace(/\bre_[A-Za-z0-9_=-]+\b/g, "[secret]")
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email]")
+    .replace(/\b(?:\+?\d[\s-]?){8,}\b/g, "[phone]")
+    .replace(/\b[A-Za-z0-9+/]{20,}={0,2}\b/g, "[redacted]")
+    .slice(0, 300);
+}
+
+function getEmailConfig() {
+  const missing = [];
+  const apiKey = process.env.RESEND_API_KEY || "";
+  const toEmail = process.env.INQUIRY_TO_EMAIL || "";
+  const fromEmail = process.env.INQUIRY_FROM_EMAIL || "";
+  if (!apiKey) missing.push("RESEND_API_KEY");
+  if (!toEmail) missing.push("INQUIRY_TO_EMAIL");
+  if (!fromEmail) missing.push("INQUIRY_FROM_EMAIL");
+  if (missing.length) {
+    const error = new Error("email_failed");
+    error.publicType = "service";
+    error.status = 503;
+    error.safeMessage = "missing_env:" + missing.join(",");
+    throw error;
+  }
+  return { apiKey, toEmail, fromEmail };
+}
+
 function validateFields(fields) {
   const now = Date.now();
   const validated = {};
@@ -495,42 +615,78 @@ async function verifyTurnstile(token, remoteIp) {
   }
 }
 
-async function forwardToFormspree(fields, files) {
-  if (!FORM_FORWARD_URL) {
-    const error = new Error("forward_failed");
-    error.status = 503;
-    throw error;
-  }
+async function sendInquiryEmail(fields, files, context = {}, deps = {}) {
+  const config = getEmailConfig();
+  const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const timeout = controller ? setTimeout(() => controller.abort(), RESEND_TIMEOUT_MS) : null;
+  const fetcher = deps.fetch || fetch;
+  const attachments = buildResendAttachments(files);
+  const payload = {
+    from: `Sendora Gift Website <${config.fromEmail}>`,
+    to: [config.toEmail],
+    reply_to: fields.email,
+    subject: buildEmailSubject(fields),
+    html: buildEmailHtml(fields, context),
+    text: buildEmailText(fields, context)
+  };
+  if (attachments) payload.attachments = attachments;
 
-  const formData = new FormData();
-  for (const [name, value] of Object.entries(fields)) {
-    if (value === undefined || value === "") continue;
-    if (name === "company_website_url" || name === "_gotcha" || name === "form_started_at" || name === "cf-turnstile-response") continue;
-    formData.append(name, value);
-  }
-  for (const file of files) {
-    formData.append(file.fieldName || "attachment", new Blob([file.data], { type: file.contentType }), file.filename);
-  }
+  try {
+    const response = await fetcher(RESEND_EMAILS_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload),
+      signal: controller ? controller.signal : undefined
+    });
 
-  const response = await fetch(FORM_FORWARD_URL, {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    body: formData
-  });
+    const responseText = await response.text().catch(() => "");
+    let result = {};
+    if (responseText) {
+      try {
+        result = JSON.parse(responseText);
+      } catch (_) {
+        result = { message: responseText };
+      }
+    }
 
-  if (!response.ok) {
-    const error = new Error("forward_failed");
-    error.status = response.status;
-    throw error;
+    if (!response.ok) {
+      const error = new Error("email_failed");
+      error.publicType = "service";
+      error.status = response.status;
+      error.safeMessage = redactForLog(result.message || result.error || responseText || "resend_error");
+      throw error;
+    }
+
+    return { id: result.id || "" };
+  } catch (error) {
+    if (error.name === "AbortError") {
+      const timeoutError = new Error("email_failed");
+      timeoutError.publicType = "service";
+      timeoutError.status = 503;
+      timeoutError.safeMessage = "resend_timeout";
+      throw timeoutError;
+    }
+    if (error.publicType === "service") throw error;
+    const wrapped = new Error("email_failed");
+    wrapped.publicType = "service";
+    wrapped.status = 503;
+    wrapped.safeMessage = redactForLog(error.message || "resend_request_failed");
+    throw wrapped;
+  } finally {
+    if (timeout) clearTimeout(timeout);
   }
 }
 
 function createHandler(deps = {}) {
   const turnstileVerifier = deps.verifyTurnstile || verifyTurnstile;
-  const forwarder = deps.forwardToFormspree || forwardToFormspree;
+  const emailSender = deps.sendInquiryEmail || sendInquiryEmail;
 
   return async function handler(req, res) {
     const requestId = crypto.randomUUID();
+    const remoteIp = getRemoteIp(req);
 
     if (req.method !== "POST") {
       res.setHeader("Allow", "POST");
@@ -553,16 +709,20 @@ function createHandler(deps = {}) {
         return;
       }
 
-      await turnstileVerifier(firstField(fields, "cf-turnstile-response"), getRemoteIp(req));
+      await turnstileVerifier(firstField(fields, "cf-turnstile-response"), remoteIp);
       const safeFiles = validateFiles(files);
-      await forwarder(validation.fields, safeFiles);
+      const emailResult = await emailSender(validation.fields, safeFiles, {
+        requestId,
+        remoteIp,
+        userAgent: String(req.headers["user-agent"] || "")
+      });
 
-      logStage(requestId, "forwarded", { fileCount: safeFiles.length });
+      logStage(requestId, "email_sent", { fileCount: safeFiles.length, resendId: emailResult && emailResult.id ? emailResult.id : "" });
       success(res);
     } catch (error) {
       const type = error.publicType || "validation";
       logStage(requestId, type, {
-        message: error.message,
+        message: redactForLog(error.safeMessage || error.message),
         code: error.code || "",
         status: error.status || "",
         turnstileCodes: error.codes || undefined
@@ -572,8 +732,8 @@ function createHandler(deps = {}) {
         sendJson(res, 413, { ok: false, message: FORM_ERROR_MESSAGE });
       } else if (type === "turnstile") {
         sendJson(res, 400, { ok: false, message: TURNSTILE_ERROR_MESSAGE });
-      } else if (error.message === "forward_failed") {
-        sendJson(res, 502, { ok: false, message: SERVICE_ERROR_MESSAGE });
+      } else if (type === "service" || error.message === "email_failed") {
+        sendJson(res, error.status && error.status >= 500 ? error.status : 502, { ok: false, message: SERVICE_ERROR_MESSAGE });
       } else {
         sendJson(res, 400, { ok: false, message: FORM_ERROR_MESSAGE });
       }
@@ -590,6 +750,12 @@ module.exports._test = {
   validateFields,
   validateFiles,
   validateStartedAt,
+  buildEmailHtml,
+  buildEmailText,
+  buildEmailSubject,
+  buildResendAttachments,
+  escapeHtml,
+  sendInquiryEmail,
   MAX_BODY_BYTES,
   MAX_ATTACHMENT_BYTES
 };

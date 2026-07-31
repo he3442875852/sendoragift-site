@@ -26,7 +26,7 @@ for p in htmls:
 c=ROOT/'contact/index.html'
 if c.exists():
     t=c.read_text(encoding='utf-8')
-    for needed in ['formspree','_next','type="file"','privacy_consent','wa.me/8618390800841']:
+    for needed in ['/api/submit-quote','_next','type="file"','privacy_consent','wa.me/8613400883682']:
         if needed not in t: fail('contact/index.html',f'missing preserved contact feature {needed}')
 faq=ROOT/'corporate-gift-faq.html'
 if faq.exists():

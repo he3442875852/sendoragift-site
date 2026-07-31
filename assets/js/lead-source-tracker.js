@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var WHATSAPP_NUMBER = "8618390800841";
+  var WHATSAPP_NUMBER = "8613400883682";
   var WHATSAPP_MESSAGE = "Hello Sendora Gift, I need a custom corporate gift set with: [type the items here]. Please recommend suitable options and provide the MOQ, price range, and lead time.";
   var WHATSAPP_URL = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
 

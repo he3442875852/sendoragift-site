@@ -12,11 +12,10 @@ function createReq(fields, files) {
     form.append(file.name || "attachment", new Blob([file.data], { type: file.type }), file.filename);
   }
   const request = new Request("http://localhost/api/submit-quote", { method: "POST", body: form });
-  const nodeReq = Readable.from(Buffer.from([]));
   return request.arrayBuffer().then((arrayBuffer) => {
     const req = Readable.from(Buffer.from(arrayBuffer));
     req.method = "POST";
-    req.headers = Object.fromEntries(request.headers.entries());
+    req.headers = Object.assign({ "user-agent": "node-test" }, Object.fromEntries(request.headers.entries()));
     req.socket = { remoteAddress: "127.0.0.1" };
     return req;
   });
@@ -43,16 +42,28 @@ function baseFields(overrides) {
   return Object.assign({
     name: "Jane Buyer",
     email: "jane@example.com",
+    company: "Acme Gifts",
     product_type: "Corporate gift sets",
     quantity: "300",
     delivery_destination: "United States",
+    target_budget: "USD 8-15 per set",
     target_delivery_date: "2026-08-30",
     branding_need: "Logo printing",
     message: "Please quote branded gift sets for an employee event.",
     privacy_consent: "on",
     form_started_at: String(Date.now() - 5000),
     "cf-turnstile-response": "valid-token",
-    source_context: "quote.html"
+    source_context: "quote.html",
+    lead_source: "website",
+    first_landing_page: "https://www.sendoragift.com/",
+    current_page: "https://www.sendoragift.com/quote.html",
+    referrer: "https://www.google.com/",
+    utm_source: "google",
+    utm_medium: "organic",
+    utm_campaign: "brand",
+    browser_language: "en-US",
+    user_timezone: "America/New_York",
+    page_history: "home > quote"
   }, overrides || {});
 }
 
@@ -67,16 +78,50 @@ async function run(fields, files, deps) {
         throw error;
       }
     },
-    forwardToFormspree: async () => {}
+    sendInquiryEmail: async () => ({ id: "email_test_123" })
   }, deps || {}));
   await handler(req, res);
   return res;
+}
+
+function withEmailEnv(fn) {
+  const previous = {
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    INQUIRY_TO_EMAIL: process.env.INQUIRY_TO_EMAIL,
+    INQUIRY_FROM_EMAIL: process.env.INQUIRY_FROM_EMAIL
+  };
+  process.env.RESEND_API_KEY = "re_test_secret";
+  process.env.INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+  process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
+  return Promise.resolve()
+    .then(fn)
+    .finally(() => {
+      for (const [name, value] of Object.entries(previous)) {
+        if (value === undefined) delete process.env[name];
+        else process.env[name] = value;
+      }
+    });
 }
 
 test("accepts a normal quote without attachment", async () => {
   const res = await run(baseFields());
   assert.equal(res.statusCode, 200);
   assert.equal(res.json().ok, true);
+});
+
+test("calls Resend sender and returns success when it returns an email id", async () => {
+  let context;
+  const res = await run(baseFields(), [], {
+    sendInquiryEmail: async (fields, files, ctx) => {
+      assert.equal(fields.email, "jane@example.com");
+      assert.equal(files.length, 0);
+      context = ctx;
+      return { id: "email_abc123" };
+    }
+  });
+  assert.equal(res.statusCode, 200);
+  assert.equal(context.remoteIp, "127.0.0.1");
+  assert.ok(context.requestId);
 });
 
 test("accepts jpg, png, and pdf attachments with valid signatures", async () => {
@@ -102,16 +147,16 @@ test("rejects missing or invalid turnstile token", async () => {
   assert.equal(invalid.statusCode, 400);
 });
 
-test("honeypot returns generic success without forwarding", async () => {
-  let forwarded = false;
+test("honeypot returns generic success without sending email", async () => {
+  let sent = false;
   const res = await run(baseFields({ company_website_url: "https://spam.example" }), [], {
-    forwardToFormspree: async () => {
-      forwarded = true;
+    sendInquiryEmail: async () => {
+      sent = true;
     }
   });
   assert.equal(res.statusCode, 200);
   assert.equal(res.json().ok, true);
-  assert.equal(forwarded, false);
+  assert.equal(sent, false);
 });
 
 test("rejects submissions under three seconds", async () => {
@@ -135,11 +180,12 @@ test("rejects disallowed or mismatched attachments", async () => {
   assert.equal((await run(baseFields(), [{ filename: "logo.php.jpg", type: "image/jpeg", data: Buffer.from([0xff, 0xd8, 0xff]) }])).statusCode, 400);
 });
 
-test("reports third-party forwarding failure as service error", async () => {
+test("reports Resend failure as a service error", async () => {
   const res = await run(baseFields(), [], {
-    forwardToFormspree: async () => {
-      const error = new Error("forward_failed");
-      error.status = 500;
+    sendInquiryEmail: async () => {
+      const error = new Error("email_failed");
+      error.publicType = "service";
+      error.status = 502;
       throw error;
     }
   });
@@ -154,3 +200,117 @@ test("parses urlencoded submissions for native fallback", () => {
   assert.equal(result.bot, false);
   assert.equal(result.fields.email, "jane@example.com");
 });
+
+test("sends Resend payload with html, text, reply-to, and fixed from address", async () => withEmailEnv(async () => {
+  let payload;
+  const result = await _test.sendInquiryEmail(baseFields({ _subject: "New inquiry\r\nBcc: test@example.com" }), [], { requestId: "req_1" }, {
+    fetch: async (url, options) => {
+      assert.equal(url, "https://api.resend.com/emails");
+      assert.equal(options.headers.Authorization, "Bearer re_test_secret");
+      payload = JSON.parse(options.body);
+      return new Response(JSON.stringify({ id: "email_123" }), { status: 200 });
+    }
+  });
+  assert.equal(result.id, "email_123");
+  assert.equal(payload.from, "Sendora Gift Website <inquiry@sendoragift.com>");
+  assert.deepEqual(payload.to, ["rita@mcpatch.com"]);
+  assert.equal(payload.reply_to, "jane@example.com");
+  assert.notEqual(payload.from, "jane@example.com");
+  assert.match(payload.subject, /New inquiry Bcc:/);
+  assert.ok(payload.html);
+  assert.ok(payload.text);
+}));
+
+test("fails safely when RESEND_API_KEY is missing", async () => {
+  const previous = process.env.RESEND_API_KEY;
+  delete process.env.RESEND_API_KEY;
+  process.env.INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+  process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
+  await assert.rejects(
+    _test.sendInquiryEmail(baseFields(), [], {}),
+    (error) => error.publicType === "service" && error.status === 503 && /RESEND_API_KEY/.test(error.safeMessage)
+  );
+  if (previous === undefined) delete process.env.RESEND_API_KEY;
+  else process.env.RESEND_API_KEY = previous;
+});
+
+test("fails safely when recipient email is missing", async () => {
+  const previous = process.env.INQUIRY_TO_EMAIL;
+  process.env.RESEND_API_KEY = "re_test_secret";
+  delete process.env.INQUIRY_TO_EMAIL;
+  process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
+  await assert.rejects(
+    _test.sendInquiryEmail(baseFields(), [], {}),
+    (error) => error.publicType === "service" && error.status === 503 && /INQUIRY_TO_EMAIL/.test(error.safeMessage)
+  );
+  if (previous === undefined) delete process.env.INQUIRY_TO_EMAIL;
+  else process.env.INQUIRY_TO_EMAIL = previous;
+});
+
+test("maps Resend 4xx and 5xx responses to sanitized service errors", async () => withEmailEnv(async () => {
+  for (const status of [400, 503]) {
+    await assert.rejects(
+      _test.sendInquiryEmail(baseFields(), [], {}, {
+        fetch: async () => new Response(JSON.stringify({ message: "Bad request for jane@example.com" }), { status })
+      }),
+      (error) => {
+        assert.equal(error.publicType, "service");
+        assert.equal(error.status, status);
+        assert.doesNotMatch(error.safeMessage, /jane@example.com/);
+        return true;
+      }
+    );
+  }
+}));
+
+test("maps Resend timeout to service error", async () => withEmailEnv(async () => {
+  await assert.rejects(
+    _test.sendInquiryEmail(baseFields(), [], {}, {
+      fetch: async () => {
+        const error = new Error("aborted");
+        error.name = "AbortError";
+        throw error;
+      }
+    }),
+    (error) => error.publicType === "service" && error.status === 503 && error.safeMessage === "resend_timeout"
+  );
+}));
+
+test("converts valid PNG attachment to Base64 for Resend", () => {
+  const data = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00]);
+  const [file] = _test.validateFiles([{ filename: "logo.png", contentType: "image/png", data }]);
+  const attachments = _test.buildResendAttachments([file]);
+  assert.equal(attachments[0].filename.endsWith(".png"), true);
+  assert.equal(attachments[0].content, data.toString("base64"));
+});
+
+test("escapes HTML input in email body", () => {
+  const html = _test.buildEmailHtml(baseFields({ message: "<script>alert(1)</script>", company: "A & B" }), { requestId: "req_1" });
+  assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+  assert.match(html, /A &amp; B/);
+  assert.doesNotMatch(html, /<script>alert/);
+});
+
+test("logs do not include API key or attachment Base64", async () => withEmailEnv(async () => {
+  const base64 = Buffer.from("secret attachment").toString("base64");
+  const previousLog = console.log;
+  const logs = [];
+  console.log = (line) => logs.push(String(line));
+  try {
+    const res = await run(baseFields(), [], {
+      sendInquiryEmail: async () => {
+        const error = new Error("email_failed");
+        error.publicType = "service";
+        error.status = 502;
+        error.safeMessage = `resend failed re_test_secret ${base64}`;
+        throw error;
+      }
+    });
+    assert.equal(res.statusCode, 502);
+  } finally {
+    console.log = previousLog;
+  }
+  const joined = logs.join("\n");
+  assert.doesNotMatch(joined, /re_test_secret/);
+  assert.doesNotMatch(joined, new RegExp(base64));
+}));
