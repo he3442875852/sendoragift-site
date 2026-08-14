@@ -74,6 +74,7 @@ test("admin session is signed, expires, and rejects tampering", () => withEnv({
   assert.equal(auth.verifyPassword("wrong-password"), false);
   assert.equal(auth.isAuthorized(req, now + 1000), true);
   assert.equal(auth.isAuthorized(bearerReq, now + 1000), true);
+  assert.equal(auth.isAuthorized({ headers: {} }, now + 1000, token), true);
   assert.equal(auth.isAuthorized({ headers: { cookie: `sendora_admin=${token}x` } }, now + 1000), false);
   assert.equal(auth.isAuthorized(req, now + (auth.SESSION_SECONDS + 1) * 1000), false);
 }));
