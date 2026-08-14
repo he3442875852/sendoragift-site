@@ -76,6 +76,21 @@ test("admin session is signed, expires, and rejects tampering", () => withEnv({
   assert.equal(auth.isAuthorized(req, now + (auth.SESSION_SECONDS + 1) * 1000), false);
 }));
 
+test("admin password tolerates accidental surrounding whitespace", () => withEnv({
+  ADMIN_DASHBOARD_PASSWORD: "  0123456789abcdef0123456789abcdef\n"
+}, () => {
+  assert.equal(auth.passwordIsConfigured(), true);
+  assert.equal(auth.verifyPassword("0123456789abcdef0123456789abcdef"), true);
+  assert.equal(auth.verifyPassword("  0123456789abcdef0123456789abcdef  "), true);
+}));
+
+test("admin password reports when its environment variable is not configured", () => withEnv({
+  ADMIN_DASHBOARD_PASSWORD: undefined
+}, () => {
+  assert.equal(auth.passwordIsConfigured(), false);
+  assert.equal(auth.verifyPassword("any-password-value"), false);
+}));
+
 test("public WhatsApp tracking accepts only Sendora HTTPS pages", () => {
   assert.equal(trackEvent._test.isSendoraPage("https://www.sendoragift.com/corporate-gift.html"), true);
   assert.equal(trackEvent._test.isSendoraPage("https://sendoragift.com/quote.html"), true);
