@@ -1,6 +1,7 @@
 "use strict";
 
 const crypto = require("crypto");
+const trackingStore = require("../lib/tracking-store.js");
 
 const MAX_BODY_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_BODY_BYTES || 4 * 1024 * 1024), 4 * 1024 * 1024);
 const MAX_ATTACHMENT_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_ATTACHMENT_BYTES || MAX_BODY_BYTES), MAX_BODY_BYTES);
@@ -13,6 +14,8 @@ const TURNSTILE_ERROR_MESSAGE = "We could not verify your submission. Please ref
 const SERVICE_ERROR_MESSAGE = "We could not submit your request at this time. Please try again later or contact us by email.";
 
 const FIELD_LIMITS = {
+  lead_ref: 40,
+  visitor_id: 50,
   name: 120,
   company: 160,
   whatsapp_phone: 80,
@@ -448,6 +451,7 @@ function valueOrFallback(value) {
 function buildEmailRows(fields, context) {
   return [
     ["Inquiry time", new Date().toISOString()],
+    ["Inquiry reference", fields.lead_ref],
     ["Customer name", fields.name],
     ["Company", fields.company],
     ["Business email", fields.email],
@@ -537,6 +541,10 @@ function validateFields(fields) {
   }
 
   validateStartedAt(firstField(fields, "form_started_at"), now);
+  const suppliedLeadRef = cleanString(firstField(fields, "lead_ref"), FIELD_LIMITS.lead_ref).toUpperCase();
+  validated.lead_ref = /^SG-[0-9]{8}-[A-Z0-9]{6,12}$/.test(suppliedLeadRef)
+    ? suppliedLeadRef
+    : `SG-${new Date(now).toISOString().slice(0, 10).replace(/-/g, "")}-${crypto.randomBytes(5).toString("hex").toUpperCase()}`;
   validated.email = normalizeEmail(firstField(fields, "email"));
 
   const privacy = firstField(fields, "privacy_consent");
@@ -683,6 +691,7 @@ async function sendInquiryEmail(fields, files, context = {}, deps = {}) {
 function createHandler(deps = {}) {
   const turnstileVerifier = deps.verifyTurnstile || verifyTurnstile;
   const emailSender = deps.sendInquiryEmail || sendInquiryEmail;
+  const inquirySaver = deps.saveInquiry || trackingStore.saveInquiry;
 
   return async function handler(req, res) {
     const requestId = crypto.randomUUID();
@@ -716,6 +725,24 @@ function createHandler(deps = {}) {
         remoteIp,
         userAgent: String(req.headers["user-agent"] || "")
       });
+
+      if (deps.saveInquiry || trackingStore.isConfigured()) {
+        try {
+          await inquirySaver(validation.fields, {
+            requestId,
+            country: String(req.headers["x-vercel-ip-country"] || ""),
+            city: String(req.headers["x-vercel-ip-city"] || ""),
+            userAgent: String(req.headers["user-agent"] || ""),
+            emailProviderId: emailResult && emailResult.id ? emailResult.id : ""
+          }, "form");
+          logStage(requestId, "inquiry_stored", { leadRef: validation.fields.lead_ref || "" });
+        } catch (trackingError) {
+          logStage(requestId, "tracking_store_failed", {
+            message: redactForLog(trackingError.safeMessage || trackingError.message),
+            status: trackingError.status || ""
+          });
+        }
+      }
 
       logStage(requestId, "email_sent", { fileCount: safeFiles.length, resendId: emailResult && emailResult.id ? emailResult.id : "" });
       success(res);

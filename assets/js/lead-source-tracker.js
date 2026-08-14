@@ -3,9 +3,10 @@
 
   var WHATSAPP_NUMBER = "8613400883682";
   var WHATSAPP_MESSAGE = "Hello Sendora Gift, I need a custom corporate gift set with: [type the items here]. Please recommend suitable options and provide the MOQ, price range, and lead time.";
-  var WHATSAPP_URL = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
 
   var FIELD_NAMES = [
+    "lead_ref",
+    "visitor_id",
     "lead_source",
     "source_type",
     "first_landing_page",
@@ -40,12 +41,54 @@
   ];
 
   var STORAGE_KEYS = {
+    visitorId: "sendora_visitor_id",
+    leadRef: "sendora_lead_ref",
     firstLandingPage: "sendora_first_landing_page",
     firstReferrer: "sendora_first_referrer",
     firstAttribution: "sendora_first_attribution",
     currentAttribution: "sendora_current_attribution",
     pageHistory: "sendora_page_history"
   };
+
+  function randomToken(length) {
+    var alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    var output = "";
+    if (window.crypto && typeof window.crypto.getRandomValues === "function") {
+      var values = new Uint8Array(length);
+      window.crypto.getRandomValues(values);
+      for (var i = 0; i < values.length; i += 1) output += alphabet.charAt(values[i] % alphabet.length);
+      return output;
+    }
+    while (output.length < length) output += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    return output;
+  }
+
+  function getVisitorId() {
+    var id = safeGet(window.localStorage, STORAGE_KEYS.visitorId);
+    if (!id) {
+      id = "SGV-" + randomToken(20);
+      safeSet(window.localStorage, STORAGE_KEYS.visitorId, id);
+    }
+    return id;
+  }
+
+  function createLeadRef() {
+    var date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    return "SG-" + date + "-" + randomToken(8);
+  }
+
+  function getLeadRef() {
+    var ref = safeGet(window.sessionStorage, STORAGE_KEYS.leadRef);
+    if (!ref) {
+      ref = createLeadRef();
+      safeSet(window.sessionStorage, STORAGE_KEYS.leadRef, ref);
+    }
+    return ref;
+  }
+
+  function getWhatsappUrl(leadRef) {
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE + "\n\nInquiry reference: " + leadRef);
+  }
 
   function safeGet(storage, key) {
     try {
@@ -196,6 +239,8 @@
     var firstReferrer = safeGet(window.localStorage, STORAGE_KEYS.firstReferrer);
     var pageHistory = readJSON(window.sessionStorage, STORAGE_KEYS.pageHistory, []);
     var data = {
+      lead_ref: getLeadRef(),
+      visitor_id: getVisitorId(),
       lead_source: "website",
       source_type: getSourceType(attribution, document.referrer || "", firstReferrer),
       first_landing_page: firstLandingPage,
@@ -249,6 +294,27 @@
     });
   }
 
+  function sendWhatsappClickEvent(data) {
+    var payload = JSON.stringify(Object.assign({ event_type: "whatsapp_click" }, data));
+    if (navigator && typeof navigator.sendBeacon === "function") {
+      navigator.sendBeacon("/api/track-lead-event", payload);
+    } else if (typeof window.fetch === "function") {
+      window.fetch("/api/track-lead-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true
+      }).catch(function () {});
+    }
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "whatsapp_click", {
+        lead_ref: data.lead_ref,
+        source_type: data.source_type,
+        current_page: data.current_page
+      });
+    }
+  }
+
   function handleSubmit(event) {
     var form = event.target;
     if (!form || form.tagName !== "FORM") return;
@@ -265,7 +331,14 @@
 
   function normalizeWhatsappLinks() {
     Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
-      link.href = WHATSAPP_URL;
+      var leadRef = createLeadRef();
+      link.href = getWhatsappUrl(leadRef);
+      link.dataset.sendoraLeadRef = leadRef;
+      link.addEventListener("click", function () {
+        var data = getLeadSourceData();
+        data.lead_ref = leadRef;
+        sendWhatsappClickEvent(data);
+      });
     });
   }
 
@@ -283,7 +356,7 @@
     whatsapp: {
       number: WHATSAPP_NUMBER,
       message: WHATSAPP_MESSAGE,
-      url: WHATSAPP_URL
+      getUrl: function () { return getWhatsappUrl(getLeadRef()); }
     }
   };
 
