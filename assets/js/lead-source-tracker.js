@@ -110,6 +110,12 @@
   function sourceFromText(value) {
     var source = normalizeSource(value);
     if (!source) return "";
+    if (source.indexOf("chatgpt") !== -1 || source.indexOf("openai") !== -1) return "chatgpt";
+    if (source.indexOf("perplexity") !== -1) return "perplexity";
+    if (source.indexOf("gemini") !== -1 || source.indexOf("bard.google") !== -1) return "gemini";
+    if (source.indexOf("copilot") !== -1) return "copilot";
+    if (source.indexOf("claude") !== -1 || source.indexOf("anthropic") !== -1) return "claude";
+    if (source === "you.com" || source.endsWith(".you.com")) return "you.com";
     if (source.indexOf("google") !== -1) return "google";
     if (source.indexOf("bing") !== -1) return "bing";
     if (source.indexOf("yahoo") !== -1) return "yahoo";

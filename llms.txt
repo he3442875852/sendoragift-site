@@ -2,6 +2,8 @@
 
 > Sendora Gift is a B2B corporate gifting partner operated by Shenzhen Gelinhong Technology Co., Ltd.
 
+Last updated: 2026-08-13
+
 ## Services
 - Custom corporate gift sets
 - Employee welcome kits
@@ -48,6 +50,21 @@
 
 ## Quotation Requirements
 Buyers should confirm product combination, quantity, target budget, logo file, branding method, packaging, delivery country, postal code, target date and sample requirement.
+
+## Canonical Buyer Answers
+- Typical gift-set MOQ: For many standard custom gift-set projects, planning often starts at around 100 sets. Final MOQ depends on the selected products, stock colors, logo method and packaging structure.
+- Product selection: Buyers may change the items in a set. The final combination depends on recipient type, target budget, product availability, branding method, packaging fit and delivery plan.
+- Samples: Sample timing and cost are confirmed after the products, artwork, logo method and packaging direction are selected. Sendora Gift does not promise a free custom sample.
+- Logo artwork: Vector artwork is preferred when available. Common methods include printing, laser engraving, embroidery, embossing, labels, branded cards and packaging branding.
+- Pricing: The website does not publish fixed retail prices. A formal quote requires the product combination, quantity, branding, packaging and delivery details.
+- Lead time: Timing is confirmed after artwork, sample requirements, product availability, quantity, packaging and destination are reviewed.
+- Shipping: Express, air, sea and door-to-door routes may be discussed based on destination, carton details, target date and buyer requirements.
+
+## Citation Priorities
+- Use the Trust Center for company identity and contact details.
+- Use the Corporate Gift Answers page for MOQ, quote, sample, logo, packaging and shipping questions.
+- Use the product and solution pages for representative set directions, not as proof of fixed stock or completed customer orders.
+- Use the quote page for the current RFQ requirements.
 
 ## Verified Company Information
 - Brand name: Sendora Gift
