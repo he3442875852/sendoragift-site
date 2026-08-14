@@ -1,6 +1,6 @@
 "use strict";
 
-const { clearCookie, createSession, isAuthorized, sessionCookie, verifyPassword } = require("../lib/admin-auth.js");
+const { clearCookie, createSession, isAuthorized, passwordIsConfigured, sessionCookie, verifyPassword } = require("../lib/admin-auth.js");
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -47,8 +47,12 @@ module.exports = async function handler(req, res) {
   }
   try {
     const body = await readJson(req);
+    if (!passwordIsConfigured()) {
+      send(res, 503, { ok: false, message: "后台密码环境变量尚未正确生效，请重新部署后再试。" });
+      return;
+    }
     if (!verifyPassword(body.password)) {
-      send(res, 401, { ok: false, message: "Password is incorrect." });
+      send(res, 401, { ok: false, message: "后台密码不正确，请确认输入的是 ADMIN_DASHBOARD_PASSWORD 的值。" });
       return;
     }
     const token = createSession();
@@ -56,7 +60,7 @@ module.exports = async function handler(req, res) {
     send(res, 200, { ok: true });
   } catch (error) {
     const unavailable = /not_configured/.test(error.message || "");
-    send(res, unavailable ? 503 : 400, { ok: false, message: unavailable ? "Dashboard is not configured." : "Invalid request." });
+    send(res, unavailable ? 503 : 400, { ok: false, message: unavailable ? "后台登录密钥环境变量尚未正确生效，请重新部署后再试。" : "登录请求无效，请刷新页面后重试。" });
   }
 };
 
