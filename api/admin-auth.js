@@ -57,7 +57,7 @@ module.exports = async function handler(req, res) {
     }
     const token = createSession();
     res.setHeader("Set-Cookie", sessionCookie(token));
-    send(res, 200, { ok: true });
+    send(res, 200, { ok: true, token });
   } catch (error) {
     const unavailable = /not_configured/.test(error.message || "");
     send(res, unavailable ? 503 : 400, { ok: false, message: unavailable ? "后台登录密钥环境变量尚未正确生效，请重新部署后再试。" : "登录请求无效，请刷新页面后重试。" });
