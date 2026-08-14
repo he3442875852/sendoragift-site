@@ -5,6 +5,7 @@ const { test } = require("node:test");
 const auth = require("../lib/admin-auth.js");
 const store = require("../lib/tracking-store.js");
 const trackEvent = require("../api/track-lead-event.js");
+const adminLeads = require("../api/admin-leads.js");
 
 function withEnv(values, fn) {
   const previous = {};
@@ -92,6 +93,14 @@ test("admin password reports when its environment variable is not configured", (
 }, () => {
   assert.equal(auth.passwordIsConfigured(), false);
   assert.equal(auth.verifyPassword("any-password-value"), false);
+}));
+
+test("admin data requests can authenticate with the verified password in the encrypted request body", () => withEnv({
+  ADMIN_DASHBOARD_PASSWORD: "DirectRequestPassword2026"
+}, () => {
+  const req = { headers: {} };
+  assert.equal(adminLeads._test.requestIsAuthorized(req, { admin_password: "DirectRequestPassword2026" }), true);
+  assert.equal(adminLeads._test.requestIsAuthorized(req, { admin_password: "wrong-password" }), false);
 }));
 
 test("public WhatsApp tracking accepts only Sendora HTTPS pages", () => {

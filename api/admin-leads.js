@@ -1,6 +1,6 @@
 "use strict";
 
-const { isAuthorized } = require("../lib/admin-auth.js");
+const { isAuthorized, verifyPassword } = require("../lib/admin-auth.js");
 const { listInquiries, updateInquiry } = require("../lib/tracking-store.js");
 
 function send(res, status, payload) {
@@ -27,6 +27,10 @@ function readJson(req) {
   });
 }
 
+function requestIsAuthorized(req, body) {
+  return Boolean(body.admin_password && verifyPassword(body.admin_password)) || isAuthorized(req, undefined, body.session_token);
+}
+
 module.exports = async function handler(req, res) {
   let body = {};
   try {
@@ -36,7 +40,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!isAuthorized(req, undefined, body.session_token)) {
+  if (!requestIsAuthorized(req, body)) {
     send(res, 401, { ok: false, message: "Sign in required." });
     return;
   }
@@ -76,4 +80,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._test = { readJson };
+module.exports._test = { readJson, requestIsAuthorized };
