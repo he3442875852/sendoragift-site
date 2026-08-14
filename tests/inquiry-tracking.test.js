@@ -69,9 +69,11 @@ test("admin session is signed, expires, and rejects tampering", () => withEnv({
   const now = Date.UTC(2026, 7, 13, 12, 0, 0);
   const token = auth.createSession(now);
   const req = { headers: { cookie: `sendora_admin=${encodeURIComponent(token)}` } };
+  const bearerReq = { headers: { authorization: `Bearer ${token}` } };
   assert.equal(auth.verifyPassword("a-long-admin-password"), true);
   assert.equal(auth.verifyPassword("wrong-password"), false);
   assert.equal(auth.isAuthorized(req, now + 1000), true);
+  assert.equal(auth.isAuthorized(bearerReq, now + 1000), true);
   assert.equal(auth.isAuthorized({ headers: { cookie: `sendora_admin=${token}x` } }, now + 1000), false);
   assert.equal(auth.isAuthorized(req, now + (auth.SESSION_SECONDS + 1) * 1000), false);
 }));
