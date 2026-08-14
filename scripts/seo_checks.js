@@ -156,6 +156,10 @@ for (const file of htmlFiles) {
 
   pageData.push({ file, route, html, canonical, canonicalPath, indexable });
 
+  if (/\uFFFD|鈥\?|(?:â|Â)(?:€|™|œ|“|”|‘|’)/u.test(html)) {
+    errors.push(`${rel(file)} contains mojibake or malformed UTF-8 text.`);
+  }
+
   if (indexable) {
     const h1s = html.match(/<h1\b[\s\S]*?<\/h1>/gi) || [];
     if (h1s.length === 0) errors.push(`${rel(file)} (${route}) is missing an H1.`);
@@ -205,6 +209,26 @@ for (const file of htmlFiles) {
       if (id && new RegExp(`<label\\b[^>]*for=["']${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["']`, 'i').test(form)) continue;
       errors.push(`${rel(file)} has a form control without an accessible name: ${control.slice(0, 120)}`);
     }
+  }
+}
+
+const homepage = pageData.find(item => item.route === '/');
+if (homepage) {
+  const serviceCardKeys = new Map();
+  for (const card of homepage.html.match(/<article\b[^>]*class=["'][^"']*service-card[^"']*["'][^>]*>[\s\S]*?<\/article>/gi) || []) {
+    const href = getContent(card, /<a\b[^>]*href=["']([^"']+)["']/i);
+    const heading = stripTags(getContent(card, /<h3\b[^>]*>([\s\S]*?)<\/h3>/i));
+    if (!href || !heading) continue;
+    const key = `${href}::${heading}`;
+    serviceCardKeys.set(key, (serviceCardKeys.get(key) || 0) + 1);
+  }
+  for (const [key, count] of serviceCardKeys.entries()) {
+    if (count > 1) errors.push(`index.html repeats the same buyer-path card ${count} times: ${key}`);
+  }
+
+  const visibleHomepageText = stripTags(homepage.html);
+  if (/\b(?:AEO|GEO)\b/.test(visibleHomepageText)) {
+    errors.push('index.html exposes internal AEO/GEO optimization terminology to buyers.');
   }
 }
 
