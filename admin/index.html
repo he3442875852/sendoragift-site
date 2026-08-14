@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>询盘后台 | Sendora Gift</title>
+  <link rel="icon" href="/favicon.webp" type="image/webp">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <section class="login-shell" id="loginShell" hidden>
+    <form class="login-card" id="loginForm">
+      <p class="eyebrow">SENDORA GIFT</p>
+      <h1>询盘追踪后台</h1>
+      <p>请输入后台密码。登录状态将在 8 小时后自动失效。</p>
+      <label for="password">后台密码</label>
+      <input id="password" name="password" type="password" minlength="12" autocomplete="current-password" required autofocus>
+      <button type="submit">登录</button>
+      <p class="form-message" id="loginMessage" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <main id="dashboard" hidden>
+    <header class="topbar">
+      <div><p class="eyebrow">SENDORA GIFT</p><h1>询盘追踪后台</h1></div>
+      <div class="top-actions"><button class="secondary" id="exportCsv">导出 CSV</button><button class="secondary" id="refresh">刷新</button><button class="secondary" id="logout">退出</button></div>
+    </header>
+
+    <section class="metrics" aria-label="询盘统计">
+      <article><span>当前结果</span><strong id="metricTotal">0</strong></article>
+      <article><span>新询盘</span><strong id="metricNew">0</strong></article>
+      <article><span>表单提交</span><strong id="metricForms">0</strong></article>
+      <article><span>WhatsApp 点击</span><strong id="metricWhatsapp">0</strong></article>
+      <article><span>已报价 / 成交</span><strong id="metricRevenue">0</strong></article>
+    </section>
+
+    <section class="panel filters">
+      <label>搜索<input id="search" type="search" placeholder="编号、姓名、公司、邮箱、页面"></label>
+      <label>状态<select id="status"><option value="">全部</option><option value="new">新询盘</option><option value="whatsapp_clicked">WhatsApp 已点击</option><option value="contacted">已联系</option><option value="qualified">有效询盘</option><option value="quoted">已报价</option><option value="won">已成交</option><option value="lost">未成交</option><option value="spam">垃圾询盘</option></select></label>
+      <label>渠道<select id="type"><option value="">全部</option><option value="form">表单</option><option value="whatsapp">WhatsApp</option></select></label>
+      <label>来源<input id="source" placeholder="google / chatgpt / direct"></label>
+      <label>开始日期<input id="from" type="date"></label>
+      <label>结束日期<input id="to" type="date"></label>
+      <button id="applyFilters">筛选</button>
+      <button class="secondary" id="clearFilters">清除</button>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>编号 / 客户</th><th>渠道</th><th>来源 / 关键词</th><th>入口页</th><th>状态</th><th></th></tr></thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="emptyState" hidden>没有符合条件的询盘。</p>
+      <p class="error" id="dashboardMessage" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <dialog id="detailDialog">
+    <form method="dialog"><button class="close" aria-label="关闭">×</button></form>
+    <div id="detailContent"></div>
+  </dialog>
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>

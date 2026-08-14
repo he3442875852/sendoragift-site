@@ -124,6 +124,37 @@ test("calls Resend sender and returns success when it returns an email id", asyn
   assert.ok(context.requestId);
 });
 
+test("stores a validated form inquiry after email delivery", async () => {
+  let saved;
+  const res = await run(baseFields({
+    lead_ref: "SG-20260813-ABC23456",
+    visitor_id: "SGV-ABC23456789XYZ"
+  }), [], {
+    saveInquiry: async (fields, context, type) => {
+      saved = { fields, context, type };
+      return [{ id: "lead_1" }];
+    }
+  });
+  assert.equal(res.statusCode, 200);
+  assert.equal(saved.fields.lead_ref, "SG-20260813-ABC23456");
+  assert.equal(saved.type, "form");
+  assert.equal(saved.context.emailProviderId, "email_test_123");
+});
+
+test("tracking database failure does not lose a successfully emailed inquiry", async () => {
+  const previousLog = console.log;
+  console.log = () => {};
+  try {
+    const res = await run(baseFields(), [], {
+      saveInquiry: async () => { throw new Error("database unavailable"); }
+    });
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.json().ok, true);
+  } finally {
+    console.log = previousLog;
+  }
+});
+
 test("accepts jpg, png, and pdf attachments with valid signatures", async () => {
   const jpg = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00]);
   const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00]);
