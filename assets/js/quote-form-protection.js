@@ -193,11 +193,25 @@
         window.SendoraLeadSourceTracker.fillForms();
       }
     } catch (error) {}
+
+  }
+
+  function redirectToNextPage(form) {
+    var field = form.querySelector('[name="_next"]');
+    if (!field || !field.value || !window.location) return;
+    try {
+      var next = new URL(field.value, window.location.href);
+      var allowedHost = next.hostname === "sendoragift.com" || next.hostname === "www.sendoragift.com";
+      if (next.protocol === "https:" && allowedHost) window.location.assign(next.href);
+    } catch (error) {}
   }
 
   function handleSubmit(event) {
     var form = event.target;
     if (!isQuoteForm(form)) return;
+    var steps = form.querySelectorAll("[data-form-step]");
+    var currentStep = Number(form.getAttribute("data-current-step") || "0");
+    if (steps.length > 1 && currentStep > 0 && currentStep < steps.length) return;
     event.preventDefault();
     if (form.getAttribute("data-submitting") === "1") return;
 
@@ -241,7 +255,13 @@
       })
       .then(function (data) {
         setStatus(form, data.message || SUCCESS_MESSAGE, false);
+        try {
+          if (window.SendoraLeadSourceTracker && typeof window.SendoraLeadSourceTracker.track === "function") {
+            window.SendoraLeadSourceTracker.track("generate_lead");
+          }
+        } catch (error) {}
         resetForm(form);
+        redirectToNextPage(form);
       })
       .catch(function (error) {
         if (error.publicMessage) setStatus(form, error.publicMessage, true);

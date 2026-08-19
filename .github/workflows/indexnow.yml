@@ -1,0 +1,25 @@
+name: Submit sitemap to IndexNow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.html"
+      - "assets/**"
+      - "robots.txt"
+      - "sitemap.xml"
+      - "9dfc83352bdfabdb5f9793c37f14793e.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for the Vercel deployment and submit URLs
+        run: python3 scripts/submit_indexnow.py --wait-for-key

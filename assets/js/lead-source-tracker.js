@@ -283,9 +283,18 @@
     Array.prototype.forEach.call(document.forms || [], fillForm);
   }
 
+  function sendAnalyticsEvent(eventName, params) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, params || {});
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: eventName }, params || {}));
+  }
+
   function sendGenerateLeadEvent(data) {
-    if (typeof window.gtag !== "function") return;
-    window.gtag("event", "generate_lead", {
+    sendAnalyticsEvent("generate_lead", {
+      lead_ref: data.lead_ref,
       source_type: data.source_type,
       utm_source: data.utm_source,
       utm_medium: data.utm_medium,
@@ -306,20 +315,53 @@
         keepalive: true
       }).catch(function () {});
     }
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "whatsapp_click", {
-        lead_ref: data.lead_ref,
-        source_type: data.source_type,
-        current_page: data.current_page
-      });
-    }
+    sendAnalyticsEvent("whatsapp_click", {
+      lead_ref: data.lead_ref,
+      source_type: data.source_type,
+      current_page: data.current_page
+    });
   }
 
   function handleSubmit(event) {
     var form = event.target;
     if (!form || form.tagName !== "FORM") return;
     fillForm(form);
-    sendGenerateLeadEvent(getLeadSourceData());
+  }
+
+  function normalizeContactLinks() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="mailto:"]'), function (link) {
+      link.addEventListener("click", function () {
+        var data = getLeadSourceData();
+        sendAnalyticsEvent("email_click", {
+          lead_ref: data.lead_ref,
+          source_type: data.source_type,
+          current_page: data.current_page
+        });
+      });
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function (link) {
+      link.addEventListener("click", function () {
+        var data = getLeadSourceData();
+        sendAnalyticsEvent("phone_click", {
+          lead_ref: data.lead_ref,
+          source_type: data.source_type,
+          current_page: data.current_page
+        });
+      });
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll("a[download], a[data-track-download]"), function (link) {
+      link.addEventListener("click", function () {
+        var data = getLeadSourceData();
+        sendAnalyticsEvent("catalog_download", {
+          lead_ref: data.lead_ref,
+          source_type: data.source_type,
+          current_page: data.current_page,
+          file_url: link.href || ""
+        });
+      });
+    });
   }
 
   function debugIfRequested() {
@@ -346,6 +388,7 @@
     initializeVisit();
     fillAllForms();
     normalizeWhatsappLinks();
+    normalizeContactLinks();
     debugIfRequested();
     document.addEventListener("submit", handleSubmit, true);
   }
@@ -353,6 +396,15 @@
   window.SendoraLeadSourceTracker = {
     getData: getLeadSourceData,
     fillForms: fillAllForms,
+    track: function (eventName) {
+      var data = getLeadSourceData();
+      if (eventName === "generate_lead") sendGenerateLeadEvent(data);
+      else sendAnalyticsEvent(eventName, {
+        lead_ref: data.lead_ref,
+        source_type: data.source_type,
+        current_page: data.current_page
+      });
+    },
     whatsapp: {
       number: WHATSAPP_NUMBER,
       message: WHATSAPP_MESSAGE,

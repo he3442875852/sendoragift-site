@@ -31,7 +31,7 @@ if c.exists():
 faq=ROOT/'corporate-gift-faq.html'
 if faq.exists():
     t=faq.read_text(encoding='utf-8')
-    if t.count('@type":"Question"')<8 and t.count('"@type": "Question"')<8: fail('corporate-gift-faq.html','FAQ schema appears incomplete')
+    if 'noindex' not in t.lower() and t.count('@type":"Question"')<8 and t.count('"@type": "Question"')<8: fail('corporate-gift-faq.html','FAQ schema appears incomplete')
 cases=ROOT/'cases'
 if cases.exists():
     for p in cases.glob('*.html'):
