@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  var GA4_MEASUREMENT_ID = "G-2Y0286VCBM";
   var WHATSAPP_NUMBER = "8613400883682";
   var WHATSAPP_MESSAGE = "Hello Sendora Gift, I need a custom corporate gift set with: [type the items here]. Please recommend suitable options and provide the MOQ, price range, and lead time.";
 
@@ -49,6 +50,32 @@
     currentAttribution: "sendora_current_attribution",
     pageHistory: "sendora_page_history"
   };
+
+  function initializeGoogleAnalytics() {
+    if (typeof document.createElement !== "function" || !document.head) return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+
+    if (!window.__sendoraGa4Configured) {
+      window.gtag("js", new Date());
+      window.gtag("config", GA4_MEASUREMENT_ID, {
+        send_page_view: true,
+        transport_type: "beacon"
+      });
+      window.__sendoraGa4Configured = true;
+    }
+
+    if (typeof document.getElementById === "function" && document.getElementById("sendora-ga4-script")) return;
+
+    var script = document.createElement("script");
+    script.id = "sendora-ga4-script";
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA4_MEASUREMENT_ID);
+    document.head.appendChild(script);
+  }
 
   function randomToken(length) {
     var alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -294,7 +321,6 @@
 
   function sendGenerateLeadEvent(data) {
     sendAnalyticsEvent("generate_lead", {
-      lead_ref: data.lead_ref,
       source_type: data.source_type,
       utm_source: data.utm_source,
       utm_medium: data.utm_medium,
@@ -316,7 +342,6 @@
       }).catch(function () {});
     }
     sendAnalyticsEvent("whatsapp_click", {
-      lead_ref: data.lead_ref,
       source_type: data.source_type,
       current_page: data.current_page
     });
@@ -333,7 +358,6 @@
       link.addEventListener("click", function () {
         var data = getLeadSourceData();
         sendAnalyticsEvent("email_click", {
-          lead_ref: data.lead_ref,
           source_type: data.source_type,
           current_page: data.current_page
         });
@@ -344,7 +368,6 @@
       link.addEventListener("click", function () {
         var data = getLeadSourceData();
         sendAnalyticsEvent("phone_click", {
-          lead_ref: data.lead_ref,
           source_type: data.source_type,
           current_page: data.current_page
         });
@@ -355,7 +378,6 @@
       link.addEventListener("click", function () {
         var data = getLeadSourceData();
         sendAnalyticsEvent("catalog_download", {
-          lead_ref: data.lead_ref,
           source_type: data.source_type,
           current_page: data.current_page,
           file_url: link.href || ""
@@ -385,6 +407,7 @@
   }
 
   function start() {
+    initializeGoogleAnalytics();
     initializeVisit();
     fillAllForms();
     normalizeWhatsappLinks();
@@ -400,7 +423,6 @@
       var data = getLeadSourceData();
       if (eventName === "generate_lead") sendGenerateLeadEvent(data);
       else sendAnalyticsEvent(eventName, {
-        lead_ref: data.lead_ref,
         source_type: data.source_type,
         current_page: data.current_page
       });
