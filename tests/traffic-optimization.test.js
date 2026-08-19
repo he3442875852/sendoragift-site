@@ -26,6 +26,16 @@ test("lead tracker exposes the five conversion event names", () => {
   }
 });
 
+test("GA4 measurement loads with the production ID and CSP permissions", () => {
+  const source = read("assets/js/lead-source-tracker.js");
+  const vercel = read("vercel.json");
+  assert.match(source, /G-2Y0286VCBM/);
+  assert.match(source, /https:\/\/www\.googletagmanager\.com\/gtag\/js/);
+  assert.match(vercel, /https:\/\/www\.googletagmanager\.com/);
+  assert.match(vercel, /https:\/\/www\.google-analytics\.com/);
+  assert.match(vercel, /https:\/\/region1\.google-analytics\.com/);
+});
+
 test("robots explicitly allows supported answer-engine crawlers", () => {
   const robots = read("robots.txt");
   for (const crawler of ["OAI-SearchBot", "GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended"]) {

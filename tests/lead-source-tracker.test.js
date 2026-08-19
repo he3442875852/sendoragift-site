@@ -70,4 +70,5 @@ test("pushes generate_lead only when the success handler asks for it", () => {
   assert.equal(tracker.__testWindow.dataLayer.length, 1);
   assert.equal(tracker.__testWindow.dataLayer[0].event, "generate_lead");
   assert.equal(tracker.__testWindow.dataLayer[0].source_type, "linkedin");
+  assert.equal(tracker.__testWindow.dataLayer[0].lead_ref, undefined);
 });
