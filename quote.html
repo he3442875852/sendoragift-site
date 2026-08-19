@@ -43,7 +43,7 @@ button:hover{background:#6f4e24;}
 .trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;}.trust-card{background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);} .trust-card h3{color:#222;margin-bottom:10px;}.trust-card p{color:#555;}
 footer{background:#222;color:#fff;text-align:center;padding:40px 0;}footer p{margin-bottom:10px;}footer a{color:#8e6937;}
 #whatsapp-btn{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff!important;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:1000;}
-@media(max-width:900px){.quote-wrap{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.field.full{grid-column:auto;}}
+@media(max-width:900px){.quote-wrap{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.field.full{grid-column:auto;}.assurance-list{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){.header-inner{height:auto;flex-direction:column;padding:15px;}nav{margin-top:10px;text-align:center;}nav a{display:inline-block;margin:8px;}.hero h1{font-size:34px;}section{padding:55px 0;}.quote-form{padding:22px;}}
 
 select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size:15px;background:#fff;color:#555;}
@@ -51,6 +51,31 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 .file-upload input[type="file"]{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none;}
 .file-upload-label{display:inline-block;background:#f0f0f0;color:#222;border-radius:4px;padding:7px 12px;font-weight:bold;}
 .file-name{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.quote-assurance{margin:0 0 30px;padding:24px;background:#f7f2e9;border:1px solid #e5d6bf;border-radius:10px;}
+.quote-assurance h2{font-size:24px;color:#222;margin-bottom:14px;}
+.assurance-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;list-style:none;}
+.assurance-list li{position:relative;padding-left:24px;color:#4b463f;font-size:14px;}
+.assurance-list li::before{content:"✓";position:absolute;left:0;color:#7c5a29;font-weight:800;}
+.quote-form fieldset{border:0;min-width:0;}
+.quote-form legend{font-size:24px;font-weight:700;color:#222;margin-bottom:8px;}
+.step-intro{color:#666;margin-bottom:20px;}
+.form-progress{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;list-style:none;margin-bottom:26px;counter-reset:quote-step;}
+.form-progress li{counter-increment:quote-step;border-top:3px solid #ddd;padding-top:8px;color:#777;font-size:13px;font-weight:700;}
+.form-progress li::before{content:counter(quote-step) ". ";}
+.form-progress li[aria-current="step"]{border-color:#8e6937;color:#6f4e24;}
+.step-actions{display:flex;gap:12px;margin-top:8px;}
+.step-actions button{width:auto;flex:1;}
+.step-actions .secondary{background:#eee;color:#333;border:1px solid #ccc;}
+.step-actions .secondary:hover{background:#ddd;}
+[data-step-next],[data-step-back]{display:none;}
+.quote-form.is-multistep [data-step-next],.quote-form.is-multistep [data-step-back]{display:block;}
+.quote-form.is-multistep [data-form-step][hidden]{display:none;}
+[data-sendora-turnstile]{margin:12px 0;}
+[data-quote-status]{margin:12px 0;font-size:14px;}
+.privacy-consent{display:flex;align-items:flex-start;gap:10px;font-weight:400;}
+.privacy-consent input{width:auto;margin-top:5px;}
+.form-note{margin-top:16px;color:#666;font-size:13px;text-align:center;}
+@media(max-width:560px){.assurance-list{grid-template-columns:1fr;}.form-progress li{font-size:12px;}.step-actions{flex-direction:column-reverse;}}
 
 </style>
 <script type="application/ld+json">{
@@ -138,50 +163,67 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <body>
 <header><div class="header-inner"><div class="logo">Sendora Gift</div><nav><a href="/">Home</a><a href="products/">Products</a><a href="blog/">Blog</a><a href="quote.html">Get Quote</a><a href="contact/">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-content"><h1>Request a Custom Corporate Gift Quote</h1><p>Send product direction, quantity, logo artwork, packaging needs, destination details and sample requirements so the inquiry can be reviewed clearly.</p></div></section>
-<section><div class="container quote-wrap">
-<form action="/api/submit-quote" method="POST" enctype="multipart/form-data">
+<section><div class="container">
+<div class="quote-assurance" aria-labelledby="quote-assurance-title">
+<h2 id="quote-assurance-title">Plan Your Project Before You Commit</h2>
+<ul class="assurance-list">
+<li>B2B custom projects for companies, teams and events</li>
+<li>Planning often starts around 100 sets; final MOQ depends on the selected items</li>
+<li>Logo artwork, sample steps and packaging details are reviewed before bulk production</li>
+<li><a href="/trust-center/">Legal company details</a> and an <a href="https://gelinhong.en.alibaba.com/" target="_blank" rel="noopener noreferrer">Alibaba supplier profile</a> are published for verification</li>
+</ul>
+</div>
+<div class="quote-wrap">
+<form class="quote-form" action="/api/submit-quote" method="POST" enctype="multipart/form-data" data-multistep-form>
 <input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
 <input type="hidden" name="source_context" value="quote.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
-<input aria-label="Your Name" type="text" name="name" placeholder="Your Name" required>
-<input aria-label="Your Email" type="email" name="email" placeholder="Your Email" required>
-<input aria-label="Company Name" type="text" name="company" placeholder="Company Name">
-<input aria-label="WhatsApp / Phone" type="text" name="whatsapp_phone" placeholder="WhatsApp / Phone">
-<select aria-label="Product Type" name="product_type" required>
+<ol class="form-progress" aria-label="Quote request progress"><li aria-current="step">Contact</li><li>Project</li><li>Branding</li></ol>
+<fieldset data-form-step>
+<legend>Who should we reply to?</legend>
+<p class="step-intro">Start with four contact details. You can add the project brief in the next two short steps.</p>
+<div class="form-grid">
+<div class="field"><label for="quote-name">Your name *</label><input id="quote-name" type="text" name="name" autocomplete="name" required></div>
+<div class="field"><label for="quote-email">Business email *</label><input id="quote-email" type="email" name="email" autocomplete="email" required></div>
+<div class="field"><label for="quote-company">Company</label><input id="quote-company" type="text" name="company" autocomplete="organization"></div>
+<div class="field"><label for="quote-phone">WhatsApp / phone</label><input id="quote-phone" type="text" name="whatsapp_phone" autocomplete="tel"></div>
+</div>
+<div class="step-actions"><button type="button" data-step-next>Continue to Project</button></div>
+</fieldset>
+<fieldset data-form-step>
+<legend>What are you planning?</legend>
+<p class="step-intro">These five details help us avoid unsuitable product, MOQ and delivery suggestions.</p>
+<div class="form-grid">
+<div class="field full"><label for="quote-product">Product direction *</label><select id="quote-product" name="product_type" required>
 <option value="" disabled selected>Select Product Type</option>
-<option>Corporate gift sets</option>
-<option>Employee welcome kits</option>
-<option>Promotional giveaways</option>
-<option>Executive gift boxes</option>
-<option>Conference or event gifts</option>
-<option>Holiday gift sets</option>
-<option>Drinkware gifts</option>
-<option>Custom packaging only</option>
-<option>Not sure, need recommendation</option>
-</select>
-<input aria-label="Estimated Quantity" type="number" name="quantity" min="1" placeholder="Estimated Quantity, e.g. 500" required>
-<input aria-label="Target Budget" type="text" name="target_budget" placeholder="Target Budget, e.g. USD 8-15 per set">
-<input aria-label="Delivery Country / City" type="text" name="delivery_destination" placeholder="Delivery Country / City">
-<input aria-label="Target Delivery Date" type="text" name="target_delivery_date" placeholder="Target Delivery Date, e.g. 2026-08-30">
-<select aria-label="Branding Need" name="branding_need">
-<option value="" disabled selected>Logo / Branding Need</option>
-<option>Logo printing</option>
-<option>Laser engraving</option>
-<option>Embroidery</option>
-<option>Custom gift box packaging</option>
-<option>Logo + packaging</option>
-<option>Need recommendation</option>
-</select>
-<label class="file-upload">
-<span class="file-upload-label">Upload Logo / Design File</span>
-<input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf">
-<span class="file-name">No file selected</span>
-</label>
-<textarea aria-label="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" name="message" rows="6" placeholder="Tell us your product ideas, logo position, packaging needs, deadline, target users and any reference details" required></textarea>
+<option>Corporate gift sets</option><option>Employee welcome kits</option><option>Promotional giveaways</option><option>Executive gift boxes</option><option>Conference or event gifts</option><option>Holiday gift sets</option><option>Drinkware gifts</option><option>Custom packaging only</option><option>Not sure, need recommendation</option>
+</select></div>
+<div class="field"><label for="quote-quantity">Estimated quantity *</label><input id="quote-quantity" type="number" name="quantity" min="1" placeholder="e.g. 500" required></div>
+<div class="field"><label for="quote-budget">Target budget</label><input id="quote-budget" type="text" name="target_budget" placeholder="e.g. USD 8–15 per set"></div>
+<div class="field"><label for="quote-destination">Delivery country / city</label><input id="quote-destination" type="text" name="delivery_destination" autocomplete="country-name"></div>
+<div class="field"><label for="quote-date">Target delivery date</label><input id="quote-date" type="text" name="target_delivery_date" placeholder="e.g. 2026-10-30"></div>
+</div>
+<div class="step-actions"><button class="secondary" type="button" data-step-back>Back</button><button type="button" data-step-next>Continue to Branding</button></div>
+</fieldset>
+<fieldset data-form-step>
+<legend>How should the project look?</legend>
+<p class="step-intro">Add the branding direction, reference file and any details that matter to your team.</p>
+<div class="form-grid">
+<div class="field full"><label for="quote-branding">Logo / branding need</label><select id="quote-branding" name="branding_need">
+<option value="" disabled selected>Logo / Branding Need</option><option>Logo printing</option><option>Laser engraving</option><option>Embroidery</option><option>Custom gift box packaging</option><option>Logo + packaging</option><option>Need recommendation</option>
+</select></div>
+<div class="field full"><label>Optional logo / reference file</label><label class="file-upload"><span class="file-upload-label">Upload Logo / Design File</span><input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf"><span class="file-name">No file selected</span></label><span class="help">JPG, PNG or PDF. You can also send files later by email or WhatsApp.</span></div>
+<div class="field full"><label for="quote-details">Project details *</label><textarea id="quote-details" name="message" rows="6" placeholder="Recipients, product ideas, logo position, packaging needs, sample requirements and reference links." required></textarea></div>
 <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
-<label class="privacy-consent"><input type="checkbox" name="privacy_consent" required> I have read and agree to the <a href="/privacy-policy.html">Privacy Policy</a>.</label><button type="submit">Send Quote Request</button>
+<div class="field full"><label class="privacy-consent"><input type="checkbox" name="privacy_consent" required><span>I have read and agree to the <a href="/privacy-policy.html">Privacy Policy</a>.</span></label></div>
+</div>
+<div data-sendora-turnstile></div>
+<div data-quote-status role="status" aria-live="polite"></div>
+<div class="step-actions"><button class="secondary" type="button" data-step-back>Back</button><button type="submit">Send Quote Request</button></div>
+<p class="form-note">No fixed retail checkout: final MOQ and pricing are confirmed after product, branding, packaging and destination review.</p>
+</fieldset>
 </form>
 <aside class="side-card"><h2>What Helps Prepare an Accurate Quote</h2><ul><li>Product or gift-set direction</li><li>Estimated quantity and target budget</li><li>Logo artwork, product color and branding method if known</li><li>Packaging requirement and insert-card needs</li><li>Delivery country, postal code and target delivery date</li><li>Sample requirement, reference image or product link</li><li>Buyer contact information for follow-up questions</li></ul><p class="help">Final MOQ, pricing, sample needs and freight estimates depend on confirmed product specifications, customization, packaging and destination details.</p></aside>
-</div></section>
+</div></div></section>
 <section class="alt"><div class="container trust-grid"><div class="trust-card"><h3>MOQ and Pricing</h3><p>Final MOQ and pricing depend on selected products, logo method, quantity, packaging and confirmed specifications.</p></div><div class="trust-card"><h3>Sample Requirements</h3><p>Sample needs vary by product, artwork, logo method and packaging complexity.</p></div><div class="trust-card"><h3>Packaging and Freight</h3><p>Shipping estimates require destination details and packed-product carton size or weight when available.</p></div><div class="trust-card"><h3>Not Ready to Quote?</h3><p>Browse <a href="/corporate-gift.html">corporate gift boxes</a>, <a href="/employee-welcome.html">employee welcome kits</a> or <a href="/bulk-corporate-gifts.html">bulk gifts</a>.</p></div></div></section>
 <section class="alt"><div class="container"><h2 style="text-align:center;margin-bottom:24px;color:#222">How We Prepare a More Accurate Quote</h2><div class="trust-grid"><div class="trust-card"><h3>1. Product Direction</h3><p>We compare your preferred items with the recipient, use case, quantity and target budget so the recommended set is realistic for bulk production.</p></div><div class="trust-card"><h3>2. Branding Method</h3><p>Logo printing, engraving, embroidery and packaging labels are quoted based on material, artwork color, logo size and order quantity.</p></div><div class="trust-card"><h3>3. Packaging and Shipping</h3><p>Gift box structure, carton packing, delivery country and deadline can affect both unit price and freight planning, especially for bulky sets.</p></div></div></div></section>
 <section><div class="container"><h2 style="text-align:center;margin-bottom:18px;color:#222">Pre-Submission Checklist</h2><p style="max-width:880px;margin:0 auto 14px;color:#555;text-align:center">Include product direction, quantity, logo file, product color, branding method if known, packaging requirements, delivery country, postal code, target delivery date, sample needs and any reference image or product link.</p><p style="max-width:880px;margin:0 auto;color:#555;text-align:center">Need more guidance first? Review <a href="/custom-logo-gifts.html">logo options</a>, <a href="/corporate-gift-moq-guide.html">MOQ guidance</a>, <a href="/corporate-gift.html">corporate gift boxes</a>, <a href="/employee-welcome.html">employee welcome kits</a> or <a href="/bulk-corporate-gifts.html">bulk gifts</a>.</p></div></section>
@@ -199,6 +241,7 @@ document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
 </script>
 
   <script src="/assets/js/lead-source-tracker.js" defer></script>
+<script src="/assets/js/quote-multistep.js?v=20260818-1" defer></script>
 <script src="/assets/js/quote-form-protection.js?v=20260730-2" defer></script>
 <a id="sendora-whatsapp-float" href="https://wa.me/8613400883682?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#2ee978 0%,#19b85a 58%,#0f9449 100%);border:2px solid rgba(255,255,255,.96);box-shadow:0 12px 28px rgba(13,21,18,.22),0 0 0 7px rgba(37,211,102,.12);color:#fff!important;font-size:0!important;line-height:0!important;text-decoration:none!important;overflow:hidden;">
   <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" style="width:29px;height:29px;display:block;fill:currentColor;flex:0 0 auto;"><path d="M16.04 3.2A12.75 12.75 0 0 0 5.08 22.5L3.7 28.8l6.44-1.7a12.73 12.73 0 0 0 5.9 1.5h.01A12.7 12.7 0 0 0 28.8 15.9 12.73 12.73 0 0 0 16.04 3.2Zm0 23.24h-.01a10.62 10.62 0 0 1-5.4-1.48l-.39-.23-3.82 1.01.81-3.74-.25-.39a10.58 10.58 0 1 1 9.06 4.83Zm5.8-7.94c-.32-.16-1.88-.93-2.17-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-.99 1.24-.18.21-.37.24-.68.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.58-1.88-1.76-2.19-.18-.32-.02-.49.14-.65.14-.14.32-.37.47-.55.16-.18.21-.32.32-.53.11-.21.05-.39-.03-.55-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54h-.61c-.21 0-.55.08-.84.39-.29.32-1.1 1.08-1.1 2.62 0 1.55 1.13 3.04 1.29 3.25.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.66.76.24 1.45.21 1.99.13.61-.09 1.88-.77 2.14-1.51.26-.74.26-1.38.18-1.51-.08-.13-.29-.21-.61-.37Z"/></svg>

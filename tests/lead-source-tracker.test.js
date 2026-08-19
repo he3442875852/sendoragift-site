@@ -49,6 +49,7 @@ function loadTracker({ search = "", referrer = "" } = {}) {
   };
 
   vm.runInNewContext(trackerSource, context);
+  window.SendoraLeadSourceTracker.__testWindow = window;
   return window.SendoraLeadSourceTracker;
 }
 
@@ -60,4 +61,13 @@ test("classifies ChatGPT UTM referrals for GEO reporting", () => {
 test("classifies answer-engine referrers without UTM parameters", () => {
   const tracker = loadTracker({ referrer: "https://www.perplexity.ai/search/corporate-gift-sets" });
   assert.equal(tracker.getData().source_type, "perplexity");
+});
+
+test("pushes generate_lead only when the success handler asks for it", () => {
+  const tracker = loadTracker({ search: "?utm_source=linkedin&utm_medium=referral" });
+  assert.equal(tracker.__testWindow.dataLayer, undefined);
+  tracker.track("generate_lead");
+  assert.equal(tracker.__testWindow.dataLayer.length, 1);
+  assert.equal(tracker.__testWindow.dataLayer[0].event, "generate_lead");
+  assert.equal(tracker.__testWindow.dataLayer[0].source_type, "linkedin");
 });
