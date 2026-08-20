@@ -18,3 +18,5 @@
 | /blog/trade-show-giveaway-kit-budget-guide.html | Trade show budget planning | BlogPosting, FAQPage, BreadcrumbList | Visitor-tier and unit-cost guidance |
 | /blog/custom-mug-gift-box-packaging-ideas.html | Mug gift box packaging | BlogPosting, FAQPage, BreadcrumbList | Protection and packaging layout guidance |
 | /blog/corporate-gift-set-shipping-planning-guide.html | Bulk delivery planning | BlogPosting, FAQPage, BreadcrumbList | Coordination language without promising fixed capability |
+| /corporate-gift-sets-under-15.html | Budget-led gift sets for 100–500 recipients | WebPage, Service, FAQPage, BreadcrumbList | Reference budget directions are not fixed quotations; freight needs destination review |
+| /compact-corporate-gift-sets.html | Compact gift sets and lower shipping volume | WebPage, Service, FAQPage, BreadcrumbList | Use measured product and carton details; do not promise one cheapest route |
