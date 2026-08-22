@@ -96,35 +96,17 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 [
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Sendora Gift",
-    "url": "https://www.sendoragift.com/",
-    "email": "rita@mcpatch.com",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "sales",
-      "email": "rita@mcpatch.com",
-      "availableLanguage": [
-        "English"
-      ]
-    }
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Custom Conference Gifts and Attendee Gift Sets",
     "url": "https://www.sendoragift.com/conference-gift.html",
     "description": "Custom conference gifts and attendee gift sets for event organizers, meetings and sponsor programs with logo branding, packaging and bulk planning support.",
     "isPartOf": {
-      "@type": "WebSite",
-      "name": "Sendora Gift",
-      "url": "https://www.sendoragift.com/"
+      "@id": "https://www.sendoragift.com/#website"
     },
     "provider": {
-      "@type": "Organization",
-      "name": "Sendora Gift",
-      "url": "https://www.sendoragift.com/"
-    }
+      "@id": "https://www.sendoragift.com/#organization"
+    },
+    "@id": "https://www.sendoragift.com/conference-gift.html#webpage"
   },
   {
     "@context": "https://schema.org",
@@ -151,41 +133,10 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
     "serviceType": "custom conference gifts, attendee gift sets, sponsor gifts",
     "description": "Custom conference gifts and attendee gift sets for event organizers, meetings and sponsor programs with logo branding, packaging and bulk planning support.",
     "provider": {
-      "@type": "Organization",
-      "name": "Sendora Gift",
-      "url": "https://www.sendoragift.com/"
+      "@id": "https://www.sendoragift.com/#organization"
     },
-    "areaServed": "Worldwide"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What should event organizers include in a conference gift brief?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Share event type, recipient groups, quantity, sponsor logo needs, venue or delivery country, target date, product direction and packaging requirements."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can attendee, speaker and sponsor gifts be different?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Attendee gifts can prioritize portability, while speaker and sponsor gifts may use more refined products, packaging and insert cards."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How should conference gift samples be reviewed?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Samples or sample photos should be reviewed for logo effect, product quality, packaging fit, sponsor placement and event distribution needs before bulk production."
-        }
-      }
-    ]
+    "areaServed": "Worldwide",
+    "@id": "https://www.sendoragift.com/conference-gift.html#service"
   }
 ]
 </script>
@@ -290,6 +241,30 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
   "@type": "FAQPage",
   "@id": "https://www.sendoragift.com/conference-gift.html#faq",
   "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should event organizers include in a conference gift brief?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Share event type, recipient groups, quantity, sponsor logo needs, venue or delivery country, target date, product direction and packaging requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can attendee, speaker and sponsor gifts be different?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Attendee gifts can prioritize portability, while speaker and sponsor gifts may use more refined products, packaging and insert cards."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should conference gift samples be reviewed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Samples or sample photos should be reviewed for logo effect, product quality, packaging fit, sponsor placement and event distribution needs before bulk production."
+      }
+    },
     {
       "@type": "Question",
       "name": "What should be included in a conference gift bag?",
