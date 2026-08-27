@@ -34,3 +34,4 @@ Disallow: /admin/
 Disallow: /api/
 
 Sitemap: https://www.sendoragift.com/sitemap.xml
+Sitemap: https://www.sendoragift.com/sitemap-geo.xml
