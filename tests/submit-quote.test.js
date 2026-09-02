@@ -91,7 +91,7 @@ function withEmailEnv(fn) {
     INQUIRY_FROM_EMAIL: process.env.INQUIRY_FROM_EMAIL
   };
   process.env.RESEND_API_KEY = "re_test_secret";
-  process.env.INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+  process.env.INQUIRY_TO_EMAIL = "mcpatch@188.com";
   process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
   return Promise.resolve()
     .then(fn)
@@ -244,7 +244,7 @@ test("sends Resend payload with html, text, reply-to, and fixed from address", a
   });
   assert.equal(result.id, "email_123");
   assert.equal(payload.from, "Sendora Gift Website <inquiry@sendoragift.com>");
-  assert.deepEqual(payload.to, ["rita@mcpatch.com"]);
+  assert.deepEqual(payload.to, ["mcpatch@188.com"]);
   assert.equal(payload.reply_to, "jane@example.com");
   assert.notEqual(payload.from, "jane@example.com");
   assert.match(payload.subject, /New inquiry Bcc:/);
@@ -255,7 +255,7 @@ test("sends Resend payload with html, text, reply-to, and fixed from address", a
 test("fails safely when RESEND_API_KEY is missing", async () => {
   const previous = process.env.RESEND_API_KEY;
   delete process.env.RESEND_API_KEY;
-  process.env.INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+  process.env.INQUIRY_TO_EMAIL = "mcpatch@188.com";
   process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
   await assert.rejects(
     _test.sendInquiryEmail(baseFields(), [], {}),
@@ -265,15 +265,36 @@ test("fails safely when RESEND_API_KEY is missing", async () => {
   else process.env.RESEND_API_KEY = previous;
 });
 
-test("fails safely when recipient email is missing", async () => {
+test("uses the current recipient email when recipient env is missing", async () => {
   const previous = process.env.INQUIRY_TO_EMAIL;
   process.env.RESEND_API_KEY = "re_test_secret";
   delete process.env.INQUIRY_TO_EMAIL;
   process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
-  await assert.rejects(
-    _test.sendInquiryEmail(baseFields(), [], {}),
-    (error) => error.publicType === "service" && error.status === 503 && /INQUIRY_TO_EMAIL/.test(error.safeMessage)
-  );
+  let payload;
+  await _test.sendInquiryEmail(baseFields(), [], {}, {
+    fetch: async (url, options) => {
+      payload = JSON.parse(options.body);
+      return new Response(JSON.stringify({ id: "email_default_recipient" }), { status: 200 });
+    }
+  });
+  assert.deepEqual(payload.to, ["mcpatch@188.com"]);
+  if (previous === undefined) delete process.env.INQUIRY_TO_EMAIL;
+  else process.env.INQUIRY_TO_EMAIL = previous;
+});
+
+test("routes a legacy recipient env value to the current email", async () => {
+  const previous = process.env.INQUIRY_TO_EMAIL;
+  process.env.RESEND_API_KEY = "re_test_secret";
+  process.env.INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+  process.env.INQUIRY_FROM_EMAIL = "inquiry@sendoragift.com";
+  let payload;
+  await _test.sendInquiryEmail(baseFields(), [], {}, {
+    fetch: async (url, options) => {
+      payload = JSON.parse(options.body);
+      return new Response(JSON.stringify({ id: "email_legacy_recipient" }), { status: 200 });
+    }
+  });
+  assert.deepEqual(payload.to, ["mcpatch@188.com"]);
   if (previous === undefined) delete process.env.INQUIRY_TO_EMAIL;
   else process.env.INQUIRY_TO_EMAIL = previous;
 });

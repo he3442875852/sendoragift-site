@@ -3,7 +3,7 @@
 - Brand: Sendora Gift
 - Legal company: Shenzhen Gelinhong Technology Co., Ltd.
 - Address: Room 202, Building D, No. 122 Tongxin Road, Pingdong, Central Community, Pingdi Subdistrict, Shenzhen, China
-- Contact email: rita@mcpatch.com
+- Contact email: mcpatch@188.com
 - WhatsApp: +86 134 0088 3682
 - WhatsApp URL: https://wa.me/8613400883682
 - Alibaba supplier profile: https://gelinhong.en.alibaba.com/
