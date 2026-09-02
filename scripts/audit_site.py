@@ -1,7 +1,7 @@
 from pathlib import Path
 import re, sys
 ROOT=Path('.').resolve(); errors=[]; warnings=[]
-COMPANY='Shenzhen Gelinhong Technology Co., Ltd.'; EMAIL='rita@mcpatch.com'; ALIBABA='https://gelinhong.en.alibaba.com/'
+COMPANY='Shenzhen Gelinhong Technology Co., Ltd.'; EMAIL='mcpatch@188.com'; ALIBABA='https://gelinhong.en.alibaba.com/'
 def fail(p,m): errors.append(f'{p}: {m}')
 def warn(p,m): warnings.append(f'{p}: {m}')
 htmls=[p for p in ROOT.rglob('*.html') if '.git' not in p.parts and not p.name.startswith('google')]

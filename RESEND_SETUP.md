@@ -16,7 +16,7 @@ Add these variables to the Vercel project:
 
 ```text
 RESEND_API_KEY=fill in the Resend API key in Vercel
-INQUIRY_TO_EMAIL=rita@mcpatch.com
+INQUIRY_TO_EMAIL=mcpatch@188.com
 INQUIRY_FROM_EMAIL=inquiry@sendoragift.com
 ```
 
@@ -31,8 +31,8 @@ Do not commit API keys, mailbox passwords, or other secrets to GitHub.
 3. Wait for Resend domain verification to succeed before testing production email delivery.
 4. Submit one inquiry without an attachment.
 5. Submit one inquiry with a PNG or PDF attachment.
-6. Check the inbox and spam folder for `rita@mcpatch.com`.
+6. Check the inbox and spam folder for `mcpatch@188.com`.
 7. Confirm the Reply button replies to the customer email address from the form.
 8. After Resend is confirmed working, remove the old legacy forwarding URL variable from Vercel.
 
-`inquiry@sendoragift.com` is used as the verified sender address. It does not necessarily need to exist as a real receiving mailbox, depending on Resend domain verification rules. The actual inquiry recipient is `rita@mcpatch.com`.
+`inquiry@sendoragift.com` is used as the verified sender address. It does not necessarily need to exist as a real receiving mailbox, depending on Resend domain verification rules. The actual inquiry recipient is `mcpatch@188.com`.
