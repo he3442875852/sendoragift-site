@@ -7,7 +7,12 @@
   <title>询盘后台 | Sendora Gift</title>
   <link rel="icon" href="/favicon.webp" type="image/webp">
   <link rel="stylesheet" href="/admin/admin.css">
-  <style>[hidden]{display:none!important}</style>
+  <style>
+    [hidden]{display:none!important}
+    .row-actions{white-space:nowrap}
+    .danger-link{color:var(--red);margin-left:8px}
+    .link-button:disabled{cursor:not-allowed;opacity:.45}
+  </style>
 </head>
 <body>
   <section class="login-shell" id="loginShell" hidden>
@@ -50,7 +55,7 @@
     <section class="panel table-panel">
       <div class="table-wrap">
         <table>
-          <thead><tr><th>时间</th><th>编号 / 客户</th><th>渠道</th><th>来源 / 关键词</th><th>入口页</th><th>状态</th><th></th></tr></thead>
+          <thead><tr><th>时间</th><th>编号 / 客户</th><th>渠道</th><th>来源 / 关键词</th><th>入口页</th><th>状态</th><th>操作</th></tr></thead>
           <tbody id="leadRows"></tbody>
         </table>
       </div>
