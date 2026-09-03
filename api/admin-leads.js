@@ -1,7 +1,7 @@
 "use strict";
 
 const { isAuthorized, verifyPassword } = require("../lib/admin-auth.js");
-const { listInquiries, updateInquiry } = require("../lib/tracking-store.js");
+const { deleteSpamInquiry, listInquiries, updateInquiry } = require("../lib/tracking-store.js");
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -34,7 +34,7 @@ function requestIsAuthorized(req, body) {
 module.exports = async function handler(req, res) {
   let body = {};
   try {
-    if (req.method === "POST" || req.method === "PATCH") body = await readJson(req);
+    if (req.method === "POST" || req.method === "PATCH" || req.method === "DELETE") body = await readJson(req);
   } catch (_) {
     send(res, 400, { ok: false, message: "Invalid request." });
     return;
@@ -72,11 +72,23 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    res.setHeader("Allow", "GET, POST, PATCH");
+    if (req.method === "DELETE") {
+      const deleted = await deleteSpamInquiry(body.id);
+      send(res, 200, { ok: true, deleted_id: deleted.id });
+      return;
+    }
+
+    res.setHeader("Allow", "GET, POST, PATCH, DELETE");
     send(res, 405, { ok: false });
   } catch (error) {
     const unavailable = error.code === "TRACKING_NOT_CONFIGURED";
-    send(res, unavailable ? 503 : 400, { ok: false, message: unavailable ? "Inquiry database is not configured." : "Could not complete the request." });
+    const notDeletable = error.code === "INQUIRY_NOT_DELETABLE";
+    send(res, unavailable ? 503 : (notDeletable ? 409 : 400), {
+      ok: false,
+      message: unavailable
+        ? "Inquiry database is not configured."
+        : (notDeletable ? "只有垃圾询盘可以删除，请刷新列表后重试。" : "Could not complete the request.")
+    });
   }
 };
 

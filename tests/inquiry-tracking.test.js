@@ -1,6 +1,7 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const { Readable } = require("node:stream");
 const { test } = require("node:test");
 const auth = require("../lib/admin-auth.js");
 const store = require("../lib/tracking-store.js");
@@ -63,6 +64,37 @@ test("writes through server-only Supabase REST credentials", async () => withEnv
   assert.equal(result[0].id, "test-id");
 }));
 
+test("deletes a spam inquiry through the server-only Supabase connection", async () => withEnv({
+  SUPABASE_URL: "https://project.supabase.co",
+  SUPABASE_SERVICE_ROLE_KEY: "service-role-test"
+}, async () => {
+  let request;
+  const inquiryId = "12345678-1234-1234-1234-123456789abc";
+  const result = await store.deleteSpamInquiry(inquiryId, {
+    fetch: async (url, options) => {
+      request = { url, options };
+      return new Response(JSON.stringify([{ id: inquiryId, status: "spam" }]), { status: 200 });
+    }
+  });
+  assert.match(request.url, /\/rest\/v1\/inquiries\?id=eq\.12345678-1234-1234-1234-123456789abc&status=eq\.spam$/);
+  assert.equal(request.options.method, "DELETE");
+  assert.equal(request.options.headers.apikey, "service-role-test");
+  assert.equal(request.options.headers.Prefer, "return=representation");
+  assert.equal(result.id, inquiryId);
+}));
+
+test("refuses deletion when the inquiry is missing or no longer marked as spam", async () => withEnv({
+  SUPABASE_URL: "https://project.supabase.co",
+  SUPABASE_SERVICE_ROLE_KEY: "service-role-test"
+}, async () => {
+  await assert.rejects(
+    store.deleteSpamInquiry("12345678-1234-1234-1234-123456789abc", {
+      fetch: async () => new Response("[]", { status: 200 })
+    }),
+    (error) => error.code === "INQUIRY_NOT_DELETABLE"
+  );
+}));
+
 test("admin session is signed, expires, and rejects tampering", () => withEnv({
   ADMIN_DASHBOARD_PASSWORD: "a-long-admin-password",
   ADMIN_DASHBOARD_SECRET: "0123456789abcdef0123456789abcdef0123456789abcdef"
@@ -101,6 +133,45 @@ test("admin data requests can authenticate with the verified password in the enc
   const req = { headers: {} };
   assert.equal(adminLeads._test.requestIsAuthorized(req, { admin_password: "DirectRequestPassword2026" }), true);
   assert.equal(adminLeads._test.requestIsAuthorized(req, { admin_password: "wrong-password" }), false);
+}));
+
+test("admin delete endpoint accepts an authenticated spam deletion request", async () => withEnv({
+  ADMIN_DASHBOARD_PASSWORD: "DirectRequestPassword2026",
+  SUPABASE_URL: "https://project.supabase.co",
+  SUPABASE_SERVICE_ROLE_KEY: "service-role-test"
+}, async () => {
+  const inquiryId = "12345678-1234-1234-1234-123456789abc";
+  const previousFetch = global.fetch;
+  let databaseRequest;
+  global.fetch = async (url, options) => {
+    databaseRequest = { url, options };
+    return new Response(JSON.stringify([{ id: inquiryId, status: "spam" }]), { status: 200 });
+  };
+  try {
+    const req = Readable.from([Buffer.from(JSON.stringify({
+      id: inquiryId,
+      admin_password: "DirectRequestPassword2026"
+    }))]);
+    req.method = "DELETE";
+    req.headers = {};
+    let responseBody = "";
+    const responseHeaders = {};
+    const res = {
+      statusCode: 0,
+      setHeader(name, value) { responseHeaders[name] = value; },
+      end(value) { responseBody = value; }
+    };
+
+    await adminLeads(req, res);
+
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(JSON.parse(responseBody), { ok: true, deleted_id: inquiryId });
+    assert.equal(databaseRequest.options.method, "DELETE");
+    assert.match(databaseRequest.url, /status=eq\.spam$/);
+    assert.equal(responseHeaders["Cache-Control"], "no-store");
+  } finally {
+    global.fetch = previousFetch;
+  }
 }));
 
 test("public WhatsApp tracking accepts only Sendora HTTPS pages", () => {
