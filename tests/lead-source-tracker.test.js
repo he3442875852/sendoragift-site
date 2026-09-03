@@ -72,3 +72,15 @@ test("pushes generate_lead only when the success handler asks for it", () => {
   assert.equal(tracker.__testWindow.dataLayer[0].source_type, "linkedin");
   assert.equal(tracker.__testWindow.dataLayer[0].lead_ref, undefined);
 });
+
+test("prefills WhatsApp with broad gift requirements and a tracking reference", () => {
+  const tracker = loadTracker();
+  const url = new URL(tracker.whatsapp.getUrl());
+  const message = url.searchParams.get("text");
+
+  assert.match(message, /I'm looking for customized gifts/);
+  assert.match(message, /Gift type or items: \[please enter\]/);
+  assert.match(message, /Quantity: \[please enter\]/);
+  assert.match(message, /Delivery country: \[please enter\]/);
+  assert.match(message, /Inquiry reference: SG-\d{8}-[A-Z2-9]{8}$/);
+});
