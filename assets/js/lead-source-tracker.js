@@ -3,7 +3,7 @@
 
   var GA4_MEASUREMENT_ID = "G-2Y0286VCBM";
   var WHATSAPP_NUMBER = "8613400883682";
-  var WHATSAPP_MESSAGE = "Hello Sendora Gift, I need a custom corporate gift set with: [type the items here]. Please recommend suitable options and provide the MOQ, price range, and lead time.";
+  var WHATSAPP_MESSAGE = "Hi Sendora Gift, I'm looking for customized gifts.\n\nGift type or items: [please enter]\nQuantity: [please enter]\nDelivery country: [please enter]\n\nPlease recommend suitable options and share the MOQ, estimated price range, and lead time.";
 
   var FIELD_NAMES = [
     "lead_ref",
