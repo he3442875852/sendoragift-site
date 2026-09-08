@@ -7,8 +7,8 @@ const MAX_BODY_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_BODY_BYTES || 
 const MAX_ATTACHMENT_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_ATTACHMENT_BYTES || MAX_BODY_BYTES), MAX_BODY_BYTES);
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const RESEND_EMAILS_URL = "https://api.resend.com/emails";
-const CURRENT_INQUIRY_TO_EMAIL = "mcpatch@188.com";
-const LEGACY_INQUIRY_TO_EMAIL = "rita@mcpatch.com";
+const CURRENT_INQUIRY_TO_EMAIL = "sales@sendoragift.com";
+const LEGACY_INQUIRY_TO_EMAILS = new Set(["rita@mcpatch.com", "mcpatch@188.com"]);
 const RESEND_TIMEOUT_MS = Math.min(Math.max(Number(process.env.RESEND_TIMEOUT_MS || 12000), 1000), 15000);
 const SUCCESS_MESSAGE = "Thank you. Your quote request has been submitted successfully.";
 const FORM_ERROR_MESSAGE = "Please check the form information and try again.";
@@ -520,7 +520,7 @@ function getEmailConfig() {
   const missing = [];
   const apiKey = process.env.RESEND_API_KEY || "";
   const configuredToEmail = String(process.env.INQUIRY_TO_EMAIL || "").trim();
-  const toEmail = !configuredToEmail || configuredToEmail.toLowerCase() === LEGACY_INQUIRY_TO_EMAIL
+  const toEmail = !configuredToEmail || LEGACY_INQUIRY_TO_EMAILS.has(configuredToEmail.toLowerCase())
     ? CURRENT_INQUIRY_TO_EMAIL
     : configuredToEmail;
   const fromEmail = process.env.INQUIRY_FROM_EMAIL || "";
