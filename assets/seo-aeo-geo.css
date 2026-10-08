@@ -178,6 +178,7 @@
   .sendora-geo-list-grid,
   .sendora-mini-grid,
   .sendora-faq-grid,
+  .sendora-faq-wrap,
   .sendora-process-list {
     grid-template-columns: 1fr;
   }

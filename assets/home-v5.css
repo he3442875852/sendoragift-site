@@ -88,7 +88,7 @@ img{max-width:100%;height:auto;display:block}
   padding: 0;
 }
 
-.home-logo {
+.home-page .home-logo {
   display: inline-flex;
   flex-direction: column;
   color: var(--home-white);
@@ -198,7 +198,7 @@ img{max-width:100%;height:auto;display:block}
   color: var(--home-white);
   background:
     radial-gradient(circle at 74% 28%, rgba(181, 138, 74, 0.12), transparent 32%),
-    linear-gradient(120deg, var(--home-dark) 0%, var(--home-dark-soft) 54%, var(--home-ivory) 54%, var(--home-ivory) 100%);
+    linear-gradient(90deg, var(--home-dark) 0%, var(--home-dark-soft) 56%, var(--home-ivory) 56%, var(--home-ivory) 100%);
 }
 
 .hero-layout {

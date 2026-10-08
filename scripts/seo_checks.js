@@ -42,6 +42,26 @@ function stripTags(value) {
     .trim();
 }
 
+function normalizeVisibleText(value) {
+  const entities = { amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', nbsp: ' ', ndash: '–', mdash: '—', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“' };
+  return stripTags(value)
+    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity) => {
+      if (entity[0] !== '#') return entities[entity.toLowerCase()] ?? match;
+      const code = entity[1].toLowerCase() === 'x' ? parseInt(entity.slice(2), 16) : Number(entity.slice(1));
+      return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : match;
+    })
+    .replace(/\s+/g, ' ').trim();
+}
+
+function schemaNodes(value, nodes = []) {
+  if (Array.isArray(value)) value.forEach(item => schemaNodes(item, nodes));
+  else if (value && typeof value === 'object') {
+    nodes.push(value);
+    Object.values(value).forEach(item => schemaNodes(item, nodes));
+  }
+  return nodes;
+}
+
 function getContent(html, pattern) {
   const match = html.match(pattern);
   return match ? match[1].trim() : '';
@@ -161,6 +181,33 @@ for (const file of htmlFiles) {
   }
 
   if (indexable) {
+    const visibleText = normalizeVisibleText(html);
+    const nodes = [];
+    for (const block of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+      try { schemaNodes(JSON.parse(block[1]), nodes); }
+      catch (error) { errors.push(`${rel(file)} has invalid JSON-LD: ${error.message}`); }
+    }
+    const faqs = nodes.filter(node => [].concat(node['@type'] || []).includes('FAQPage'));
+    if (faqs.length > 1) errors.push(`${rel(file)} declares ${faqs.length} FAQPage nodes; consolidate its visible questions.`);
+    for (const faq of faqs) {
+      const names = new Set();
+      for (const question of faq.mainEntity || []) {
+        const name = normalizeVisibleText(question.name);
+        const answer = normalizeVisibleText(question.acceptedAnswer?.text);
+        if (!name || !answer || !visibleText.includes(name) || !visibleText.includes(answer)) {
+          errors.push(`${rel(file)} FAQ schema does not match visible text: ${name || '(missing question)'}`);
+        }
+        if (names.has(name)) errors.push(`${rel(file)} repeats an FAQ schema question: ${name}`);
+        names.add(name);
+      }
+    }
+    const markup = html.replace(/<script\b[\s\S]*?<\/script>/gi, '').replace(/<style\b[\s\S]*?<\/style>/gi, '');
+    const ids = new Set([...markup.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]));
+    for (const label of markup.matchAll(/\baria-labelledby=["']([^"']+)["']/gi)) {
+      for (const id of label[1].split(/\s+/)) {
+        if (!ids.has(id)) errors.push(`${rel(file)} references missing aria-labelledby ID ${id}.`);
+      }
+    }
     const h1s = html.match(/<h1\b[\s\S]*?<\/h1>/gi) || [];
     if (h1s.length === 0) errors.push(`${rel(file)} (${route}) is missing an H1.`);
     if (h1s.length > 1) warnings.push(`${rel(file)} (${route}) has ${h1s.length} H1 tags.`);

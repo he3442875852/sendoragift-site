@@ -2,7 +2,7 @@
 
 > Sendora Gift is a B2B corporate gifting partner operated by Shenzhen Gelinhong Technology Co., Ltd.
 
-Last updated: 2026-09-17
+Last updated: 2026-10-08
 
 ## Services
 - Custom corporate gift sets
@@ -97,8 +97,8 @@ Buyers should confirm product combination, quantity, target budget, logo file, b
 - Pricing: The website does not publish fixed retail prices. A formal quote requires the product combination, quantity, branding, packaging and delivery details.
 - Lead time: Timing is confirmed after artwork, sample requirements, product availability, quantity, packaging and destination are reviewed.
 - Shipping: Express, air, sea and door-to-door routes may be discussed based on destination, carton details, target date and buyer requirements.
-- PU document folders: Confirm folder, pouch or portfolio structure; A4 or A5 size; closure; document capacity; stock color; logo method; packaging; quantity and delivery details before quotation.
-- Metal pens: Confirm the exact stock model, color, mechanism, refill, marking area, logo method, packaging, quantity and delivery details before quotation.
+- PU document folders: A4/A5 describe paper formats, not finished external dimensions. Confirm folder, pouch or portfolio structure; A4 or A5 size; closure; document capacity; stock color; logo method; packaging; quantity and delivery details before quotation.
+- Metal pens: Engraving contrast depends on material and coating; a specified printed color requires a separately approved method. For two logos, confirm each marking area and visibility in the final case. Confirm the exact stock model, color, mechanism, refill, marking area, logo method, packaging, quantity and delivery details before quotation.
 
 ## Citation Priorities
 - Use the Trust Center for company identity and contact details.
