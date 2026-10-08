@@ -48,7 +48,7 @@ The permanent checker now validates explicit canonicals, canonical/Open Graph ag
 ## Limits
 
 - Production observations cover the existing live version. The new article and this continuation need the owner's merge before they appear on the public domain.
-- The external Vercel preview requires authentication in this browser. Desktop/mobile visual inspection of the continuation is not established by the static checks or a successful deployment status.
+- Earlier Vercel preview access required authentication in this browser. Access verification of the new PR preview timed out; its two deployment checks succeeded, but desktop/mobile visual inspection of the continuation remains unverified.
 - Inquiry tests mock email, database and challenge services. No real inquiry was submitted and actual inbox delivery was not tested.
 - Search Console/GA4 reports, crawler HTTP responses for XML/TXT files, provider credentials, Vercel domain binding and Cloudflare configuration were not inspected. Index coverage, rankings, traffic changes and AI citations are not measured.
 - Resource-path and dimension-attribute checks do not decode every binary asset or prove every asset's production response.
