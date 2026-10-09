@@ -195,9 +195,46 @@ for (const file of htmlFiles) {
       try { schemaNodes(JSON.parse(block[1]), nodes); }
       catch (error) { errors.push(`${rel(file)} has invalid JSON-LD: ${error.message}`); }
     }
+    const organizationId = `${siteOrigin}/#organization`;
+    const organizations = nodes.filter(node => [].concat(node['@type'] || []).includes('Organization'));
+    for (const organization of organizations) {
+      for (const area of [].concat(organization.areaServed || [])) {
+        const areaText = typeof area === 'string' ? area : area?.name || '';
+        const areaTypes = typeof area === 'object' ? [].concat(area['@type'] || []) : [];
+        if (/\b(?:teams?|buyers?|procurement|organizers?|agents?|distributors?|employees?|HR)\b/i.test(areaText) || areaTypes.some(type => ['Person', 'Organization', 'Audience'].includes(type))) {
+          errors.push(`${rel(file)} organization areaServed describes buyer roles instead of a geographic area.`);
+          break;
+        }
+      }
+    }
     const articles = nodes.filter(node => [].concat(node['@type'] || []).some(type => ['Article', 'BlogPosting', 'NewsArticle'].includes(type)));
     for (const article of articles) {
       if (!article.image) errors.push(`${rel(file)} article schema is missing its representative image.`);
+      const ogType = getContent(html, /<meta\s+[^>]*property=["']og:type["'][^>]*content=["']([^"']*)["'][^>]*>/i) ||
+        getContent(html, /<meta\s+[^>]*content=["']([^"']*)["'][^>]*property=["']og:type["'][^>]*>/i);
+      if (ogType !== 'article') errors.push(`${rel(file)} article must use the article Open Graph type.`);
+      for (const field of ['author', 'publisher']) {
+        if (article[field]?.['@id'] !== organizationId) errors.push(`${rel(file)} article ${field} must identify the shared Sendora Gift organization.`);
+      }
+      const author = organizations.find(node => node['@id'] === organizationId && node.name === 'Sendora Gift' && node.url === `${siteOrigin}/`);
+      if (!author) errors.push(`${rel(file)} article is missing an identifiable Sendora Gift organization.`);
+      const bylines = [...html.matchAll(/<p\b[^>]*class=["'][^"']*\b(?:article-byline|news-meta|case-meta)\b[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi)].map(match => match[1]);
+      if (!bylines.some(line => /\bBy Sendora Gift\b/.test(normalizeVisibleText(line)))) {
+        errors.push(`${rel(file)} article must show its Sendora Gift byline.`);
+      }
+      let visibleDates = 0;
+      for (const line of bylines) {
+        for (const date of line.matchAll(/\b(Published|Updated)\s*<time\b[^>]*datetime=["']([^"']+)["'][^>]*>([^<]+)<\/time>/gi)) {
+          visibleDates++;
+          const field = date[1].toLowerCase() === 'published' ? 'datePublished' : 'dateModified';
+          const timestamp = Date.parse(date[2]);
+          const displayedDay = Date.parse(`${normalizeVisibleText(date[3])} UTC`);
+          if (!article[field] || date[2].slice(0, 10) !== article[field].slice(0, 10) || !Number.isFinite(timestamp) || displayedDay !== Date.parse(date[2].slice(0, 10))) {
+            errors.push(`${rel(file)} visible ${date[1].toLowerCase()} date differs from its article schema or displayed text.`);
+          }
+        }
+      }
+      if (!visibleDates) errors.push(`${rel(file)} article must show a labeled publication or revision date.`);
       const mainEntityUrl = typeof article.mainEntityOfPage === 'string' ? article.mainEntityOfPage : article.mainEntityOfPage?.['@id'];
       if (mainEntityUrl && normalizeUrl(mainEntityUrl) !== canonical) {
         errors.push(`${rel(file)} article mainEntityOfPage differs from its canonical URL.`);

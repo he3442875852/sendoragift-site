@@ -3,3 +3,6 @@ html{scroll-behavior:smooth}body{letter-spacing:0}img,picture,video,canvas,svg{m
 
 /* Images in illustrative planning references. */
 .case-reference{max-width:700px;margin:28px auto 0}.case-reference img{width:100%;height:auto;border-radius:8px}.case-reference figcaption{margin-top:10px;color:#625f58;font-size:14px;line-height:1.6}.hero .case-meta{font-size:14px;margin:8px 0 18px}
+
+/* Visible authorship and original article dates. */
+.hero .article-byline,.guide-hero .article-byline{font-size:14px;line-height:1.7;margin:0 auto 18px;color:rgba(255,255,255,.88)}.guide-hero .article-byline{margin-left:0}.hero .article-byline a,.guide-hero .article-byline a{color:inherit;text-decoration:underline;text-underline-offset:3px}.hero .article-byline a:hover,.guide-hero .article-byline a:hover{color:#fff}
