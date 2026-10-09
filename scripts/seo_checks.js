@@ -181,11 +181,88 @@ for (const file of htmlFiles) {
   }
 
   if (indexable) {
+    const expectedCanonical = `${siteOrigin}${route}`;
+    const hasCanonical = /<link\s+[^>]*rel=["']canonical["']/i.test(html);
+    if (!hasCanonical || canonical !== expectedCanonical) {
+      errors.push(`${rel(file)} must declare its canonical route ${expectedCanonical}.`);
+    }
+    const ogUrl = getContent(html, /<meta\s+[^>]*property=["']og:url["'][^>]*content=["']([^"']*)["'][^>]*>/i) ||
+      getContent(html, /<meta\s+[^>]*content=["']([^"']*)["'][^>]*property=["']og:url["'][^>]*>/i);
+    if (ogUrl !== canonical) errors.push(`${rel(file)} og:url differs from its canonical URL.`);
     const visibleText = normalizeVisibleText(html);
     const nodes = [];
     for (const block of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
       try { schemaNodes(JSON.parse(block[1]), nodes); }
       catch (error) { errors.push(`${rel(file)} has invalid JSON-LD: ${error.message}`); }
+    }
+    const organizationId = `${siteOrigin}/#organization`;
+    const organizations = nodes.filter(node => [].concat(node['@type'] || []).includes('Organization'));
+    for (const organization of organizations) {
+      for (const area of [].concat(organization.areaServed || [])) {
+        const areaText = typeof area === 'string' ? area : area?.name || '';
+        const areaTypes = typeof area === 'object' ? [].concat(area['@type'] || []) : [];
+        if (/\b(?:teams?|buyers?|procurement|organizers?|agents?|distributors?|employees?|HR)\b/i.test(areaText) || areaTypes.some(type => ['Person', 'Organization', 'Audience'].includes(type))) {
+          errors.push(`${rel(file)} organization areaServed describes buyer roles instead of a geographic area.`);
+          break;
+        }
+      }
+    }
+    const articles = nodes.filter(node => [].concat(node['@type'] || []).some(type => ['Article', 'BlogPosting', 'NewsArticle'].includes(type)));
+    for (const article of articles) {
+      if (!article.image) errors.push(`${rel(file)} article schema is missing its representative image.`);
+      const ogType = getContent(html, /<meta\s+[^>]*property=["']og:type["'][^>]*content=["']([^"']*)["'][^>]*>/i) ||
+        getContent(html, /<meta\s+[^>]*content=["']([^"']*)["'][^>]*property=["']og:type["'][^>]*>/i);
+      if (ogType !== 'article') errors.push(`${rel(file)} article must use the article Open Graph type.`);
+      for (const field of ['author', 'publisher']) {
+        if (article[field]?.['@id'] !== organizationId) errors.push(`${rel(file)} article ${field} must identify the shared Sendora Gift organization.`);
+      }
+      const author = organizations.find(node => node['@id'] === organizationId && node.name === 'Sendora Gift' && node.url === `${siteOrigin}/`);
+      if (!author) errors.push(`${rel(file)} article is missing an identifiable Sendora Gift organization.`);
+      const bylines = [...html.matchAll(/<p\b[^>]*class=["'][^"']*\b(?:article-byline|news-meta|case-meta)\b[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi)].map(match => match[1]);
+      if (!bylines.some(line => /\bBy Sendora Gift\b/.test(normalizeVisibleText(line)))) {
+        errors.push(`${rel(file)} article must show its Sendora Gift byline.`);
+      }
+      let visibleDates = 0;
+      for (const line of bylines) {
+        for (const date of line.matchAll(/\b(Published|Updated)\s*<time\b[^>]*datetime=["']([^"']+)["'][^>]*>([^<]+)<\/time>/gi)) {
+          visibleDates++;
+          const field = date[1].toLowerCase() === 'published' ? 'datePublished' : 'dateModified';
+          const timestamp = Date.parse(date[2]);
+          const displayedDay = Date.parse(`${normalizeVisibleText(date[3])} UTC`);
+          if (!article[field] || date[2].slice(0, 10) !== article[field].slice(0, 10) || !Number.isFinite(timestamp) || displayedDay !== Date.parse(date[2].slice(0, 10))) {
+            errors.push(`${rel(file)} visible ${date[1].toLowerCase()} date differs from its article schema or displayed text.`);
+          }
+        }
+      }
+      if (!visibleDates) errors.push(`${rel(file)} article must show a labeled publication or revision date.`);
+      const mainEntityUrl = typeof article.mainEntityOfPage === 'string' ? article.mainEntityOfPage : article.mainEntityOfPage?.['@id'];
+      if (mainEntityUrl && normalizeUrl(mainEntityUrl) !== canonical) {
+        errors.push(`${rel(file)} article mainEntityOfPage differs from its canonical URL.`);
+      }
+      for (const field of ['datePublished', 'dateModified']) {
+        if (article[field] && !Number.isFinite(Date.parse(article[field]))) {
+          errors.push(`${rel(file)} article has an invalid ${field}.`);
+        }
+      }
+      if (article.datePublished && article.dateModified && Date.parse(article.dateModified) < Date.parse(article.datePublished)) {
+        errors.push(`${rel(file)} article dateModified precedes datePublished.`);
+      }
+    }
+    if (route === '/blog/') {
+      const list = nodes.find(node => node['@type'] === 'ItemList' && node['@id'] === `${canonical}#articles`);
+      if (!list) errors.push('blog/index.html must describe its visible article directory as an ItemList.');
+      else {
+        const items = list.itemListElement || [];
+        const linkedUrls = new Set([...html.matchAll(/<a\b[^>]*href=["']([^"']+)["']/gi)].map(match => normalizeUrl(new URL(match[1], canonical).href)));
+        const listedUrls = new Set();
+        if (list.numberOfItems !== items.length) errors.push('blog/index.html article count differs from its ItemList.');
+        items.forEach((item, index) => {
+          if (item.position !== index + 1 || !item.name || !linkedUrls.has(item.url) || listedUrls.has(item.url)) {
+            errors.push(`blog/index.html has an invalid or invisible article listing: ${item.url || '(missing URL)'}`);
+          }
+          listedUrls.add(item.url);
+        });
+      }
     }
     const faqs = nodes.filter(node => [].concat(node['@type'] || []).includes('FAQPage'));
     if (faqs.length > 1) errors.push(`${rel(file)} declares ${faqs.length} FAQPage nodes; consolidate its visible questions.`);
@@ -294,23 +371,35 @@ pushGroupedDuplicates(errors, 'Meta description', descriptions);
 
 const sitemapPath = path.join(root, 'sitemap.xml');
 const sitemap = fs.readFileSync(sitemapPath, 'utf8');
-const sitemapUrls = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].trim()));
+const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].trim());
+const sitemapUrls = new Set(sitemapLocations);
+if (sitemapUrls.size !== sitemapLocations.length) errors.push('sitemap.xml contains duplicate URLs.');
+const indexableCanonicals = new Set(pageData.filter(item => item.indexable).map(item => item.canonical));
 for (const page of pageData.filter(item => item.indexable)) {
   if (!sitemapUrls.has(page.canonical)) errors.push(`${rel(page.file)} canonical URL is missing from sitemap.xml: ${page.canonical}`);
 }
 for (const loc of sitemapUrls) {
   const parsed = normalizeUrl(loc);
-  if (!parsed) continue;
+  if (!parsed) { errors.push(`sitemap.xml includes a URL outside the canonical site origin: ${loc}`); continue; }
+  if (!indexableCanonicals.has(loc)) errors.push(`sitemap.xml includes a non-indexable or non-canonical URL: ${loc}`);
   const route = new URL(loc).pathname;
   if (redirectSources.has(route)) errors.push(`sitemap.xml includes redirected URL ${loc}.`);
   const target = fileForRoute(route);
   if (!fs.existsSync(target)) errors.push(`sitemap.xml URL does not resolve to a local HTML file: ${loc}`);
 }
+const geoSitemapPath = path.join(root, 'sitemap-geo.xml');
+if (fs.existsSync(geoSitemapPath)) {
+  const geoUrls = [...fs.readFileSync(geoSitemapPath, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].trim());
+  if (new Set(geoUrls).size !== geoUrls.length) errors.push('sitemap-geo.xml contains duplicate URLs.');
+  for (const loc of geoUrls) {
+    if (!sitemapUrls.has(loc)) errors.push(`sitemap-geo.xml includes a URL absent from sitemap.xml: ${loc}`);
+  }
+}
 
 for (const page of pageData) {
   for (const link of page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
     const href = link[1].trim();
-    if (!href || href.startsWith('#') || /^(mailto:|tel:|javascript:|sms:|whatsapp:)/i.test(href)) continue;
+    if (!href || href === '#' || /^(mailto:|tel:|javascript:|sms:|whatsapp:)/i.test(href)) continue;
     let parsed;
     try {
       parsed = new URL(href, `${siteOrigin}${page.route}`);
@@ -320,7 +409,10 @@ for (const page of pageData) {
     }
     if (parsed.origin !== siteOrigin) continue;
     const targetRoute = parsed.pathname;
-    if (redirectSources.has(targetRoute)) continue;
+    if (redirectSources.has(targetRoute)) {
+      if (page.indexable) errors.push(`${rel(page.file)} links through a redirect instead of its canonical destination: ${href}`);
+      continue;
+    }
     const targetFile = fileForRoute(targetRoute);
     if (!fs.existsSync(targetFile)) errors.push(`${rel(page.file)} links to missing route ${href}`);
     if (parsed.hash && fs.existsSync(targetFile)) {
@@ -331,6 +423,28 @@ for (const page of pageData) {
       }
     }
   }
+}
+
+// A page's own fragment links must not hide a disconnected cluster.
+const indexableByRoute = new Map(pageData.filter(page => page.indexable).map(page => [page.route, page]));
+const reachableRoutes = new Set();
+const crawlQueue = indexableByRoute.has('/') ? ['/'] : [];
+while (crawlQueue.length) {
+  const route = crawlQueue.shift();
+  if (reachableRoutes.has(route)) continue;
+  reachableRoutes.add(route);
+  const page = indexableByRoute.get(route);
+  for (const link of page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
+    let target;
+    try { target = new URL(link[1], page.canonical); }
+    catch { continue; } // The link-validation pass reports malformed URLs.
+    if (target.origin === siteOrigin && indexableByRoute.has(target.pathname) && !reachableRoutes.has(target.pathname)) {
+      crawlQueue.push(target.pathname);
+    }
+  }
+}
+for (const [route, page] of indexableByRoute) {
+  if (!reachableRoutes.has(route)) errors.push(`${rel(page.file)} cannot be reached through indexable internal links from the homepage.`);
 }
 
 if (warnings.length) {
@@ -344,4 +458,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`SEO checks passed for ${pageData.filter(item => item.indexable).length} indexable pages.`);
+console.log(`SEO checks passed for ${indexableByRoute.size} indexable pages; all are reachable from the homepage.`);
