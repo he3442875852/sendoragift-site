@@ -1,0 +1,8 @@
+.quote-optional{grid-column:1/-1;border:1px solid var(--line,#dce0e5);border-radius:8px;background:#fafaf8;padding:0;margin:4px 0 8px}
+.quote-optional summary{cursor:pointer;min-height:48px;padding:16px 18px;font-weight:700;color:var(--navy,#111820);line-height:1.5}
+.quote-optional summary span{font-weight:400;color:var(--muted,#626963)}
+.quote-optional summary:focus-visible{outline:3px solid #b58a4a;outline-offset:3px}
+.quote-optional-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:4px 18px 20px}
+.quote-optional-fields .field{min-width:0}
+.quote-optional-fields .full{grid-column:1/-1}
+@media(max-width:640px){.quote-optional-fields{grid-template-columns:1fr}.quote-optional summary{font-size:14px}.quote-optional summary span{display:block}}

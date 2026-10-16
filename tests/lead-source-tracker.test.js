@@ -21,7 +21,7 @@ function createStorage() {
   };
 }
 
-function loadTracker({ search = "", referrer = "" } = {}) {
+function loadTracker({ search = "", referrer = "", product = "", productSelect = null, whatsappLinks = [] } = {}) {
   const localStorage = createStorage();
   const sessionStorage = createStorage();
   const location = {
@@ -33,9 +33,11 @@ function loadTracker({ search = "", referrer = "" } = {}) {
     readyState: "complete",
     referrer,
     forms: [],
+    body: { getAttribute() { return product; }, setAttribute(name, value) { product = value; } },
+    getElementById(id) { return id === "product_type" ? productSelect : null; },
     addEventListener() {},
-    querySelectorAll() {
-      return [];
+    querySelectorAll(selector) {
+      return selector.includes("wa.me/") ? whatsappLinks : [];
     }
   };
   const window = { location, localStorage, sessionStorage };
@@ -83,4 +85,37 @@ test("prefills WhatsApp with broad gift requirements and a tracking reference", 
   assert.match(message, /Quantity: \[please enter\]/);
   assert.match(message, /Delivery country: \[please enter\]/);
   assert.match(message, /Inquiry reference: SG-\d{8}-[A-Z2-9]{8}$/);
+});
+
+test("carries the current product into WhatsApp while preserving the inquiry reference", () => {
+  const tracker = loadTracker({ product: "Custom Employee Welcome Kit" });
+  const message = new URL(tracker.whatsapp.getUrl()).searchParams.get("text");
+  assert.match(message, /Gift type or items: Custom Employee Welcome Kit/);
+  assert.match(message, /Inquiry reference: SG-\d{8}-[A-Z2-9]{8}$/);
+  assert.doesNotMatch(message, /Gift type or items: \[please enter\]/);
+});
+
+test("does not carry a previous product onto an unrelated page", () => {
+  loadTracker({ product: "Custom Employee Welcome Kit" });
+  const nextPage = loadTracker();
+  const message = new URL(nextPage.whatsapp.getUrl()).searchParams.get("text");
+  assert.match(message, /Gift type or items: \[please enter\]/);
+  assert.doesNotMatch(message, /Custom Employee Welcome Kit/);
+});
+
+test("changing the selected gift updates WhatsApp without replacing its tracking reference", () => {
+  const handlers = {};
+  const productSelect = {
+    value: "Custom Employee Welcome Kit",
+    addEventListener(event, handler) { handlers[event] = handler; }
+  };
+  const link = { href: "", dataset: {}, addEventListener() {} };
+  loadTracker({ product: productSelect.value, productSelect, whatsappLinks: [link] });
+  const originalRef = link.dataset.sendoraLeadRef;
+  productSelect.value = "Custom Golf Tournament Gift Set";
+  handlers.change();
+  const message = new URL(link.href).searchParams.get("text");
+  assert.match(message, /Gift type or items: Custom Golf Tournament Gift Set/);
+  assert.ok(message.endsWith("Inquiry reference: " + originalRef));
+  assert.doesNotMatch(message, /Custom Employee Welcome Kit/);
 });

@@ -113,8 +113,17 @@
     return ref;
   }
 
+  function getProductInterest() {
+    if (!document.body || typeof document.body.getAttribute !== "function") return "";
+    return String(document.body.getAttribute("data-inquiry-product") || "").replace(/\s+/g, " ").trim().slice(0, 200);
+  }
+
   function getWhatsappUrl(leadRef) {
-    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE + "\n\nInquiry reference: " + leadRef);
+    var product = getProductInterest();
+    var message = product
+      ? WHATSAPP_MESSAGE.replace("Gift type or items: [please enter]", "Gift type or items: " + product)
+      : WHATSAPP_MESSAGE;
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message + "\n\nInquiry reference: " + leadRef);
   }
 
   function safeGet(storage, key) {
@@ -406,11 +415,25 @@
     });
   }
 
+  function followProductSelection() {
+    if (typeof document.getElementById !== "function") return;
+    var productSelect = document.getElementById("product_type") || document.getElementById("quote-product");
+    if (!productSelect || typeof productSelect.addEventListener !== "function") return;
+    productSelect.addEventListener("change", function () {
+      var product = productSelect.value === "Need recommendation" ? "" : productSelect.value;
+      document.body.setAttribute("data-inquiry-product", product);
+      Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
+        link.href = getWhatsappUrl(link.dataset.sendoraLeadRef || getLeadRef());
+      });
+    });
+  }
+
   function start() {
     initializeGoogleAnalytics();
     initializeVisit();
     fillAllForms();
     normalizeWhatsappLinks();
+    followProductSelection();
     normalizeContactLinks();
     debugIfRequested();
     document.addEventListener("submit", handleSubmit, true);
