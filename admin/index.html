@@ -34,12 +34,14 @@
     </header>
 
     <section class="metrics" aria-label="询盘统计">
-      <article><span>当前结果</span><strong id="metricTotal">0</strong></article>
-      <article><span>新询盘</span><strong id="metricNew">0</strong></article>
+      <article><span>跟踪记录</span><strong id="metricTotal">0</strong></article>
+      <article><span>新记录（待跟进）</span><strong id="metricNew">0</strong></article>
       <article><span>表单提交</span><strong id="metricForms">0</strong></article>
       <article><span>WhatsApp 点击</span><strong id="metricWhatsapp">0</strong></article>
       <article><span>已报价 / 成交</span><strong id="metricRevenue">0</strong></article>
     </section>
+
+    <p class="metrics-note">表单与 WhatsApp 点击分别记录，可能来自同一访客。点击不代表已发送消息；已报价 / 成交数量取决于跟进状态的更新。</p>
 
     <section class="panel filters">
       <label>搜索<input id="search" type="search" placeholder="编号、姓名、公司、邮箱、页面"></label>
@@ -68,6 +70,6 @@
     <form method="dialog"><button class="close" aria-label="关闭">×</button></form>
     <div id="detailContent"></div>
   </dialog>
-  <script src="/admin/admin.js" defer></script>
+  <script src="/admin/admin.js?v=20261016-1" defer></script>
 </body>
 </html>
