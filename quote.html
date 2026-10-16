@@ -170,7 +170,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <div class="quote-wrap">
 <form class="quote-form" action="/api/submit-quote" method="POST" enctype="multipart/form-data" data-multistep-form>
 <input type="hidden" name="_next" value="https://www.sendoragift.com/thank-you.html">
-<input type="hidden" name="source_context" value="quote.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+<input type="hidden" id="source_context" name="source_context" value="quote.html"><input class="hidden-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
 <ol class="form-progress" aria-label="Quote request progress"><li aria-current="step">Contact</li><li>Project</li><li>Branding</li></ol>
 <fieldset data-form-step>
 <legend>Who should we reply to?</legend>
@@ -190,7 +190,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <div class="field full"><label for="quote-product">Product direction *</label><select id="quote-product" name="product_type" required>
 <option value="" disabled selected>Select Product Type</option>
 <option>Corporate gift sets</option><option>Employee welcome kits</option><option>Promotional giveaways</option><option>Executive gift boxes</option><option>Conference or event gifts</option><option>Holiday gift sets</option><option>Drinkware gifts</option><option>Custom packaging only</option><option>Not sure, need recommendation</option>
-</select></div>
+<option>Custom logo gifts</option><option>Custom Corporate Office Gift Set</option><option>Custom Employee Welcome Kit</option><option>Custom Client Appreciation Gift Box</option><option>Custom Conference and Meeting Gift Set</option><option>Custom Trade Show Giveaway Kit</option><option>Custom Sports Event Giveaway Kit</option><option>Custom Golf Tournament Gift Set</option><option>Custom Pickleball Team Gift Set</option></select></div>
 <div class="field"><label for="quote-quantity">Estimated quantity *</label><input id="quote-quantity" type="number" name="quantity" min="1" placeholder="e.g. 500" required></div>
 <div class="field"><label for="quote-budget">Target budget</label><input id="quote-budget" type="text" name="target_budget" placeholder="e.g. USD 8–15 per set"></div>
 <div class="field"><label for="quote-destination">Delivery country / city</label><input id="quote-destination" type="text" name="delivery_destination" autocomplete="country-name"></div>
@@ -234,7 +234,8 @@ document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
 });
 </script>
 
-  <script src="/assets/js/lead-source-tracker.js" defer></script>
+  <script src="/assets/js/quote-context.js" defer></script>
+  <script src="/assets/js/lead-source-tracker.js?v=20261016-1" defer></script>
 <script src="/assets/js/quote-multistep.js?v=20260818-1" defer></script>
 <script src="/assets/js/quote-form-protection.js?v=20260730-2" defer></script>
 <a id="sendora-whatsapp-float" href="https://wa.me/8613400883682?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#2ee978 0%,#19b85a 58%,#0f9449 100%);border:2px solid rgba(255,255,255,.96);box-shadow:0 12px 28px rgba(13,21,18,.22),0 0 0 7px rgba(37,211,102,.12);color:#fff!important;font-size:0!important;line-height:0!important;text-decoration:none!important;overflow:hidden;">
