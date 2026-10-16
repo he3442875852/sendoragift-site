@@ -6,3 +6,13 @@
 .quote-optional-fields .field{min-width:0}
 .quote-optional-fields .full{grid-column:1/-1}
 @media(max-width:640px){.quote-optional-fields{grid-template-columns:1fr}.quote-optional summary{font-size:14px}.quote-optional summary span{display:block}}
+.contact-page .hero{min-height:0;padding:30px 0 22px;background:#f8f5ef;color:#26231e}
+.contact-page .hero-grid{max-width:850px;padding:0}
+.contact-page .hero .eyebrow{color:#8e6937;font-size:12px}
+.contact-page .hero h1{font-size:clamp(32px,4vw,44px);line-height:1.1;margin:12px 0 16px}
+.contact-page .hero p{max-width:800px;color:#625f58;font-size:16px;margin:0}
+.contact-page .hero+section{padding:30px 0 52px}
+.contact-page #project-form{scroll-margin-top:100px}
+.contact-page .inquiry-selection{margin:0 0 20px;padding:14px 16px;border-left:3px solid #8e6937;background:#f8f5ef;color:#51452f;font-size:14px}
+.contact-page .inquiry-selection[hidden]{display:none}
+.contact-page .inquiry-selection strong{display:block;margin-top:4px}

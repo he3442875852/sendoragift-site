@@ -14,5 +14,8 @@
       else if(product && productNames[raw]) product.value=sampleSets.includes(raw)?'Corporate gift sets':'Custom logo gifts';
       if(productNames[raw]) document.body.setAttribute('data-inquiry-product',label);
       if(source) source.value=label;
+      const selection=document.getElementById('inquiry-selection');
+      const selectionName=document.getElementById('inquiry-selection-name');
+      if(selection && selectionName){selectionName.textContent=label;selection.hidden=false;}
       if(message&&!message.value) message.value='I am interested in '+label+'. Please help me review the product and customization options.';
     })();
