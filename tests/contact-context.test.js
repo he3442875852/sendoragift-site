@@ -15,6 +15,8 @@ function openContact(search, existingMessage = "", detailedQuote = false) {
   const options = Array.from(select.matchAll(/<option[^>]*>([^<]+)<\/option>/g), match => ({ value: match[1] }));
   const elements = {
     source_context: { value: "contact page direct RFQ" },
+    "inquiry-selection": { hidden: true },
+    "inquiry-selection-name": { textContent: "" },
     message: { value: existingMessage },
     product_type: { options, value: "Need recommendation" }
   };
@@ -73,4 +75,12 @@ test("a single-product sample carries its exact selection into a detailed quote"
   assert.equal(elements.source_context.value, "Metal Bookmark with Tassel Sample");
   assert.match(elements["quote-details"].value, /Metal Bookmark with Tassel Sample/);
   assert.equal(attributes["data-inquiry-product"], "Metal Bookmark with Tassel Sample");
+});
+
+test("the selected reference is visible before a buyer fills in the contact form", () => {
+  const { elements } = openContact("?product=sample-pu-folder");
+  assert.equal(elements["inquiry-selection"].hidden, false);
+  assert.equal(elements["inquiry-selection-name"].textContent, "PU Document File Pouch Sample");
+  const direct = openContact("");
+  assert.equal(direct.elements["inquiry-selection"].hidden, true);
 });
