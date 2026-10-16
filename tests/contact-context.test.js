@@ -84,3 +84,22 @@ test("the selected reference is visible before a buyer fills in the contact form
   const direct = openContact("");
   assert.equal(direct.elements["inquiry-selection"].hidden, true);
 });
+
+test("new headwear, backpack and mouse-pad choices retain their names in both inquiry forms", () => {
+  const choices = {
+    "bucket-hat": "Bucket Hat with Logo Sample",
+    "baseball-cap": "Baseball Cap with Logo Sample",
+    "backpack": "Backpack with Logo Sample",
+    "mouse-pad": "Mouse Pad with Logo Sample"
+  };
+  for (const [id, label] of Object.entries(choices)) {
+    for (const detailed of [false, true]) {
+      const { elements, attributes } = openContact("?product=sample-" + id, "", detailed);
+      assert.equal(elements.source_context.value, label);
+      assert.equal(elements[detailed ? "quote-product" : "product_type"].value, "Custom logo gifts");
+      assert.ok(elements[detailed ? "quote-details" : "message"].value.includes(label));
+      assert.equal(attributes["data-inquiry-product"], label);
+      assert.equal(elements["inquiry-selection-name"].textContent, label);
+    }
+  }
+});
