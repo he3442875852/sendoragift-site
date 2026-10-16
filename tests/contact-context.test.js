@@ -58,3 +58,19 @@ test("the existing folder link carries the correct item into the detailed quote 
   assert.match(elements["quote-details"].value, /Custom PU Document Folders with Logo/);
   assert.equal(attributes["data-inquiry-product"], "Custom PU Document Folders with Logo");
 });
+
+test("a sample set inquiry retains its exact selection in the gift-set category", () => {
+  const { elements, attributes } = openContact("?product=sample-ace-outdoor");
+  assert.equal(elements.product_type.value, "Corporate gift sets");
+  assert.equal(elements.source_context.value, "Outdoor Essentials Gift Set Sample");
+  assert.match(elements.message.value, /Outdoor Essentials Gift Set Sample/);
+  assert.equal(attributes["data-inquiry-product"], "Outdoor Essentials Gift Set Sample");
+});
+
+test("a single-product sample carries its exact selection into a detailed quote", () => {
+  const { elements, attributes } = openContact("?product=sample-metal-bookmark", "", true);
+  assert.equal(elements["quote-product"].value, "Custom logo gifts");
+  assert.equal(elements.source_context.value, "Metal Bookmark with Tassel Sample");
+  assert.match(elements["quote-details"].value, /Metal Bookmark with Tassel Sample/);
+  assert.equal(attributes["data-inquiry-product"], "Metal Bookmark with Tassel Sample");
+});

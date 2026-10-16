@@ -1,0 +1,40 @@
+.photo-section{padding:64px 0;background:#fff;color:#2b2925;text-align:left}
+.photo-section.alt{background:#f8f5ef}
+.photo-container{width:min(92%,1180px);margin-inline:auto}
+.photo-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:26px}
+.photo-heading h2{margin:0 0 12px;font-size:clamp(28px,3vw,40px);line-height:1.15;color:#1f1d19}
+.photo-heading p{max-width:740px;margin:0;color:#625f58;line-height:1.7}
+.photo-kicker{margin:0 0 12px!important;font-size:12px!important;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8e6937!important}
+.photo-jump-links{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0}
+.photo-jump-links a{display:inline-flex;align-items:center;min-height:44px;padding:9px 16px;border:1px solid #cfc6b7;border-radius:6px;background:#fff;color:#51452f;font-size:14px;font-weight:800;text-decoration:none}
+.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.photo-grid.pair{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px}
+.photo-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid #e2ddd4;border-radius:10px;overflow:hidden;scroll-margin-top:150px}
+.product-photo{display:block;margin:0;background:#f6f5f1;overflow:hidden}
+.product-photo img{display:block;width:100%;height:auto!important;aspect-ratio:1;object-fit:contain!important}
+.photo-card-body{display:flex;flex:1;flex-direction:column;gap:12px;padding:22px}
+.photo-card h3{margin:0;color:#1f1d19;font-size:21px;line-height:1.3}
+.photo-card p{margin:0;color:#625f58;font-size:15px;line-height:1.7}
+.photo-tag{color:#8e6937!important;font-size:11px!important;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.photo-card-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:auto;padding-top:8px}
+.photo-card-actions a{display:inline-flex;align-items:center;min-height:44px;font-size:13px;font-weight:800;color:#715128;text-decoration:none}
+.photo-card-actions .photo-quote{padding:9px 13px;border-radius:5px;background:#26231e;color:#fff!important}
+.photo-card a:hover{text-decoration:underline;text-underline-offset:4px}
+.photo-note{max-width:900px;margin:24px 0 0;color:#625f58;font-size:13px;line-height:1.7}
+.photo-hero{padding:52px 0 60px;background:#f8f5ef;color:#2b2925}
+.photo-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+.photo-hero h1{margin:0 0 22px;color:#1f1d19;font-size:clamp(38px,4.5vw,62px);line-height:1.05;letter-spacing:-.025em}
+.photo-hero .photo-lede{margin:0;color:#625f58;font-size:18px;line-height:1.7}
+.photo-hero figure{margin:0;min-width:0;border:1px solid #e2ddd4;border-radius:10px;overflow:hidden;background:#f6f5f1}
+.photo-hero figcaption{padding:12px 18px;color:#625f58;font-size:12px;line-height:1.6;background:#fff}
+.photo-hero .guide-btn.secondary{border-color:#b6aa97;color:#51452f!important}
+.photo-section[id],.photo-jump-target{scroll-margin-top:150px}
+.home-page .hero-media img.photo-home-hero{height:auto!important;aspect-ratio:1;object-fit:contain}
+.home-page .hero-media:has(.photo-home-hero){max-width:540px;width:100%;justify-self:end;background:#f6f5f1}
+.home-page .sample-home-card .shopping-image img{aspect-ratio:1;object-fit:contain}
+.sample-page .sample-hero-media.photo-sample-hero img{width:100%;height:auto!important;aspect-ratio:1;object-fit:contain}
+.sample-page .sample-hero-media.photo-sample-hero{background:#f6f5f1}
+.sample-page .photo-sample-hero figcaption{background:#fff;color:#625f58}
+.photo-section a:focus-visible,.photo-hero a:focus-visible{outline:3px solid #8e6937;outline-offset:4px}
+@media(max-width:950px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-hero-grid{gap:28px}.photo-hero h1{font-size:42px}}
+@media(max-width:720px){.photo-section{padding:46px 0}.photo-heading{display:block}.photo-hero-grid{grid-template-columns:1fr}.photo-hero{padding:36px 0 44px}.photo-hero h1{font-size:38px}.photo-hero .photo-lede{font-size:16px}.photo-hero figure{max-width:580px}.photo-grid,.photo-grid.pair{grid-template-columns:1fr}.photo-card-body{padding:20px}.home-page .hero-media:has(.photo-home-hero){justify-self:center}.photo-card,.photo-section[id],.photo-jump-target{scroll-margin-top:170px}}
