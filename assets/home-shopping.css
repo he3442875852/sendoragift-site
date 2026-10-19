@@ -50,3 +50,26 @@
 @media(max-width:1120px){.home-page .hero-layout{grid-template-columns:1fr 1fr;gap:30px}.home-page .hero-copy h1{font-size:52px}.home-page .sample-shopping-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-page .shopping-grid{gap:18px}.home-page .shopping-card-body{padding:18px}.home-page .shopping-actions{align-items:start;flex-direction:column}}
 @media(max-width:860px){.home-page .home-hero{min-height:auto;padding:88px 0 42px}.home-page .hero-layout{grid-template-columns:1fr;padding-top:42px}.home-page .hero-media img{height:360px;min-height:0}.home-page .hero-copy h1{font-size:clamp(42px,7vw,58px)}.home-page .shopping-grid,.home-page .logo-products-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-page .shopping-heading{align-items:start;flex-direction:column;gap:16px}.home-page .shopping-process-grid{grid-template-columns:1fr;gap:26px}.home-page .home-section{padding:48px 0}}
 @media(max-width:560px){.home-page .hero-copy h1{font-size:42px}.home-page .hero-lede{font-size:16px}.home-page .hero-media img{height:300px}.home-page .shopping-grid,.home-page .logo-products-grid,.home-page .sample-shopping-grid{grid-template-columns:1fr}.home-page .shopping-actions{flex-direction:row;align-items:center}.home-page .shopping-heading h2{font-size:36px}.home-page .shopping-support-links a{width:100%}.home-page .shopping-card-body{padding:20px}.home-page .shopping-guide-links{gap:14px 20px}}
+
+/* Buyer discovery and packaging, October 2026 */
+.home-page .gift-finder{padding:40px 0;background:#f3f0ea;border-block:1px solid var(--home-line)}
+.home-page .finder-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+.home-page .gift-finder h2{font-size:clamp(30px,3.2vw,42px);line-height:1.15;margin:8px 0 12px}
+.home-page .gift-finder p{color:var(--home-muted);line-height:1.65;max-width:380px}
+.home-page .finder-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.home-page .finder-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--home-line);border-radius:8px;padding:14px 16px;font-weight:700;font-size:14px;min-height:50px}
+.home-page .finder-links a:hover{border-color:var(--home-bronze-dark);color:var(--home-bronze-dark)}
+.home-page .finder-search{margin-top:20px}.home-page .finder-search label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.home-page .finder-search>div{display:flex;gap:8px}.home-page .finder-search input{min-width:0;flex:1;border:1px solid #aaa298;border-radius:6px;padding:12px;background:#fff;font:inherit;font-size:16px}
+.home-page .finder-search button{border:0;border-radius:6px;padding:12px 18px;background:#263c36;color:#fff;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.home-page .finder-search :focus-visible,.home-page .finder-links a:focus-visible{outline:3px solid #9c753f;outline-offset:3px}
+.home-page .packaging-feature{background:#f6f5f1}.home-page .packaging-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.home-page .packaging-layout figure{margin:0}.home-page .packaging-layout img{display:block;width:100%;height:auto;border-radius:12px}
+.home-page .packaging-layout figcaption{font-size:12px;color:var(--home-muted);padding-top:10px}
+.home-page .packaging-layout h2{font-size:clamp(32px,3.5vw,48px);line-height:1.15;margin:12px 0 20px}
+.home-page .packaging-layout p{color:var(--home-muted);line-height:1.7}
+.home-page .packaging-options{margin:24px 0}.home-page .packaging-options>div{padding:16px 0;border-top:1px solid var(--home-line)}
+.home-page .packaging-options dt{font-size:17px;font-weight:800;margin-bottom:6px}.home-page .packaging-options dd{margin:0;color:var(--home-muted);font-size:14px;line-height:1.65}
+.home-page .packaging-note{font-size:12px;margin-bottom:24px}
+@media(max-width:860px){.home-page .finder-layout,.home-page .packaging-layout{grid-template-columns:1fr;gap:28px}.home-page .gift-finder p{max-width:none}.home-page .packaging-layout figure{max-width:520px}}
+@media(max-width:420px){.home-page .finder-links{grid-template-columns:1fr}.home-page .finder-search>div{flex-direction:column}.home-page .finder-search button{min-height:44px}}

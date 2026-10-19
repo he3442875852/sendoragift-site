@@ -77,3 +77,21 @@ test("changing filters preserves attribution parameters and browser navigation r
   c.host.events.popstate();
   assert.deepEqual(c.cards.map(card => card.hidden), [true, false, false]);
 });
+
+test("occasion and search links restore the query and reset it without losing attribution", () => {
+  const c = catalog("?q=golf&utm_source=homepage");
+  assert.equal(c.input.value, "golf");
+  assert.deepEqual(c.cards.map(card => card.hidden), [true, true, false]);
+  c.input.value = "pens";
+  c.input.events.input();
+  assert.equal(new URL(c.host.location.href).searchParams.get("q"), "pens");
+  c.buttons[2].click();
+  assert.deepEqual(c.cards.map(card => card.hidden), [true, false, true]);
+  c.host.location.search = "?q=golf";
+  c.host.events.popstate();
+  assert.equal(c.input.value, "golf");
+  assert.deepEqual(c.cards.map(card => card.hidden), [true, true, false]);
+  c.reset.click();
+  assert.equal(new URL(c.host.location.href).searchParams.has("q"), false);
+  assert.equal(new URL(c.host.location.href).searchParams.get("utm_source"), "homepage");
+});

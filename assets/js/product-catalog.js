@@ -26,7 +26,9 @@
     var cards = Array.from(root.querySelectorAll("[data-catalog-item]"));
     var groups = Array.from(root.querySelectorAll("[data-catalog-group]"));
     if (!controls || !search || !status || !empty || !cards.length) return;
-    var kind = validKind(new URLSearchParams(host.location.search).get("type"));
+    var params = new URLSearchParams(host.location.search);
+    var kind = validKind(params.get("type"));
+    search.value = (params.get("q") || "").slice(0, 100);
 
     function apply() {
       var count = 0;
@@ -42,19 +44,25 @@
       empty.hidden = count !== 0;
     }
 
+    function saveFilters() {
+      try {
+        var url = new URL(host.location.href);
+        if (kind === "all") url.searchParams.delete("type");
+        else url.searchParams.set("type", kind);
+        if (search.value.trim()) url.searchParams.set("q", search.value.trim());
+        else url.searchParams.delete("q");
+        host.history.replaceState(null, "", url.href);
+      } catch (_) { /* Search remains usable when history is unavailable. */ }
+    }
+
     buttons.forEach(function (button) {
       button.addEventListener("click", function () {
         kind = validKind(button.dataset.catalogKind);
         apply();
-        try {
-          var url = new URL(host.location.href);
-          if (kind === "all") url.searchParams.delete("type");
-          else url.searchParams.set("type", kind);
-          host.history.replaceState(null, "", url.href);
-        } catch (_) { /* Filtering remains usable when history is unavailable. */ }
+        saveFilters();
       });
     });
-    search.addEventListener("input", apply);
+    search.addEventListener("input", function () { apply(); saveFilters(); });
     root.querySelectorAll("[data-catalog-reset]").forEach(function (button) {
       button.addEventListener("click", function () {
         search.value = "";
@@ -65,7 +73,9 @@
       });
     });
     host.addEventListener("popstate", function () {
-      kind = validKind(new URLSearchParams(host.location.search).get("type"));
+      var restored = new URLSearchParams(host.location.search);
+      kind = validKind(restored.get("type"));
+      search.value = (restored.get("q") || "").slice(0, 100);
       apply();
     });
     controls.hidden = false;
