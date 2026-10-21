@@ -13,6 +13,7 @@
 .contact-page .hero p{max-width:800px;color:#625f58;font-size:16px;margin:0}
 .contact-page .hero+section{padding:30px 0 52px}
 .contact-page #project-form{scroll-margin-top:100px}
-.contact-page .inquiry-selection{margin:0 0 20px;padding:14px 16px;border-left:3px solid #8e6937;background:#f8f5ef;color:#51452f;font-size:14px}
-.contact-page .inquiry-selection[hidden]{display:none}
-.contact-page .inquiry-selection strong{display:block;margin-top:4px}
+.inquiry-selection{margin:0 0 20px;padding:14px 16px;border-left:3px solid #8e6937;background:#f8f5ef;color:#51452f;font-size:14px}
+.inquiry-selection[hidden]{display:none}
+.inquiry-selection strong{display:block;margin-top:4px}
+.contact-page label span{font-weight:400;color:#625f58}

@@ -44,3 +44,18 @@ Business facts are preserved from `SITE_FACTS.md`. Product and sample descriptio
 PR #71 was published after the local checks and successful Vercel builds. The preview required a Vercel login, so it was not visually reviewed. Production HTTP checks confirmed the seven edited pages, sitemap and two new assets were byte-for-byte identical to the submitted files.
 
 The production browser exposed a pre-existing image-path bug: ten guide pages declared relative URLs inside `--hero-image`, which resolved relative to the external stylesheet as `/assets/assets/...`. Correct the ten references to root-relative `/assets/...` paths. All referenced image files exist in the repository. This is a resource-path repair; the selected imagery is preserved.
+
+## Product pages and inquiry follow-up
+
+Baseline for this follow-up: `904384e20ee54193e75adb0ee3e46e5c7259bd3f`.
+
+- Replace repeated FAQs on the eight core gift-set pages with 48 questions covering the actual purchasing choices for office, onboarding, client, conference, trade-show, sports, golf and pickleball projects. The visible answers and FAQ schema use the same text and stable question IDs. Reuse the direct-answer script to open a linked question.
+- Add native section links for product options, gallery, planning, questions and quotation. Replace duplicated generic panels with a product-specific brief and three relevant buying-guide links per page. Rename “What Is Included” to “Product Options for This Set” to reflect configurable sets. Defer the below-fold gallery images.
+- Fix the four detailed sample records' existing `?sample=` inquiry links: both forms now retain the sample name, product category, message and WhatsApp context. Show the selection before the first step of the detailed form as well. Preserve an existing buyer message and explicit product-selection priority.
+- Move delivery destination and required arrival date out of the short form's collapsed optional section. Both remain optional. Clarify accepted file formats and replace internal SEO wording in the buyer-facing contact page.
+- Preserve submission endpoints, attachment field names, consent, anti-spam behavior and redirects. No real inquiry was submitted during verification.
+- Validation: SEO checks pass for all 120 indexable pages; 63 functional tests pass, including two regression cases for the sample-selection issue; JavaScript syntax and diff checks pass. Sitemap dates are updated only for the ten revised HTML pages.
+
+Google's [ecommerce navigation guidance](https://developers.google.com/search/docs/specialty/ecommerce/help-google-understand-your-ecommerce-site-structure) and [link guidance](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) inform the contextual internal links. Content changes do not establish ranking, indexing, AI citation or conversion gains.
+
+The existing IndexNow workflow remains blocked by HTTP 403 `UserForbiddedToAccessSite`. The public verification file was reachable with the matching text at its configured host. This follow-up does not claim to resolve engine-side verification.
