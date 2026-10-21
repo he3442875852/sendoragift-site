@@ -1,0 +1,35 @@
+/* Shared presentation for procurement comparisons and the buying answer hub. */
+.sendora-guide-page .guide-breadcrumbs{padding:18px 0;font-size:13px;line-height:1.6;color:#625f58}
+.sendora-guide-page .answer-topic-nav{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:26px 0}
+.answer-topic-nav span{flex-basis:100%;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#625f58}
+.answer-topic-nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #d9cfc0;border-radius:6px;background:#fff;font-size:14px;font-weight:700}
+.sendora-guide-page .answer-intro{padding-top:12px}
+.answer-group{border-top:1px solid #e5ded4}
+.answer-group:nth-of-type(even){background:#f8f5ef}
+.buyer-answer-list{display:grid;gap:12px;margin-top:26px}
+.buyer-answer{min-width:0;border:1px solid #d9cfc0;border-radius:8px;background:#fff}
+.buyer-answer summary{padding:20px 24px;font-size:17px;line-height:1.5;font-weight:700;cursor:pointer;color:#2b2925}
+.buyer-answer summary::marker{color:#8e6937}
+.buyer-answer[open] summary{border-bottom:1px solid #e5ded4}
+.buyer-answer-body{padding:20px 24px}
+.buyer-answer-body p{margin:0 0 12px;color:#514d45;line-height:1.8}
+.answer-permalink{display:inline-block;font-size:13px;text-decoration:underline!important;text-underline-offset:3px}
+.answer-next{margin:24px 0 0!important;font-weight:700}
+.sendora-guide-page a:focus-visible,.buyer-answer summary:focus-visible,.decision-table-wrap:focus-visible{outline:3px solid #8e6937;outline-offset:4px}
+.sendora-guide-page [id]{scroll-margin-top:110px}
+.decision-table caption{padding:16px 18px;text-align:left;color:#2b2925;background:#f3eee5;font-size:15px;font-weight:800}
+.decision-table tbody th[scope="row"]{width:23%;background:#f8f5ef;color:#2b2925;text-transform:none;letter-spacing:normal;font-size:15px}
+.decision-table th,.decision-table td{overflow-wrap:break-word}
+.decision-table-wrap{margin:22px 0 26px;max-width:100%}
+.buyer-checklist{padding-left:24px;color:#514d45}
+.buyer-checklist li{padding-left:5px;margin:10px 0}
+.article-narrow h3{margin:30px 0 12px;line-height:1.35;color:#2b2925;font-size:22px}
+.answer-intro .quick-panel .guide-btn{margin-top:14px}
+@media(max-width:600px){
+ .buyer-answer summary{font-size:16px;padding:18px}
+ .buyer-answer-body{padding:18px}
+ .answer-topic-nav a{flex-grow:1;justify-content:center;font-size:13px;padding:8px 10px}
+ .decision-table{min-width:640px;font-size:14px}
+ .decision-table th,.decision-table td{padding:12px 14px}
+ .sendora-guide-page .guide-breadcrumbs{font-size:12px}
+}
