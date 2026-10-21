@@ -17,7 +17,7 @@
   <meta name="twitter:description" content="Request a corporate gift quote by email, form or WhatsApp. Share quantity, budget, logo needs and delivery country for welcome kits, client boxes and giveaways.">
   <meta name="twitter:image" content="https://www.sendoragift.com/assets/sendora-quality-control-realistic.webp">
   <link rel="stylesheet" href="../assets/styles.css">
-  <link rel="stylesheet" href="../assets/quote-short-form.css?v=20261016-2">
+  <link rel="stylesheet" href="../assets/quote-short-form.css?v=20261021-2">
 <script type="application/ld+json">
 [
   {
@@ -187,12 +187,20 @@
               <label for="quantity">Estimated quantity *</label>
               <input id="quantity" type="number" name="quantity" min="1" placeholder="e.g. 300" required>
             </div>
+            <div class="field">
+              <label for="destination">Delivery country / city <span>(optional)</span></label>
+              <input id="destination" type="text" name="delivery_destination" placeholder="e.g. United States, New York">
+            </div>
+            <div class="field">
+              <label for="date">Required arrival date <span>(optional)</span></label>
+              <input id="date" type="text" name="target_delivery_date" placeholder="e.g. before 15 November">
+            </div>
             <div class="field full">
               <label for="message">Project details *</label>
               <textarea id="message" name="message" rows="4" placeholder="Tell us the recipient, event, preferred items, target budget, logo position, packaging ideas and deadline." required></textarea>
-              <p class="hint">A short description is enough to start. You can add artwork and delivery details below.</p>
+              <p class="hint">A short description is enough to start. If timing is flexible, say so. You can add artwork below.</p>
             </div>
-            <details class="quote-optional"><summary>Add budget, delivery details or artwork <span>(optional)</span></summary><div class="quote-optional-fields">
+            <details class="quote-optional"><summary>Add budget, branding or artwork <span>(optional)</span></summary><div class="quote-optional-fields">
             <div class="field">
               <label for="company">Company name</label>
               <input id="company" type="text" name="company" autocomplete="organization">
@@ -204,14 +212,6 @@
             <div class="field">
               <label for="budget">Target budget</label>
               <input id="budget" type="text" name="target_budget" placeholder="e.g. USD 8-15 per set">
-            </div>
-            <div class="field">
-              <label for="destination">Delivery country / city</label>
-              <input id="destination" type="text" name="delivery_destination" placeholder="e.g. United States, New York">
-            </div>
-            <div class="field">
-              <label for="date">Target delivery date</label>
-              <input id="date" type="text" name="target_delivery_date" placeholder="e.g. before your event date">
             </div>
             <div class="field">
               <label for="branding">Logo / packaging need</label>
@@ -227,7 +227,8 @@
             </div>
             <div class="field full">
               <label for="upload">Upload logo or reference file</label>
-              <input id="upload" type="file" name="upload" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf">
+              <input id="upload" type="file" name="upload" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf" aria-describedby="upload-help">
+              <p class="hint" id="upload-help">One JPG, PNG or PDF. You can send artwork later by email or WhatsApp.</p>
             </div>
             </div></details>
             <div class="field full btn-row">
@@ -259,8 +260,8 @@
     </section>
     <section class="alt">
       <div class="container">
-        <h2>Choose the Closest RFQ Path</h2>
-        <p class="intro">If your project already matches one of these long-tail buying needs, open the related page first or mention the direction in your message so we can recommend a tighter product mix.</p>
+        <h2>Explore a Gift Direction</h2>
+        <p class="intro">Still comparing options? Browse the closest gift direction, or mention it in your message so we can review a suitable product mix.</p>
         <div class="grid">
           <div class="card"><h3><a href="../employee-welcome.html">Employee Welcome Kit Quote</a></h3><p>For new hire onboarding boxes, remote employee kits, company swag and branded welcome gifts with logo and packaging.</p></div>
           <div class="card"><h3><a href="../client-thank-you-gift-boxes.html">Client Appreciation Box Quote</a></h3><p>For customer thank-you gifts, VIP client boxes, partner gifts and executive presentation sets by budget tier.</p></div>
@@ -297,7 +298,7 @@
 </section>
 </main>
   <footer class="footer"><div class="container"><p>&copy; 2026 Sendora Gift. Email: <a href="mailto:mcpatch@188.com">mcpatch@188.com</a> | <a href="https://wa.me/8613400883682?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener">WhatsApp</a></p></div></footer>
-  <script src="/assets/js/quote-context.js?v=20261016-4" defer></script>
+  <script src="/assets/js/quote-context.js?v=20261021-2" defer></script>
   <script src="/assets/js/lead-source-tracker.js?v=20261016-1" defer></script>
 <script src="/assets/js/quote-form-protection.js?v=20260730-2" defer></script>
 <a id="sendora-whatsapp-float" href="https://wa.me/8613400883682?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#2ee978 0%,#19b85a 58%,#0f9449 100%);border:2px solid rgba(255,255,255,.96);box-shadow:0 12px 28px rgba(13,21,18,.22),0 0 0 7px rgba(37,211,102,.12);color:#fff!important;font-size:0!important;line-height:0!important;text-decoration:none!important;overflow:hidden;">

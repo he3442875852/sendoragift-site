@@ -103,3 +103,30 @@ test("new headwear, backpack and mouse-pad choices retain their names in both in
     }
   }
 });
+
+
+test("all detailed sample pages retain their selection through both quote routes", () => {
+  const samples = {
+    "black-gold-executive-set": ["Black & Gold Executive Gift Set Sample", "Corporate gift sets"],
+    "red-organizer-set": ["Red Organizer & Tumbler Gift Set Sample", "Corporate gift sets"],
+    "two-tone-mug": ["Two-Tone Ceramic Mug Logo Sample", "Custom logo gifts"],
+    "golf-accessory-set": ["Navy & Orange Golf Accessory Gift Set Sample", "Corporate gift sets"]
+  };
+  for (const [key, [label, category]] of Object.entries(samples)) {
+    for (const detailed of [false, true]) {
+      const { elements, attributes } = openContact("?sample=" + key, "", detailed);
+      assert.equal(elements.source_context.value, label);
+      assert.equal(elements[detailed ? "quote-product" : "product_type"].value, category);
+      assert.ok(elements[detailed ? "quote-details" : "message"].value.includes(label));
+      assert.equal(attributes["data-inquiry-product"], label);
+      assert.equal(elements["inquiry-selection-name"].textContent, label);
+    }
+  }
+});
+
+test("sample context preserves a buyer's written message and explicit product selection wins", () => {
+  const { elements } = openContact("?sample=two-tone-mug", "Need 200 mugs with a red logo.");
+  assert.equal(elements.message.value, "Need 200 mugs with a red logo.");
+  const product = openContact("?product=employee-welcome-kit&sample=two-tone-mug");
+  assert.equal(product.elements.product_type.value, "Custom Employee Welcome Kit");
+});
