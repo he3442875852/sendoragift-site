@@ -14,7 +14,7 @@ The initial technical check passed for all 120 indexable pages. This iteration i
 - Generate matching FAQ markup from the same question/answer pairs used in the rendered HTML. Remove generic Service nodes from these editorial pages; keep Article metadata for the five guides and FAQPage metadata for the answer hub. Match the visible breadcrumb hierarchy, authorship and revised dates.
 - Reuse the existing responsive navigation on the six edited pages. Add page-topic navigation and keyboard-accessible horizontal scrolling for comparison tables.
 - Link the answer hub and shipping guide from the homepage and display the confirmed operating company in the homepage footer.
-- Change sitemap lastmod only for the seven revised HTML pages. Preserve URLs, redirects, contact details, product imagery, inquiry endpoints and tracking behavior.
+- Change sitemap lastmod only for the revised HTML pages. Preserve URLs, redirects, contact details, product imagery, inquiry endpoints and tracking behavior.
 
 ## Validation before publication
 
@@ -38,3 +38,9 @@ FAQ markup is kept consistent with visible content. It is not a promise of Googl
 - [ICC: DDP and EXW explained](https://academy.iccwbo.org/incoterms/article/incoterms-2020-exw-or-ddp/)
 
 Business facts are preserved from `SITE_FACTS.md`. Product and sample descriptions remain references rather than invented completed-order evidence.
+
+## Production browser follow-up
+
+PR #71 was published after the local checks and successful Vercel builds. The preview required a Vercel login, so it was not visually reviewed. Production HTTP checks confirmed the seven edited pages, sitemap and two new assets were byte-for-byte identical to the submitted files.
+
+The production browser exposed a pre-existing image-path bug: ten guide pages declared relative URLs inside `--hero-image`, which resolved relative to the external stylesheet as `/assets/assets/...`. Correct the ten references to root-relative `/assets/...` paths. All referenced image files exist in the repository. This is a resource-path repair; the selected imagery is preserved.
