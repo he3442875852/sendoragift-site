@@ -130,3 +130,19 @@ test("sample context preserves a buyer's written message and explicit product se
   const product = openContact("?product=employee-welcome-kit&sample=two-tone-mug");
   assert.equal(product.elements.product_type.value, "Custom Employee Welcome Kit");
 });
+
+test("handover landing pages retain the selected set in both inquiry routes", () => {
+  for (const [slug, label] of Object.entries({
+    "car-dealership-handover-gift-set": "Custom Car Dealership Handover Gift Set",
+    "real-estate-closing-gift-set": "Custom Real Estate Closing Gift Set"
+  })) {
+    for (const detailed of [false, true]) {
+      const { elements, attributes } = openContact("?product=" + slug, "", detailed);
+      assert.equal(elements[detailed ? "quote-product" : "product_type"].value, "Corporate gift sets");
+      assert.equal(elements.source_context.value, label);
+      assert.equal(elements["inquiry-selection-name"].textContent, label);
+      assert.ok(elements[detailed ? "quote-details" : "message"].value.includes(label));
+      assert.equal(attributes["data-inquiry-product"], label);
+    }
+  }
+});

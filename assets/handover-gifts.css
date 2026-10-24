@@ -1,0 +1,6 @@
+.handover-page .handover-breadcrumb{padding-top:18px;padding-bottom:18px;font-size:13px;color:#625f58}
+.handover-page .buyer-card img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:5px;margin-bottom:20px}
+.handover-page [id]{scroll-margin-top:100px}
+.handover-page .buyer-faq details[open]{padding-bottom:12px}
+.handover-page .buyer-links{padding-bottom:12px}
+.handover-page .buyer-hero figure{max-width:560px}
