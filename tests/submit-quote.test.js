@@ -109,6 +109,19 @@ test("accepts a normal quote without attachment", async () => {
   assert.equal(res.json().ok, true);
 });
 
+test("retains an optional international postal code for the inquiry email and saved brief", async () => {
+  let saved;
+  const res = await run(baseFields({ delivery_postal_code: "SW1A 1AA" }), [], {
+    sendInquiryEmail: async (fields) => {
+      assert.equal(fields.delivery_postal_code, "SW1A 1AA");
+      return { id: "email_postal" };
+    },
+    saveInquiry: async (fields) => { saved = fields; }
+  });
+  assert.equal(res.statusCode, 200);
+  assert.equal(saved.delivery_postal_code, "SW1A 1AA");
+});
+
 test("calls Resend sender and returns success when it returns an email id", async () => {
   let context;
   const res = await run(baseFields(), [], {
@@ -234,7 +247,7 @@ test("parses urlencoded submissions for native fallback", () => {
 
 test("sends Resend payload with html, text, reply-to, and fixed from address", async () => withEmailEnv(async () => {
   let payload;
-  const result = await _test.sendInquiryEmail(baseFields({ _subject: "New inquiry\r\nBcc: test@example.com" }), [], { requestId: "req_1" }, {
+  const result = await _test.sendInquiryEmail(baseFields({ _subject: "New inquiry\r\nBcc: test@example.com", delivery_postal_code: "SW1A 1AA" }), [], { requestId: "req_1" }, {
     fetch: async (url, options) => {
       assert.equal(url, "https://api.resend.com/emails");
       assert.equal(options.headers.Authorization, "Bearer re_test_secret");
@@ -250,6 +263,8 @@ test("sends Resend payload with html, text, reply-to, and fixed from address", a
   assert.match(payload.subject, /New inquiry Bcc:/);
   assert.ok(payload.html);
   assert.ok(payload.text);
+  assert.match(payload.text, /Delivery postal code: SW1A 1AA/);
+  assert.match(payload.html, /SW1A 1AA/);
 }));
 
 test("fails safely when RESEND_API_KEY is missing", async () => {

@@ -28,6 +28,8 @@ test("maps a form inquiry without exposing raw IP data", () => {
     lead_ref: "SG-20260813-ABC23456",
     visitor_id: "SGV-ABC23456789XYZ",
     email: "buyer@example.com",
+    delivery_destination: "United Kingdom, London",
+    delivery_postal_code: "SW1A 1AA",
     source_type: "chatgpt",
     utm_term: "custom corporate gifts",
     current_page: "https://www.sendoragift.com/quote.html"
@@ -36,6 +38,7 @@ test("maps a form inquiry without exposing raw IP data", () => {
   assert.equal(record.conversion_type, "form");
   assert.equal(record.status, "new");
   assert.equal(record.source_type, "chatgpt");
+  assert.equal(record.delivery_destination, "United Kingdom, London · SW1A 1AA");
   assert.equal(record.visitor_country, "US");
   assert.equal(Object.prototype.hasOwnProperty.call(record, "remote_ip"), false);
 });

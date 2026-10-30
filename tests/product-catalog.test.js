@@ -30,18 +30,18 @@ function node(dataset = {}) {
 }
 
 function catalog(search = "") {
-  const cards = [node({ productKind: "sets", search: "Office notebook pens" }), node({ productKind: "single", search: "Metal pens" }), node({ productKind: "single", search: "Golf balls" })];
+  const cards = [node({ productKind: "sets", search: "Office notebook pens", occasions: "workplace clients" }), node({ productKind: "single", search: "Metal pens", occasions: "clients events" }), node({ productKind: "single", search: "Golf balls", occasions: "sports events" })];
   const groups = [{ contains: card => card === cards[0] }, { contains: card => cards.slice(1).includes(card) }];
-  const controls = node(), input = node(), status = node(), empty = node(), reset = node();
+  const controls = node(), input = node(), status = node(), empty = node(), reset = node(), occasion = node();
   controls.hidden = true;
   const buttons = ["all", "sets", "single"].map(kind => node({ catalogKind: kind }));
-  const single = { "[data-catalog-controls]": controls, "[data-catalog-search]": input, "[data-catalog-status]": status, "[data-catalog-empty]": empty };
+  const single = { "[data-catalog-controls]": controls, "[data-catalog-search]": input, "[data-catalog-status]": status, "[data-catalog-empty]": empty, "[data-catalog-occasion]": occasion };
   const many = { "[data-catalog-kind]": buttons, "[data-catalog-item]": cards, "[data-catalog-group]": groups, "[data-catalog-reset]": [reset] };
   const root = { querySelector: key => single[key], querySelectorAll: key => many[key] };
   const host = { location: { search, href: "https://www.sendoragift.com/products/" + search }, events: {}, addEventListener(name, fn) { this.events[name] = fn; } };
   host.history = { replaceState(_state, _title, href) { host.location.href = href; host.location.search = new URL(href).search; } };
   setup(root, host);
-  return { cards, groups, controls, input, status, empty, buttons, reset, host };
+  return { cards, groups, controls, input, status, empty, buttons, reset, occasion, host };
 }
 
 test("a single-product deep link reveals only that group and keeps filter state accessible", () => {
@@ -94,4 +94,29 @@ test("occasion and search links restore the query and reset it without losing at
   c.reset.click();
   assert.equal(new URL(c.host.location.href).searchParams.has("q"), false);
   assert.equal(new URL(c.host.location.href).searchParams.get("utm_source"), "homepage");
+});
+
+test("occasion combines with type and query, survives navigation, and resets with other filters", () => {
+  const c = catalog("?type=single&occasion=events&q=pens&utm_source=homepage");
+  assert.equal(c.occasion.value, "events");
+  assert.deepEqual(c.cards.map(card => card.hidden), [true, false, true]);
+  c.occasion.value = "sports";
+  c.occasion.events.change();
+  assert.equal(c.empty.hidden, false);
+  assert.equal(new URL(c.host.location.href).searchParams.get("occasion"), "sports");
+  c.host.location.search = "?occasion=clients";
+  c.host.events.popstate();
+  assert.equal(c.occasion.value, "clients");
+  assert.deepEqual(c.cards.map(card => card.hidden), [false, false, true]);
+  c.reset.click();
+  assert.ok(c.cards.every(card => !card.hidden));
+  assert.equal(c.occasion.value, "all");
+  assert.equal(new URL(c.host.location.href).searchParams.has("occasion"), false);
+  assert.equal(new URL(c.host.location.href).searchParams.get("utm_source"), "homepage");
+});
+
+test("unknown occasion values safely show all occasions", () => {
+  const c = catalog("?occasion=unknown");
+  assert.equal(c.occasion.value, "all");
+  assert.ok(c.cards.every(card => !card.hidden));
 });
