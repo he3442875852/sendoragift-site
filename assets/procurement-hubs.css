@@ -1,0 +1,111 @@
+/* Commercial hubs share a restrained layout and keep their content usable without JS. */
+.procurement-page{margin:0;background:#faf8f3;color:#24332d;font:16px/1.65 Arial,Helvetica,sans-serif}
+.procurement-page *{box-sizing:border-box}
+.procurement-page a{color:#765522;text-underline-offset:4px}
+.procurement-page a:hover{color:#3f542b}
+.procurement-page img{display:block;max-width:100%;height:auto}
+.procurement-page main{display:block;margin:0;padding:0;max-width:none}
+.procurement-page :is(h1,h2,h3,p,figure){margin:0}
+.procurement-page :is(h1,h2){font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.025em}
+.procurement-page h1{font-size:clamp(38px,4.6vw,64px);line-height:1.08;max-width:820px}
+.procurement-page h2{font-size:clamp(29px,3vw,42px);line-height:1.18;text-align:left;margin-bottom:16px;color:inherit}
+.procurement-page h3{font-size:20px;line-height:1.3;margin-bottom:10px;color:inherit}
+.procurement-page a:focus-visible,.procurement-page summary:focus-visible{outline:3px solid #99773c;outline-offset:4px}
+.proc-skip{position:absolute;left:12px;top:-100px;z-index:1300;padding:12px 18px;background:#fff;color:#24332d}
+.proc-skip:focus{top:12px}
+.proc-wrap{width:min(92%,1180px);margin-inline:auto}
+.procurement-page .proc-breadcrumbs{padding:18px 0;font-size:13px;color:#62695f}
+.procurement-page .proc-section{padding:64px 0;background:#fff}
+.procurement-page .proc-section.alt{background:#f1eee6}
+.procurement-page .proc-section[id],.procurement-page details[id]{scroll-margin-top:96px}
+.procurement-page .proc-hero{padding:58px 0 62px;background:#152c23;color:#fff;min-height:0}
+.procurement-page .proc-hero p{max-width:720px;color:#e2e7df;font-size:17px;margin-top:22px}
+.procurement-page p.proc-kicker{font:700 11px/1.5 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7b5d29;margin:0 0 12px}
+.procurement-page .proc-hero .proc-kicker{color:#e1bf81}
+.proc-hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.proc-hero-figure{overflow:hidden;border:1px solid #ffffff25;border-radius:9px;background:#213a30}
+.proc-hero-figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.procurement-page .proc-hero-figure figcaption{padding:12px 16px;font-size:12px;line-height:1.5;color:#d9e1d8}
+.proc-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.procurement-page .proc-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 20px;border:1px solid #9f7a3e;border-radius:5px;background:#9f7a3e;color:#fff;font-size:14px;font-weight:700;text-decoration:none;line-height:1.4}
+.procurement-page .proc-btn:hover{background:#876530;color:#fff}
+.procurement-page .proc-btn.secondary{color:#24332d;background:transparent;border-color:#bfb8a9}
+.procurement-page .proc-hero .proc-btn.secondary,.procurement-page .proc-cta .proc-btn.secondary{color:#fff;border-color:#9fac9f}
+.procurement-page .proc-jumps{padding:17px 0;background:#f1eee6;border-bottom:1px solid #ddd7cb}
+.proc-jumps .proc-wrap{display:flex;gap:12px 24px;flex-wrap:wrap}
+.proc-jumps a{font-size:13px;font-weight:700;text-decoration:none;padding:4px 0}
+.proc-heading{max-width:760px;margin-bottom:30px}
+.proc-heading>p:not(.proc-kicker){color:#61695f}
+.proc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.proc-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.proc-card{overflow:hidden;border:1px solid #ddd8cd;border-radius:8px;background:#fff;display:flex;flex-direction:column;min-width:0}
+.proc-card>img,.proc-card>a>img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#f3f1eb}
+.proc-card-body{padding:25px;flex:1;display:flex;flex-direction:column;align-items:start}
+.proc-card-body>p{color:#61695f;font-size:15px;margin-bottom:16px}
+.proc-card-body>p.proc-kicker{font-size:10px}
+.procurement-page .proc-card h3 a{color:#24332d;text-decoration:none}
+.proc-card dl{margin:0 0 18px;display:grid;gap:12px;width:100%;font-size:14px}
+.proc-card dt{font-weight:700;color:#3e493e}
+.proc-card dd{margin:2px 0 0;color:#61695f}
+.proc-card .proc-text-link{margin-top:auto;font-weight:700;font-size:14px}
+.proc-card .proc-evidence-link{font-size:13px;margin-top:12px}
+.proc-text-link{display:inline-block;min-height:32px}
+.proc-split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.proc-note{border-left:3px solid #a28045;padding:20px 24px;background:#f5f2e9;color:#5e665b;font-size:14px;margin-top:24px}
+.proc-note strong{color:#24332d}
+.proc-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.proc-link-card{display:block;border:1px solid #dbd5c8;border-radius:6px;background:#fff;padding:21px;text-decoration:none}
+.proc-link-card strong{display:block;color:#24332d;font-size:17px;margin-bottom:7px}
+.proc-link-card span{display:block;color:#62695f;font-size:14px}
+.proc-link-card:hover{border-color:#99773c}
+.procurement-page .proc-table-wrap{overflow:auto;border:1px solid #d9d3c7;border-radius:8px;background:#fff}
+.proc-table{width:100%;border-collapse:collapse;text-align:left;font-size:14px;min-width:620px}
+.proc-table caption{text-align:left;padding:18px 20px;font-weight:700;background:#f7f4ed}
+.proc-table :is(th,td){padding:18px 20px;border-bottom:1px solid #e3ded3;vertical-align:top}
+.proc-table thead th{background:#23392d;color:#fff;font-size:12px}
+.proc-table tbody th{width:21%;font-size:15px;color:#2f3f32}
+.proc-table td{color:#61695f}
+.proc-table tr:last-child :is(th,td){border-bottom:0}
+.proc-table a{font-weight:700}
+.proc-steps{list-style:none;counter-reset:steps;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:0;padding:0}
+.proc-steps li{counter-increment:steps;border-top:1px solid #c6bdab;padding-top:22px}
+.proc-steps li::before{content:counter(steps,decimal-leading-zero);display:block;color:#896c36;font-size:13px;font-weight:700;margin-bottom:16px}
+.proc-steps h3{font-size:18px}.proc-steps p{color:#61695f;font-size:14px}
+.procurement-page .proc-details{border:1px solid #d8d1c2;border-radius:7px;padding:20px 24px;margin-top:24px;background:#fff}
+.proc-details>summary{font-weight:700;cursor:pointer;color:#3f4b3c;font-size:16px;min-height:28px}
+.proc-details[open]>summary{margin-bottom:24px}
+.proc-facts{display:grid;grid-template-columns:130px 1fr;gap:16px 24px;margin:0;font-size:15px}
+.proc-facts dt{font-weight:700}.proc-facts dd{margin:0;color:#61695f;overflow-wrap:anywhere}
+.proc-checks{margin:0;padding-left:20px;color:#61695f}.proc-checks li{padding-left:3px;margin-bottom:12px}
+.procurement-page .proc-cta{background:#152c23;color:#fff;padding:54px 0}
+.proc-cta .proc-wrap{display:flex;justify-content:space-between;align-items:center;gap:34px}
+.proc-cta p{max-width:690px;color:#dae1d7}.proc-cta .proc-actions{flex-shrink:0;margin:0}
+.procurement-page .proc-footer{padding:46px 0 30px;background:#102019;color:#d1d9cc;font-size:13px;text-align:left}
+.proc-footer a{color:#e0c18b}.proc-footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:32px}
+.proc-footer nav{display:grid;gap:10px;align-content:start}.proc-footer strong{display:block;color:#fff;font-size:18px;margin-bottom:12px}
+.proc-footer .proc-footer-legal{border-top:1px solid #ffffff25;padding-top:22px;font-size:12px}
+.procurement-page .quote-form{max-width:960px;display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0}
+.procurement-page .field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.procurement-page .field.full{grid-column:1/-1}
+.procurement-page .field label{font-size:14px;font-weight:700}
+.procurement-page .field :is(input,select,textarea){width:100%;min-width:0;padding:12px;border:1px solid #bcb6a8;border-radius:5px;background:#fff;color:#24332d;font:inherit}
+.procurement-page .field :is(input,select,textarea):focus{outline:2px solid #9a783e;outline-offset:2px}
+.procurement-page .quote-form .privacy-consent{display:flex;gap:8px;align-items:start;font-size:13px;font-weight:400;line-height:1.5}
+.procurement-page .privacy-consent input{width:auto;margin-top:4px}
+.procurement-page .quote-form button{cursor:pointer;font:inherit;font-weight:700;margin-top:12px}
+.procurement-page .hidden-field{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
+.proc-resource-links{display:grid;gap:12px;margin-top:18px}
+.proc-resource-links a{display:block;font-size:14px;font-weight:700;padding-bottom:10px;border-bottom:1px solid #e6e0d4}
+.proc-stage-footer{margin-top:auto;padding-top:20px;font-size:13px}
+.procurement-page .resource-card{background:#fff;border:1px solid #ddd8cd;border-radius:8px;overflow:hidden}
+.resource-card>img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.resource-card .blog-card-content{padding:24px}
+.resource-card .blog-card-content>span{font-size:12px;color:#6a7166}
+.resource-card .badge{color:#88682f;font-size:11px;font-weight:700;letter-spacing:.04em;margin:8px 0}
+.resource-card h3{font-size:20px;margin-bottom:12px}
+.resource-card p{font-size:14px;color:#61695f;margin-bottom:18px}
+.resource-card a{font-size:14px;font-weight:700}
+.proc-topic-links{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:18px}
+.proc-topic-links a{font-size:14px}
+@media(max-width:960px){.proc-hero-grid{gap:28px}.proc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.proc-link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.proc-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.proc-cta .proc-wrap{display:block}.proc-cta .proc-actions{margin-top:24px}.proc-footer-grid{gap:24px}}
+@media(max-width:640px){.procurement-page .proc-hero{padding:38px 0 40px}.proc-hero-grid,.proc-split,.proc-grid,.proc-grid.two,.proc-link-grid,.proc-footer-grid{grid-template-columns:1fr}.proc-hero-grid{gap:30px}.proc-hero-figure img{aspect-ratio:16/10}.procurement-page .proc-section{padding:44px 0}.proc-card-body{padding:22px}.proc-jumps .proc-wrap{gap:7px 18px}.proc-heading{margin-bottom:24px}.proc-facts{grid-template-columns:1fr;gap:5px}.proc-facts dd{margin-bottom:14px}.procurement-page .quote-form{grid-template-columns:1fr}.proc-steps{gap:24px 20px}.procurement-page .proc-details{padding:18px}.proc-actions .proc-btn{flex:1;white-space:normal}.proc-table :is(th,td){padding:15px}.proc-footer .proc-footer-legal{line-height:1.8}}

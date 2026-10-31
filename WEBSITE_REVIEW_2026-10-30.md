@@ -63,3 +63,9 @@ Use Search Console to compare qualified impressions and clicks by existing landi
 - 80 automated tests pass; SEO checks pass for 122 indexable pages; whitespace checks pass.
 - Browser interaction checks used local preview copies with production analytics initialization disabled. The final inquiry email and database handling were tested with mocked services; no live message was sent.
 - The changes are prepared for the existing PR #77. Production publication is separate from the combined source submission.
+
+## Commercial-hub follow-up — 31 October 2026
+
+The next pass studies Luxopack's catalog, corporate industry page, detailed magnetic-box specification page, cases, documentation and buying guides. It connects Sendora's previously improved detail pages through five rebuilt hubs: solutions, single logo products, company/procurement checks, packaging and the guide directory. A shared responsive layout prioritizes product categories, purpose-specific confirmation points, physical sample references, packaging tradeoffs and guides by purchase stage. The existing packaging form, sample anchors, article URLs, publication dates and structured FAQ text are preserved. Eight product-category cards, six occasion routes, four packing formats and four guide stages now lead to existing detail pages and evidence.
+
+Research observations, implementation mapping and verification limits are documented in `LUXOPACK_ARCHITECTURE_REVIEW_2026-10-31.md`. All 80 automated tests and 122-page SEO checks pass. Additional source checks confirm one H1 per hub, unique IDs, valid in-page links and unchanged packaging form contracts. Browser QA covers five mobile iframe widths, menu navigation, local table scrolling, the old sample-photo fragment, the 16-card article directory and packaging form input without submission. These changes extend the same PR without production publication or traffic-result claims.
