@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { test } = require("node:test");
 const vm = require("node:vm");
+const directions = require("../assets/js/gift-directions.js");
 
 const html = fs.readFileSync(path.join(__dirname, "../contact/index.html"), "utf8");
 const script = fs.readFileSync(path.join(__dirname, "../assets/js/quote-context.js"), "utf8");
@@ -17,12 +18,16 @@ function openContact(search, existingMessage = "", detailedQuote = false) {
     source_context: { value: "contact page direct RFQ" },
     "inquiry-selection": { hidden: true },
     "inquiry-selection-name": { textContent: "" },
+    "inquiry-selection-details": { textContent: "", hidden: true },
+    quantity: { value: "" },
     message: { value: existingMessage },
-    product_type: { options, value: "Need recommendation" }
+    product_type: { options, value: "Need recommendation", events: {}, addEventListener(name, fn) { this.events[name] = fn; } }
   };
   if (detailedQuote) {
     elements["quote-product"] = elements.product_type;
     elements["quote-details"] = elements.message;
+    elements["quote-quantity"] = elements.quantity;
+    delete elements.quantity;
     delete elements.product_type;
     delete elements.message;
   }
@@ -31,7 +36,7 @@ function openContact(search, existingMessage = "", detailedQuote = false) {
     getElementById: id => elements[id],
     body: { setAttribute(name, value) { attributes[name] = value; } }
   };
-  vm.runInNewContext(script, { document, window: { location: { search } }, URLSearchParams });
+  vm.runInNewContext(script, { document, window: { location: { search }, SendoraGiftDirections: directions }, URLSearchParams });
   return { elements, attributes };
 }
 
@@ -144,5 +149,45 @@ test("handover landing pages retain the selected set in both inquiry routes", ()
       assert.ok(elements[detailed ? "quote-details" : "message"].value.includes(label));
       assert.equal(attributes["data-inquiry-product"], label);
     }
+  }
+});
+
+test("a chosen configuration, quantity and packing remain visible in both quote routes", () => {
+  for (const detailed of [false, true]) {
+    const { elements, attributes } = openContact("?product=car-dealership-handover-gift-set&configuration=signing-delivery&packing=presentation&quantity=350", "", detailed);
+    assert.equal(elements[detailed ? "quote-quantity" : "quantity"].value, "350");
+    assert.match(elements[detailed ? "quote-details" : "message"].value, /Signing & delivery set/);
+    assert.match(elements["inquiry-selection-details"].textContent, /metal keychain/);
+    assert.match(elements["inquiry-selection-details"].textContent, /Presentation box/);
+    assert.equal(elements["inquiry-selection-details"].hidden, false);
+    assert.equal(attributes["data-inquiry-configuration"], "Signing & delivery set");
+  }
+});
+
+test("configuration IDs cannot be reused on an unrelated product or as arbitrary text", () => {
+  for (const configuration of ["signing-delivery", "__proto__", "custom unverified promise"]) {
+    const { elements, attributes } = openContact("?product=employee-welcome-kit&configuration=" + encodeURIComponent(configuration) + "&quantity=350&packing=presentation");
+    assert.equal(elements["inquiry-selection-details"].hidden, true);
+    assert.equal(elements.quantity.value, "");
+    assert.equal(attributes["data-inquiry-configuration"], undefined);
+  }
+});
+
+test("invalid quantity and packing are ignored without losing a valid configuration", () => {
+  const { elements } = openContact("?product=custom-metal-pens&configuration=pen-case&quantity=1e6&packing=unverified-free-shipping");
+  assert.equal(elements.quantity.value, "");
+  assert.match(elements.message.value, /Pen in presentation case/);
+  assert.doesNotMatch(elements.message.value, /unverified-free-shipping|1e6/);
+});
+
+test("changing product clears the old automatic configuration but preserves buyer edits", () => {
+  for (const existingMessage of ["", "Please also quote 200 blue pens."]) {
+    const { elements, attributes } = openContact("?product=custom-metal-pens&configuration=pen-case", existingMessage);
+    elements.product_type.value = "Custom Employee Welcome Kit";
+    elements.product_type.events.change();
+    assert.equal(attributes["data-inquiry-configuration"], "");
+    assert.equal(elements["inquiry-selection-details"].hidden, true);
+    if (existingMessage) assert.equal(elements.message.value, existingMessage);
+    else { assert.match(elements.message.value, /Custom Employee Welcome Kit/); assert.doesNotMatch(elements.message.value, /Pen in presentation case/); }
   }
 });

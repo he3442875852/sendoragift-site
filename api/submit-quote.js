@@ -3,8 +3,7 @@
 const crypto = require("crypto");
 const trackingStore = require("../lib/tracking-store.js");
 
-const MAX_BODY_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_BODY_BYTES || 4 * 1024 * 1024), 4 * 1024 * 1024);
-const MAX_ATTACHMENT_BYTES = Math.min(Number(process.env.QUOTE_FORM_MAX_ATTACHMENT_BYTES || MAX_BODY_BYTES), MAX_BODY_BYTES);
+const { MAX_BODY_BYTES, MAX_ATTACHMENT_BYTES } = require("../lib/quote-upload-limits.js");
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const RESEND_EMAILS_URL = "https://api.resend.com/emails";
 const CURRENT_INQUIRY_TO_EMAIL = "mcpatch@188.com";
@@ -28,6 +27,7 @@ const FIELD_LIMITS = {
   quantity: 20,
   delivery_destination: 200,
   delivery_country: 200,
+  delivery_postal_code: 30,
   target_budget: 100,
   target_delivery_date: 80,
   branding_need: 120,
@@ -462,6 +462,7 @@ function buildEmailRows(fields, context) {
     ["Estimated quantity", fields.quantity],
     ["Target budget", fields.target_budget],
     ["Delivery country / city", fields.delivery_destination || fields.delivery_country],
+    ["Delivery postal code", fields.delivery_postal_code],
     ["Target delivery date", fields.target_delivery_date],
     ["Logo / branding need", fields.logo_packaging_need || fields.branding_need],
     ["Packaging need", fields.packaging_need],
@@ -760,7 +761,9 @@ function createHandler(deps = {}) {
       });
 
       if (error.code === "PAYLOAD_TOO_LARGE" || error.message === "file_too_large") {
-        sendJson(res, 413, { ok: false, message: FORM_ERROR_MESSAGE });
+        sendJson(res, 413, { ok: false, message: FORM_ERROR_MESSAGE, code: "upload_too_large" });
+      } else if (["invalid_file_extension", "double_extension", "mime_mismatch", "signature_mismatch", "too_many_files"].includes(error.message)) {
+        sendJson(res, 400, { ok: false, message: FORM_ERROR_MESSAGE, code: "invalid_upload" });
       } else if (type === "turnstile") {
         sendJson(res, 400, { ok: false, message: TURNSTILE_ERROR_MESSAGE });
       } else if (type === "service" || error.message === "email_failed") {

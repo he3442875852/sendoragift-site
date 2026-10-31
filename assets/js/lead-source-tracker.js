@@ -115,7 +115,11 @@
 
   function getProductInterest() {
     if (!document.body || typeof document.body.getAttribute !== "function") return "";
-    return String(document.body.getAttribute("data-inquiry-product") || "").replace(/\s+/g, " ").trim().slice(0, 200);
+    var product = String(document.body.getAttribute("data-inquiry-product") || "").replace(/\s+/g, " ").trim();
+    if (!product) return "";
+    var configuration = String(document.body.getAttribute("data-inquiry-configuration") || "").replace(/\s+/g, " ").trim();
+    var packing = String(document.body.getAttribute("data-inquiry-packing") || "").replace(/\s+/g, " ").trim();
+    return [product, configuration ? "Direction: " + configuration : "", packing ? "Packing: " + packing : ""].filter(Boolean).join("\n").slice(0, 200);
   }
 
   function getWhatsappUrl(leadRef) {
@@ -309,6 +313,7 @@
 
   function fillForm(form) {
     if (!form || !form.elements) return;
+    if (String(form.method || "").toLowerCase() === "get") return;
     var data = getLeadSourceData();
     FIELD_NAMES.forEach(function (name) {
       ensureHiddenField(form, name).value = data[name] || "";
@@ -329,13 +334,26 @@
   }
 
   function sendGenerateLeadEvent(data) {
-    sendAnalyticsEvent("generate_lead", {
+    sendAnalyticsEvent("generate_lead", Object.assign({
       source_type: data.source_type,
       utm_source: data.utm_source,
       utm_medium: data.utm_medium,
       utm_campaign: data.utm_campaign,
       current_page: data.current_page
+    }, journeyParameters()));
+  }
+
+  function journeyParameters(extra) {
+    var params = {};
+    var attrs = { product_id: "data-buyer-product", configuration_id: "data-buyer-configuration", packing_id: "data-buyer-packing" };
+    Object.keys(attrs).forEach(function (key) {
+      var value = document.body && document.body.getAttribute ? document.body.getAttribute(attrs[key]) : "";
+      if (typeof value === "string" && /^[a-z0-9_-]{1,80}$/.test(value)) params[key] = value;
     });
+    ["product_id", "configuration_id", "packing_id", "evidence_id", "journey_step"].forEach(function (key) {
+      if (extra && typeof extra[key] === "string" && /^[a-z0-9_-]{1,80}$/.test(extra[key])) params[key] = extra[key];
+    });
+    return params;
   }
 
   function sendWhatsappClickEvent(data) {
@@ -350,10 +368,10 @@
         keepalive: true
       }).catch(function () {});
     }
-    sendAnalyticsEvent("whatsapp_click", {
+    sendAnalyticsEvent("whatsapp_click", Object.assign({
       source_type: data.source_type,
       current_page: data.current_page
-    });
+    }, journeyParameters()));
   }
 
   function handleSubmit(event) {
@@ -422,10 +440,16 @@
     productSelect.addEventListener("change", function () {
       var product = productSelect.value === "Need recommendation" ? "" : productSelect.value;
       document.body.setAttribute("data-inquiry-product", product);
+      document.body.setAttribute("data-inquiry-configuration", "");
+      document.body.setAttribute("data-inquiry-packing", "");
+      refreshWhatsappLinks();
+    });
+  }
+
+  function refreshWhatsappLinks() {
       Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
         link.href = getWhatsappUrl(link.dataset.sendoraLeadRef || getLeadRef());
       });
-    });
   }
 
   function start() {
@@ -442,14 +466,18 @@
   window.SendoraLeadSourceTracker = {
     getData: getLeadSourceData,
     fillForms: fillAllForms,
-    track: function (eventName) {
+    track: function (eventName, extra) {
       var data = getLeadSourceData();
       if (eventName === "generate_lead") sendGenerateLeadEvent(data);
-      else sendAnalyticsEvent(eventName, {
+      else {
+        var params = Object.assign({
         source_type: data.source_type,
         current_page: data.current_page
-      });
+        }, journeyParameters(extra));
+        sendAnalyticsEvent(eventName, params);
+      }
     },
+    refreshWhatsApp: refreshWhatsappLinks,
     whatsapp: {
       number: WHATSAPP_NUMBER,
       message: WHATSAPP_MESSAGE,
