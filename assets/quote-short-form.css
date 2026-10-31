@@ -18,3 +18,5 @@
 .inquiry-selection strong{display:block;margin-top:4px}
 .contact-page .hidden-field{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
 .contact-page label span{font-weight:400;color:#625f58}
+.contact-page .quote-layout>*,.contact-page .field{min-width:0}
+.contact-page .field.btn-row{flex-wrap:nowrap;align-items:stretch}

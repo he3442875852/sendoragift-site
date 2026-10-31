@@ -20,3 +20,16 @@
 | /blog/corporate-gift-set-shipping-planning-guide.html | Bulk delivery planning | BlogPosting, FAQPage, BreadcrumbList | Coordination language without promising fixed capability |
 | /corporate-gift-sets-under-15.html | Budget-led gift sets for 100–500 recipients | WebPage, Service, FAQPage, BreadcrumbList | Reference budget directions are not fixed quotations; freight needs destination review |
 | /compact-corporate-gift-sets.html | Compact gift sets and lower shipping volume | WebPage, Service, FAQPage, BreadcrumbList | Use measured product and carton details; do not promise one cheapest route |
+
+## Buyer-content expansion — 2026-10-31
+
+| Page | Primary buyer question | Existing page kept distinct | Markup |
+| --- | --- | --- | --- |
+| /channel-partner-welcome-gifts.html | Gifts for onboarding resellers, distributors and channel partners | Distributor sourcing concerns purchasing merchandise for resale | WebPage, Service, BreadcrumbList |
+| /document-folder-pen-gift-sets.html | A folder and pen as a coordinated business gift | PU-folder and metal-pen pages remain the single-product catalogs | WebPage, Service, BreadcrumbList |
+| /blog/a4-a5-document-folder-capacity-guide.html | How to check loaded A4/A5 document capacity | PU-folder page remains the product and quotation route | BlogPosting, WebPage, BreadcrumbList |
+| /blog/metal-pen-engraving-vs-printing.html | What to approve when comparing pen decoration methods | Metal-pen page remains the product and quotation route | BlogPosting, WebPage, BreadcrumbList |
+| /blog/corporate-gift-artwork-file-checklist.html | How to hand off master files, previews and approved versions | Logo-method and placement pages retain their broader comparison roles | BlogPosting, WebPage, BreadcrumbList |
+| /blog/golf-tournament-sponsor-logo-checklist.html | How to allocate sponsors, surfaces and recipient variants | Golf set detail remains the product-selection page | BlogPosting, WebPage, BreadcrumbList |
+
+New guides display their revision date and company byline. Visible Q&A helps readers; no new Google FAQ-rich-result eligibility is claimed. See SEO_CONTENT_EXPANSION_2026-10-31.md for the implementation and source notes.
