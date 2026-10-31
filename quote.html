@@ -36,8 +36,8 @@ label{font-weight:bold;color:#222;font-size:14px;}
 input,select,textarea{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size:15px;background:#fff;}
 textarea{resize:vertical;min-height:130px;}
 .help{font-size:13px;color:#777;line-height:1.5;}
-button{padding:14px 28px;background:#8e6937;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;font-size:16px;width:100%;}
-button:hover{background:#6f4e24;}
+.quote-form button{padding:14px 28px;background:#8e6937;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;font-size:16px;width:100%;}
+.quote-form button:hover{background:#6f4e24;}
 .side-card{background:#f0f0f0;border-radius:8px;padding:26px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .side-card h2{font-size:24px;color:#222;margin-bottom:14px;}.side-card ul{padding-left:20px;color:#555;}.side-card li{margin-bottom:10px;}
 .trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;}.trust-card{background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);} .trust-card h3{color:#222;margin-bottom:10px;}.trust-card p{color:#555;}
@@ -50,7 +50,10 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 .file-upload{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #ccc;border-radius:5px;background:#fff;color:#555;font-size:15px;cursor:pointer;}
 .file-upload input[type="file"]{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none;}
 .file-upload-label{display:inline-block;background:#f0f0f0;color:#222;border-radius:4px;padding:7px 12px;font-weight:bold;}
-.file-name{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-name{color:#666;min-width:0;overflow-wrap:anywhere;}
+.file-upload{flex-wrap:wrap;}
+.file-upload:focus-within{outline:3px solid #8e6937;outline-offset:3px;}
+.hidden-field{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;}
 .quote-assurance{margin:0 0 30px;padding:24px;background:#f7f2e9;border:1px solid #e5d6bf;border-radius:10px;}
 .quote-assurance h2{font-size:24px;color:#222;margin-bottom:14px;}
 .assurance-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;list-style:none;}
@@ -155,7 +158,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 </script>
 <link rel="stylesheet" href="/assets/site-shell.css?v=20261030-1">
 <script src="/assets/js/site-shell.js?v=20261030-1" defer></script>
-<link rel="stylesheet" href="/assets/quote-short-form.css?v=20261021-2">
+<link rel="stylesheet" href="/assets/quote-short-form.css?v=20261031-2">
 <link rel="stylesheet" href="/assets/buyer-journey.css?v=20261030-2">
 </head>
 <body>
@@ -179,7 +182,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <ol class="form-progress" aria-label="Quote request progress"><li aria-current="step">Contact</li><li>Project</li><li>Branding</li></ol>
 <fieldset data-form-step>
 <legend>Who should we reply to?</legend>
-<p class="step-intro">Start with four contact details. You can add the project brief in the next two short steps.</p>
+<p class="step-intro">Start with your name and email. Company and phone are optional. Add the project brief in the next two steps.</p>
 <div class="form-grid">
 <div class="field"><label for="quote-name">Your name *</label><input id="quote-name" type="text" name="name" autocomplete="name" required></div>
 <div class="field"><label for="quote-email">Business email *</label><input id="quote-email" type="email" name="email" autocomplete="email" required></div>
@@ -199,7 +202,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <div class="field"><label for="quote-quantity">Estimated quantity *</label><input id="quote-quantity" type="number" name="quantity" min="1" placeholder="e.g. 500" required></div>
 <div class="field"><label for="quote-budget">Target budget</label><input id="quote-budget" type="text" name="target_budget" placeholder="e.g. USD 8–15 per set"></div>
 <div class="field"><label for="quote-destination">Delivery country / city</label><input id="quote-destination" type="text" name="delivery_destination" autocomplete="country-name"></div>
-<div class="field"><label for="quote-date">Target delivery date</label><input id="quote-date" type="text" name="target_delivery_date" placeholder="e.g. 2026-10-30"></div>
+<div class="field"><label for="quote-date">Target delivery date</label><input id="quote-date" type="text" name="target_delivery_date" placeholder="Required arrival date"></div>
 </div>
 <div class="step-actions"><button class="secondary" type="button" data-step-back>Back</button><button type="button" data-step-next>Continue to Branding</button></div>
 </fieldset>
@@ -211,7 +214,7 @@ select{padding:12px;border-radius:5px;border:1px solid #ccc;width:100%;font-size
 <option value="" disabled selected>Logo / Branding Need</option><option>Logo printing</option><option>Laser engraving</option><option>Embroidery</option><option>Custom gift box packaging</option><option>Logo + packaging</option><option>Need recommendation</option>
 </select></div>
 <div class="field full"><label>Optional logo / reference file</label><label class="file-upload"><span class="file-upload-label">Upload Logo / Design File</span><input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf"><span class="file-name">No file selected</span></label><span class="help">JPG, PNG or PDF. You can also send files later by email or WhatsApp.</span></div>
-<div class="field full"><label for="quote-details">Project details *</label><textarea id="quote-details" name="message" rows="6" placeholder="Recipients, product ideas, logo position, packaging needs, sample requirements and reference links." required></textarea></div>
+<div class="field full"><label for="quote-details">Project details *</label><textarea id="quote-details" name="message" maxlength="2000" rows="6" placeholder="Recipients, product ideas, logo position, packaging needs, sample requirements and reference links." required></textarea></div>
 <input type="hidden" name="_subject" value="New custom corporate gift quote request with attachment">
 <div class="field full"><label class="privacy-consent"><input type="checkbox" name="privacy_consent" required><span>I have read and agree to the <a href="/privacy-policy.html">Privacy Policy</a>.</span></label></div>
 </div>
@@ -242,8 +245,8 @@ document.querySelectorAll('.file-upload input[type="file"]').forEach(input=>{
   <script src="/assets/js/gift-directions.js?v=20261030-2" defer></script>
 <script src="/assets/js/quote-context.js?v=20261030-2" defer></script>
   <script src="/assets/js/lead-source-tracker.js?v=20261030-2" defer></script>
-<script src="/assets/js/quote-multistep.js?v=20260818-1" defer></script>
-<script src="/assets/js/quote-form-protection.js?v=20260730-2" defer></script>
+<script src="/assets/js/quote-multistep.js?v=20261031-2" defer></script>
+<script src="/assets/js/quote-form-protection.js?v=20261031-2" defer></script>
 <a id="sendora-whatsapp-float" href="https://wa.me/8613400883682?text=Hello%20Sendora%20Gift%2C%20I%20need%20a%20custom%20corporate%20gift%20set%20with%3A%20%5Btype%20the%20items%20here%5D.%20Please%20recommend%20suitable%20options%20and%20provide%20the%20MOQ%2C%20price%20range%2C%20and%20lead%20time." target="_blank" rel="noopener" aria-label="Chat with Sendora Gift on WhatsApp" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#2ee978 0%,#19b85a 58%,#0f9449 100%);border:2px solid rgba(255,255,255,.96);box-shadow:0 12px 28px rgba(13,21,18,.22),0 0 0 7px rgba(37,211,102,.12);color:#fff!important;font-size:0!important;line-height:0!important;text-decoration:none!important;overflow:hidden;">
   <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" style="width:29px;height:29px;display:block;fill:currentColor;flex:0 0 auto;"><path d="M16.04 3.2A12.75 12.75 0 0 0 5.08 22.5L3.7 28.8l6.44-1.7a12.73 12.73 0 0 0 5.9 1.5h.01A12.7 12.7 0 0 0 28.8 15.9 12.73 12.73 0 0 0 16.04 3.2Zm0 23.24h-.01a10.62 10.62 0 0 1-5.4-1.48l-.39-.23-3.82 1.01.81-3.74-.25-.39a10.58 10.58 0 1 1 9.06 4.83Zm5.8-7.94c-.32-.16-1.88-.93-2.17-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-.99 1.24-.18.21-.37.24-.68.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.58-1.88-1.76-2.19-.18-.32-.02-.49.14-.65.14-.14.32-.37.47-.55.16-.18.21-.32.32-.53.11-.21.05-.39-.03-.55-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54h-.61c-.21 0-.55.08-.84.39-.29.32-1.1 1.08-1.1 2.62 0 1.55 1.13 3.04 1.29 3.25.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.66.76.24 1.45.21 1.99.13.61-.09 1.88-.77 2.14-1.51.26-.74.26-1.38.18-1.51-.08-.13-.29-.21-.61-.37Z"/></svg>
   <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">WhatsApp</span>

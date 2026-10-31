@@ -19,10 +19,13 @@
 | `sample_video_start` | 首次播放该页标注的样品视频 | `product_id`, `evidence_id` |
 | `quote_start` | 点击当前页面上的内部询盘链接 | `product_id`（有值时）, `journey_step` |
 | `quote_form_start` | 首次开始填写正式询盘表单 | `product_id`, `configuration_id`（已带入时） |
+| `quote_submit_error` | 一次提交尝试遇到验证、网络、服务或服务器附件错误 | `journey_step`：固定错误类别；不包含表单内容或文件名 |
 | `whatsapp_click` | 点击 WhatsApp | 原有来源信息；本次增加产品和组合参数 |
 | `generate_lead` | 原有成功提交处理器确认询盘提交成功 | 原有来源信息；本次增加产品和组合参数 |
 
 `quote_start` 不包含选品表单的 GET 跳转，后者单独计为 `quote_builder_continue`。同一页面浏览中的 `quote_form_start` 只发送一次；视频事件每个标注视频只计第一次播放。WhatsApp 点击不等于客户已经发来消息；成功表单提交也不等于成交订单。
+
+询价可靠性改动后，`generate_lead` 要求提交 API 返回成功 HTTP 状态且 JSON 中明确有 `ok: true`，异常页面或无法解析的返回不会记录成功。`quote_submit_error` 的类别限于 `verification`、`network`、`service`、`validation`、`upload_too_large`、`invalid_upload`。该事件不覆盖所有原生字段校验失败；重复尝试可以产生多次错误事件，不能用全部错误事件次数直接计算用户失败率。优先按同一会话、设备与询价路径核对发生错误的用户及其后续是否成功提交。
 
 新增自定义事件参数只接受预设名称和受限的标识符：`product_id`、`configuration_id`、`packing_id`、`evidence_id`、`journey_step`。不把买家的姓名、邮箱、自由描述、邮编或数量作为新增分析参数。询盘所需内容仍通过现有表单处理和保存。
 

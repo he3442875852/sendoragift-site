@@ -219,9 +219,38 @@ test("rejects invalid fields", async () => {
 });
 
 test("rejects disallowed or mismatched attachments", async () => {
-  assert.equal((await run(baseFields(), [{ filename: "bad.svg", type: "image/svg+xml", data: Buffer.from("<svg") }])).statusCode, 400);
-  assert.equal((await run(baseFields(), [{ filename: "logo.jpg", type: "image/png", data: Buffer.from([0xff, 0xd8, 0xff]) }])).statusCode, 400);
-  assert.equal((await run(baseFields(), [{ filename: "logo.php.jpg", type: "image/jpeg", data: Buffer.from([0xff, 0xd8, 0xff]) }])).statusCode, 400);
+  for (const file of [
+    { filename: "bad.svg", type: "image/svg+xml", data: Buffer.from("<svg") },
+    { filename: "logo.jpg", type: "image/png", data: Buffer.from([0xff, 0xd8, 0xff]) },
+    { filename: "logo.php.jpg", type: "image/jpeg", data: Buffer.from([0xff, 0xd8, 0xff]) }
+  ]) {
+    const result = await run(baseFields(), [file]);
+    assert.equal(result.statusCode, 400);
+    assert.equal(result.json().code, "invalid_upload");
+    assert.doesNotMatch(result.body, /bad\.svg|logo\.php|mime_mismatch|signature_mismatch/);
+  }
+});
+
+test("oversized requests return a recoverable upload code without changing the body limit", async () => {
+  const result = await run(baseFields(), [{ filename: "large.pdf", type: "application/pdf", data: Buffer.alloc(_test.MAX_BODY_BYTES + 1) }]);
+  assert.equal(result.statusCode, 413);
+  assert.equal(result.json().code, "upload_too_large");
+});
+
+test("public form configuration reports the same upload limits enforced by the API", () => {
+  const handler = require("../api/turnstile-site-key.js");
+  const previous = process.env.TURNSTILE_SITE_KEY;
+  process.env.TURNSTILE_SITE_KEY = "public-site-key-for-test";
+  try {
+    const result = createRes();
+    handler({ method: "GET" }, result);
+    assert.equal(result.statusCode, 200);
+    assert.equal(result.json().maxAttachmentBytes, _test.MAX_ATTACHMENT_BYTES);
+    assert.equal(result.json().maxBodyBytes, _test.MAX_BODY_BYTES);
+  } finally {
+    if (previous === undefined) delete process.env.TURNSTILE_SITE_KEY;
+    else process.env.TURNSTILE_SITE_KEY = previous;
+  }
 });
 
 test("reports Resend failure as a service error", async () => {
