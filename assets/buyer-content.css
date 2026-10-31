@@ -1,0 +1,39 @@
+/* Buyer guides and focused gift combinations, built on the shared commercial shell. */
+.buyer-content-page .proc-hero{padding:46px 0}
+.buyer-content-page .proc-hero-grid{grid-template-columns:1.35fr .65fr;gap:42px}
+.buyer-content-page .proc-hero h1{font-size:clamp(36px,4.1vw,56px)}
+.buyer-content-page .proc-hero .article-byline{font-size:12px;margin-top:18px;color:#cbd6c8}
+.buyer-content-page .article-byline a{color:inherit}
+.buyer-content-page .buyer-answer{padding:26px 30px;background:#fff;border:1px solid #d8d2c5;border-left:4px solid #9f7a3e;border-radius:6px}
+.buyer-answer h2{font-size:28px}.buyer-answer p{color:#465442;font-size:17px}
+.buyer-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:56px;align-items:start}
+.buyer-copy{min-width:0;max-width:860px}
+.buyer-content-page .buyer-copy>section{padding:0;margin:0 0 48px;background:transparent;scroll-margin-top:100px}
+.buyer-content-page .buyer-copy h2{font-size:clamp(27px,3vw,36px);margin:0 0 18px}
+.buyer-content-page .buyer-copy h3{font-size:19px;margin:24px 0 10px}
+.buyer-copy p{margin:0 0 18px;color:#52604f}
+.buyer-copy :is(ul,ol){margin:0 0 22px;padding-left:22px;color:#52604f}
+.buyer-copy li{margin:0 0 10px;padding-left:4px}
+.buyer-copy .proc-table-wrap{margin:24px 0}.buyer-copy .proc-table{min-width:610px}
+.buyer-copy .proc-table caption{font-size:14px}
+.buyer-toc{position:sticky;top:100px;border-top:3px solid #9f7a3e;background:#f4f1e8;padding:22px;font-size:13px}
+.buyer-toc strong{display:block;margin-bottom:13px;color:#344631;font-size:15px}
+.buyer-toc nav{display:grid;gap:14px}.buyer-toc a{color:#52604f;text-decoration:none}
+.buyer-toc a:hover{text-decoration:underline}.buyer-toc p{margin-top:22px;color:#66725e}
+.buyer-reading{width:min(92%,1180px);margin:35px auto;padding:24px 28px;border:1px solid #d9d2c4;border-left:4px solid #9f7a3e;border-radius:7px;background:#f6f3eb;color:#344631}
+.buyer-reading h2{font:400 27px/1.2 Georgia,serif;margin:0 0 12px;text-align:left;color:#24332d}
+.buyer-reading p{margin:0 0 14px;color:#61695f}.buyer-reading ul{padding-left:20px;margin:0}
+.buyer-reading li{margin:8px 0}.buyer-reading a{color:#765522;text-underline-offset:4px}
+.buyer-content-page .buyer-proof{margin:26px 0;border:1px solid #d9d2c4;border-radius:8px;overflow:hidden;background:#fff}
+.buyer-proof img{width:100%;max-height:450px;object-fit:contain;background:#f1eee7}
+.buyer-proof figcaption{padding:16px 20px;color:#61695f;font-size:13px}
+.buyer-brief{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d9d2c4;padding:22px;border-radius:6px;background:#f4f1e8;color:#344631;font:14px/1.8 Arial,sans-serif}
+.buyer-content-page .buyer-faq{border-bottom:1px solid #d9d2c4;padding:19px 0}
+.buyer-content-page .buyer-faq h3{margin:0 0 9px;font-size:18px}
+.buyer-content-page .buyer-faq p{margin:0;color:#52604f}
+.buyer-content-page .buyer-source{font-size:13px;padding-top:18px;border-top:1px solid #d9d2c4}
+.buyer-content-page .buyer-source p{font-size:13px}
+.buyer-content-page .buyer-scope{font-size:13px;color:#66725e;margin-top:20px}
+.buyer-content-page .buyer-copy .proc-note{margin:24px 0}
+@media(max-width:960px){.buyer-layout{grid-template-columns:1fr;gap:32px}.buyer-toc{position:static;grid-row:1}.buyer-toc nav{display:flex;gap:12px 20px;flex-wrap:wrap}.buyer-toc p{display:none}.buyer-content-page .proc-hero-grid{grid-template-columns:1.2fr .8fr;gap:28px}}
+@media(max-width:640px){.buyer-content-page .proc-hero-grid{grid-template-columns:1fr}.buyer-content-page .proc-hero{padding:36px 0}.buyer-content-page .buyer-answer{padding:22px}.buyer-toc{padding:18px}.buyer-reading{padding:22px}.buyer-content-page .buyer-copy>section{margin-bottom:36px}.buyer-copy .proc-table :is(th,td){padding:14px}.buyer-content-page .proc-hero-figure img{aspect-ratio:16/10}.buyer-content-page .proc-section{padding:38px 0}}

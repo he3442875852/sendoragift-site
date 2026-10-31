@@ -191,3 +191,21 @@ test("changing product clears the old automatic configuration but preserves buye
     else { assert.match(elements.message.value, /Custom Employee Welcome Kit/); assert.doesNotMatch(elements.message.value, /Pen in presentation case/); }
   }
 });
+
+test("new focused gift-set pages retain their exact direction in both inquiry routes", () => {
+  for (const [id, label] of Object.entries({
+    "channel-partner-welcome-gift-set": "Custom Channel Partner Welcome Gift Set",
+    "document-folder-pen-gift-set": "Custom Document Folder and Pen Gift Set"
+  })) {
+    for (const detailed of [false, true]) {
+      const { elements, attributes } = openContact("?product=" + id + "&configuration=pen-case", "", detailed);
+      assert.equal(elements[detailed ? "quote-product" : "product_type"].value, "Corporate gift sets");
+      assert.equal(elements["inquiry-selection-name"].textContent, label);
+      assert.equal(elements.source_context.value, label);
+      assert.match(elements[detailed ? "quote-details" : "message"].value, new RegExp(label));
+      assert.equal(attributes["data-inquiry-product"], label);
+      assert.equal(attributes["data-buyer-product"], id);
+      assert.equal(attributes["data-inquiry-configuration"], undefined);
+    }
+  }
+});

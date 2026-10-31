@@ -52,3 +52,11 @@ Search Console 使用相同页面过滤和日期比较条件；记录是否包�
 ## 数据状态
 
 发布前基线：待从账户读取。正式上线日期：待发布。上线后结果：待采集。当前没有可支持“流量已增加”或“询盘已提升”的数据。
+
+## 新增内容批次：2026-10-31
+
+本批 6 个 URL 应单独建立上线记录：`/channel-partner-welcome-gifts.html`、`/document-folder-pen-gift-sets.html`、`/blog/a4-a5-document-folder-capacity-guide.html`、`/blog/metal-pen-engraving-vs-printing.html`、`/blog/corporate-gift-artwork-file-checklist.html`、`/blog/golf-tournament-sponsor-logo-checklist.html`。新页没有发布前同 URL 的表现基线，不应把从零开始直接宣传为增长效果。
+
+先核对正式返回、canonical、内部入口与索引状态，再按各自页面意图观察查询和落地访问。两个商业页分别观察具体组合的询价开始与成功提交；四篇指南观察读者是否继续进入相应产品或询价路径。询盘报告中的固定产品 ID 为 `channel-partner-welcome-gift-set` 和 `document-folder-pen-gift-set`；指南不新增不含实际行为的“转化”。
+
+已有 answer-engine 来源分类只能反映可观察到的引荐流量。引用未必带来点击；没有引荐信息的访问也不能推断为 AI 引用。本次未建立自动 AI 排名、引用监控或抓取评估，也没有调整任何分析账户设置。

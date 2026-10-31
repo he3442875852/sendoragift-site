@@ -7,6 +7,9 @@
       Object.assign(sampleProducts,detailSamples);
       const sampleSets=["car-dealership-handover-gift-set","real-estate-closing-gift-set","black-gold-executive-set","red-organizer-set","golf-accessory-set","sample-ace-office-travel","sample-ace-desk","sample-ace-outdoor","sample-ace-sports","sample-navy-stationery"];
       const productNames={"car-dealership-handover-gift-set":"Custom Car Dealership Handover Gift Set","real-estate-closing-gift-set":"Custom Real Estate Closing Gift Set","corporate-office-gift-set":"Custom Corporate Office Gift Set","employee-welcome-kit":"Custom Employee Welcome Kit","client-appreciation-gift-box":"Custom Client Appreciation Gift Box","conference-meeting-gift-set":"Custom Conference and Meeting Gift Set","trade-show-giveaway-kit":"Custom Trade Show Giveaway Kit","sports-event-giveaway-kit":"Custom Sports Event Giveaway Kit","golf-tournament-gift-set":"Custom Golf Tournament Gift Set","pickleball-team-gift-set":"Custom Pickleball Team Gift Set","custom-pu-document-folders":"Custom PU Document Folders with Logo","custom-metal-pens":"Custom Metal Pens with Logo for Business Gifts","custom-passport-holders":"Custom Passport Holders with Logo for Corporate Travel Gifts","custom-luggage-tags":"Custom Luggage Tags with Logo for Business Travel Gifts","custom-id-card-holders":"Custom ID Card Holders and Badge Holders","custom-business-card-holders":"Custom Business Card Holders with Logo","custom-logo-lanyards":"Custom Logo Lanyards for Events and Employee Programs","custom-pu-desk-mats":"Custom PU Desk Mats with Logo for Office Gifts","pu-document-folders":"Custom PU Document Folders with Logo"};
+      const focusedSets={"channel-partner-welcome-gift-set":"Custom Channel Partner Welcome Gift Set","document-folder-pen-gift-set":"Custom Document Folder and Pen Gift Set"};
+      Object.assign(productNames,focusedSets);
+      sampleSets.push(...Object.keys(focusedSets));
       Object.assign(productNames,sampleProducts);
       const knownProduct=Object.prototype.hasOwnProperty.call(productNames,raw);
       const label=knownProduct?productNames[raw]:raw.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()).slice(0,160);
@@ -16,7 +19,7 @@
       if(product && Array.from(product.options).some(option => option.value === label)) product.value=label;
       else if(product && knownProduct) product.value=sampleSets.includes(raw)?'Corporate gift sets':'Custom logo gifts';
       if(knownProduct) document.body.setAttribute('data-inquiry-product',label);
-      if(window.SendoraGiftDirections&&Object.prototype.hasOwnProperty.call(window.SendoraGiftDirections.products,raw))document.body.setAttribute('data-buyer-product',raw);
+      if(Object.prototype.hasOwnProperty.call(focusedSets,raw)||(window.SendoraGiftDirections&&Object.prototype.hasOwnProperty.call(window.SendoraGiftDirections.products,raw)))document.body.setAttribute('data-buyer-product',raw);
       if(source) source.value=label;
       const selection=document.getElementById('inquiry-selection');
       const selectionName=document.getElementById('inquiry-selection-name');
