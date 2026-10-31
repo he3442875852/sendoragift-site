@@ -21,7 +21,7 @@ function createStorage() {
   };
 }
 
-function loadTracker({ search = "", referrer = "", product = "", productSelect = null, whatsappLinks = [] } = {}) {
+function loadTracker({ search = "", referrer = "", product = "", configuration = "", packing = "", journey = {}, productSelect = null, whatsappLinks = [], forms = [] } = {}) {
   const localStorage = createStorage();
   const sessionStorage = createStorage();
   const location = {
@@ -29,11 +29,12 @@ function loadTracker({ search = "", referrer = "", product = "", productSelect =
     pathname: "/",
     search
   };
+  const attributes = Object.assign({ "data-inquiry-product": product, "data-inquiry-configuration": configuration, "data-inquiry-packing": packing }, journey);
   const document = {
     readyState: "complete",
     referrer,
-    forms: [],
-    body: { getAttribute() { return product; }, setAttribute(name, value) { product = value; } },
+    forms,
+    body: { getAttribute(name) { return attributes[name] || ""; }, setAttribute(name, value) { attributes[name] = value; } },
     getElementById(id) { return id === "product_type" ? productSelect : null; },
     addEventListener() {},
     querySelectorAll(selector) {
@@ -118,4 +119,44 @@ test("changing the selected gift updates WhatsApp without replacing its tracking
   assert.match(message, /Gift type or items: Custom Golf Tournament Gift Set/);
   assert.ok(message.endsWith("Inquiry reference: " + originalRef));
   assert.doesNotMatch(message, /Custom Employee Welcome Kit/);
+});
+
+test("WhatsApp includes the selected direction and packing while product changes clear stale choices", () => {
+  const events = {};
+  const productSelect = { value: "Custom Metal Pens", addEventListener(name, fn) { events[name] = fn; } };
+  const link = { href: "", dataset: {}, addEventListener() {} };
+  loadTracker({ product: productSelect.value, configuration: "Pen in presentation case", packing: "Presentation box", productSelect, whatsappLinks: [link] });
+  assert.match(new URL(link.href).searchParams.get("text"), /Direction: Pen in presentation case/);
+  assert.match(new URL(link.href).searchParams.get("text"), /Packing: Presentation box/);
+  productSelect.value = "Custom Employee Welcome Kit";
+  events.change();
+  assert.doesNotMatch(new URL(link.href).searchParams.get("text"), /Pen in presentation case|Packing:/);
+});
+
+test("analytics accepts bounded product IDs and drops arbitrary fields and field values", () => {
+  const tracker = loadTracker();
+  tracker.track("gift_direction_select", { product_id: "custom-metal-pens", configuration_id: "pen-case", packing_id: "buyer@example.com", email: "buyer@example.com", message: "private note", current_page: "https://invalid.example" });
+  const event = tracker.__testWindow.dataLayer[0];
+  assert.equal(event.product_id, "custom-metal-pens");
+  assert.equal(event.configuration_id, "pen-case");
+  assert.equal(event.packing_id, undefined);
+  assert.equal(event.email, undefined);
+  assert.equal(event.message, undefined);
+  assert.equal(event.current_page, "https://www.sendoragift.com/");
+});
+
+test("GET selection forms are not filled with hidden lead identifiers or attribution fields", () => {
+  const form = { method: "get", elements: [], querySelector() { throw new Error("GET form must remain unchanged"); } };
+  assert.doesNotThrow(() => loadTracker({ forms: [form] }));
+});
+
+test("successful inquiry analytics retain the selected product and configuration IDs", () => {
+  const tracker = loadTracker({ journey: { "data-buyer-product": "car-dealership-handover-gift-set", "data-buyer-configuration": "signing-delivery", "data-buyer-packing": "presentation" } });
+  tracker.track("generate_lead");
+  const event = tracker.__testWindow.dataLayer[0];
+  assert.equal(event.event, "generate_lead");
+  assert.equal(event.product_id, "car-dealership-handover-gift-set");
+  assert.equal(event.configuration_id, "signing-delivery");
+  assert.equal(event.packing_id, "presentation");
+  assert.equal(event.lead_ref, undefined);
 });
