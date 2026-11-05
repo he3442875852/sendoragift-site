@@ -741,3 +741,14 @@ h3 {
     font-size: 18px;
   }
 }
+
+.ai-settings { margin:0 4vw 24px; padding:26px; background:white; border:1px solid var(--line); border-radius:14px; display:grid; grid-template-columns:minmax(220px,1fr) minmax(300px,1.3fr); gap:30px; }
+.ai-settings h2 { margin:5px 0 12px; font-size:23px; }
+.ai-settings form { display:block; padding:0; margin:0; }
+.ai-settings label { display:block; font-size:12px; margin:12px 0 5px; }
+.ai-settings input:not([type=checkbox]) { width:100%; padding:10px 12px; background:var(--cream); border:1px solid var(--line); border-radius:6px; }
+.ai-settings .ai-check { display:flex; gap:8px; align-items:center; font-weight:600; }
+.ai-settings .muted { font-size:12px; }
+.ai-settings-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.message.ai .message-body { border:1px solid #b8d5cc; background:#eaf4ef; }
+@media(max-width:760px) { .ai-settings {grid-template-columns:1fr;gap:10px;margin:0 16px 20px;padding:20px;} .ai-settings-grid {grid-template-columns:1fr;} .top-actions {flex-wrap:wrap;} }

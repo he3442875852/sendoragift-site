@@ -128,3 +128,17 @@ test('the workspace refreshes the collected summary without clearing an agent dr
   assert.match(s.document.getElementById('contactDetails').textContent,/WhatsApp \+61 example/);
   assert.equal(s.document.getElementById('reply').value,'An unsent staff draft');assert.equal(s.document.getElementById('notes').value,'An unsaved note');
 });
+test('AI replies are clearly labelled, escaped and offer a human handoff without a fixed interview',{skip:!parseHTML},async()=>{
+  const s=surface('<html><head></head><body></body></html>',async url=>Response.json(url.includes('action=status')?{ready:true,online:false,ai_available:true}:{messages:[message(2,'ai','<img src=x> We can review logo options.')],intake:{mode:'ai',step:null,prompt_seq:2}}));
+  s.run('assets/js/live-chat.js');await flush();s.document.getElementById('sg-chat-launch').click();await flush();
+  assert.match(s.document.getElementById('sg-chat-status').textContent,/AI assistant/);assert.match(s.document.querySelector('.sg-chat-message.ai small').textContent,/AI assistant/);
+  assert.equal(s.document.querySelector('#sg-chat-messages img'),null);assert.equal(s.document.getElementById('sg-chat-progress').hidden,true);
+  assert.match(s.document.getElementById('sg-chat-prompts').textContent,/Leave for the team/);assert.doesNotMatch(s.document.getElementById('sg-chat-prompts').textContent,/Skip this/);
+});
+test('the AI configuration form never persists a key in browser storage and clears it on save',{skip:!parseHTML},async()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../admin/chat/index.html'),'utf8');const saved=[];
+  const s=surface(html,async(_url,options)=>{if(options.method==='POST')saved.push(JSON.parse(options.body));return Response.json({ok:true,ai:{enabled:saved.length>0,configured:saved.length>0,model:'gpt-6-luna',daily_limit:50}});});
+  s.run('admin/chat/ai-settings.js');s.document.getElementById('aiSettingsToggle').click();await flush();assert.match(s.document.getElementById('aiConfigState').textContent,/尚未配置/);
+  s.document.getElementById('aiApiKey').value='sk-test-key-only-123456789';s.document.getElementById('aiEnabled').checked=true;s.submit('aiSettingsForm');await flush();
+  assert.equal(saved[0].key,'sk-test-key-only-123456789');assert.equal(s.document.getElementById('aiApiKey').value,'');assert.ok(!JSON.stringify(Array.from(s.values)).includes('sk-test-key-only'));
+});

@@ -12,9 +12,15 @@ module.exports = async function (req, res) {
         return c.respond(res, 200, { ok: true, ready: false, online: false });
       try {
         const settings = await c.settings();
+        let aiReady = false;
+        if (settings.ai_enabled) {
+          const configuration = await require("../lib/chat-ai").config();
+          aiReady = configuration.enabled && configuration.configured;
+        }
         return c.respond(res, 200, {
           ok: true,
           ready: settings.enabled,
+          ai_available: aiReady,
           online:
             settings.enabled &&
             Date.parse(settings.available_until) > Date.now(),

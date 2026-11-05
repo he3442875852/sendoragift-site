@@ -46,10 +46,22 @@ module.exports = async function (req, res) {
       if (!Object.keys(patch).length) throw c.fail(400, "Invalid settings.");
       return c.respond(res, 200, {
         ok: true,
-        settings: (await c.db("chat_settings?id=eq.true", "PATCH", patch))[0],
+        settings: (
+          await c.db(
+            "chat_settings?id=eq.true&select=enabled,available_until,ai_enabled",
+            "PATCH",
+            patch,
+          )
+        )[0],
       });
     }
     if (!c.uuid(body.id)) throw c.fail(400, "Invalid conversation.");
+    if (body.action === "resume-auto") {
+      await c.db("rpc/sendora_chat_resume_auto", "POST", {
+        p_conversation_id: body.id,
+      });
+      return c.respond(res, 200, { ok: true });
+    }
     if (body.action === "reply")
       return c.respond(res, 200, {
         ok: true,
