@@ -41,6 +41,7 @@ module.exports = async function (req, res) {
         ok: true,
         messages: await c.messages(session.id, url.searchParams.get("after")),
         status: session.status,
+        intake: c.publicIntake(session.intake_state),
       });
     if (body.action === "profile") {
       await c.rate(req, "profile", 10, 60);
@@ -51,7 +52,7 @@ module.exports = async function (req, res) {
     await c.rate(req, "send", 60, 60);
     return c.respond(res, 200, {
       ok: true,
-      message: await c.sendMessage(session.id, "visitor", body),
+      ...(await c.receiveMessage(session.id, body)),
     });
   } catch (error) {
     c.errorResponse(res, error);

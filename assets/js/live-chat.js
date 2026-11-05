@@ -6,7 +6,10 @@
     busy = false,
     cursor = 0,
     polling = false,
-    unread = 0;
+    unread = 0,
+    intake = null,
+    teamOnline = false,
+    humanReceived = false;
   var pending = null,
     challenge = "",
     challengeId,
@@ -65,13 +68,62 @@
     $("sg-chat-error").textContent = message || "";
   }
   function onlineStatus(data) {
-    $("sg-chat-status").textContent = data.online
+    teamOnline = Boolean(data.online);
+    $("sg-chat-status").textContent = teamOnline
       ? "Our team is online"
-      : "Away · send us a message";
-    $("sg-chat-status-dot").classList.toggle("online", Boolean(data.online));
-    $("sg-chat-intro-text").textContent = data.online
+      : "Automated assistant · team follows up";
+    $("sg-chat-status-dot").classList.toggle("online", teamOnline);
+    $("sg-chat-intro-text").textContent = teamOnline
       ? "What can we help you with today?"
-      : "Send a message below. Our team will reply in this chat.";
+      : "Our team is away. Our automated assistant can collect your gift requirements, one question at a time. You can skip any question.";
+    renderPrompts();
+  }
+  function setIntake(value) {
+    if (value === undefined) return;
+    if (intake && value && Number(value.prompt_seq) < Number(intake.prompt_seq))
+      return;
+    intake = value;
+    renderPrompts();
+  }
+  function renderPrompts() {
+    var controls = $("sg-chat-prompts");
+    if (!controls) return;
+    controls.replaceChildren();
+    var human =
+      humanReceived ||
+      (intake && ["human", "waiting", "completed"].includes(intake.mode));
+    $("sg-chat-status").textContent = teamOnline
+      ? "Our team is online"
+      : human
+        ? "Our team will follow up here"
+        : "Automated assistant · team follows up";
+    var collecting =
+      !teamOnline && !humanReceived && intake && intake.mode === "collecting";
+    $("sg-chat-progress").hidden = !collecting;
+    $("sg-chat-progress").textContent = collecting
+      ? "Project details · " + (intake.step + 1) + " of 6 · all optional"
+      : "";
+    function choice(label, content, action) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.textContent = label;
+      button.disabled = busy;
+      button.addEventListener("click", function () {
+        submitMessage(content, action || "");
+      });
+      controls.append(button);
+    }
+    if (collecting) {
+      choice("Skip this", "Skip this question", "skip");
+      choice(
+        "Leave for the team",
+        "I would like to talk to the team.",
+        "handoff",
+      );
+    } else if (!intake || !intake.mode) {
+      choice("Plan my gifts", "Hi, I would like help planning my gifts.");
+      choice("Get a quote", "Hi, I would like a quote.");
+    }
   }
   function challengeFailed(message) {
     challenge = "";
@@ -184,12 +236,20 @@
     bubble.dataset.seq = message.seq;
     var time = document.createElement("small");
     time.textContent =
-      (message.role === "agent" ? "Sendora Gift · " : "You · ") +
+      (message.role === "assistant"
+        ? "Automated assistant · "
+        : message.role === "agent"
+          ? "Sendora Gift · "
+          : "You · ") +
       new Date(message.created_at).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       });
     bubble.append(time);
+    if (message.role === "agent") {
+      humanReceived = true;
+      renderPrompts();
+    }
     var next =
       Array.from($("sg-chat-messages").children).find(function (node) {
         return (
@@ -199,7 +259,7 @@
     $("sg-chat-messages").insertBefore(bubble, next || null);
     if (
       !open &&
-      message.role === "agent" &&
+      message.role !== "visitor" &&
       Number(message.seq) > Number(session.readSeq || 0)
     )
       unread++;
@@ -220,6 +280,7 @@
           100;
       do {
         data = await request("?after=" + cursor);
+        setIntake(data.intake);
         data.messages.forEach(function (message) {
           add(message);
           cursor = Math.max(cursor, Number(message.seq));
@@ -299,8 +360,11 @@
       action: "send",
       content: delivered.content,
       client_id: delivered.id,
+      choice: delivered.choice || "",
+      prompt_seq: delivered.prompt_seq || 0,
     });
     add(result.message);
+    setIntake(result.intake);
     removePendingBubble();
     pending = null;
     delete session.pending;
@@ -310,17 +374,52 @@
     poll();
     $("sg-chat-scroll").scrollTop = $("sg-chat-scroll").scrollHeight;
   }
+  async function submitMessage(value, choice) {
+    if (busy || !value) return;
+    if (pending && pending.content !== value) {
+      error(
+        "Please retry your unsent message first. Your new text is still in the message box.",
+      );
+      return;
+    }
+    if (!session)
+      session = { id: crypto.randomUUID(), secret: secret(), active: false };
+    if (!pending)
+      pending = {
+        id: crypto.randomUUID(),
+        content: value,
+        choice: choice || "",
+        prompt_seq: intake ? intake.prompt_seq : 0,
+      };
+    $("sg-chat-input").value = value;
+    busy = true;
+    $("sg-chat-send").disabled = true;
+    renderPrompts();
+    error("");
+    try {
+      await send();
+    } catch (e) {
+      pendingBubble(true);
+      error(e.message + " Your message is saved here; press Send to retry.");
+      if (!session.active) resetChallenge();
+    } finally {
+      busy = false;
+      $("sg-chat-send").disabled = false;
+      $("sg-chat-send").setAttribute("aria-label", "Send message");
+      renderPrompts();
+    }
+  }
   function mount(status) {
     if (document.getElementById("sg-chat")) return;
     var style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = "/assets/live-chat.css?v=20261105-3";
+    style.href = "/assets/live-chat.css?v=20261105-4";
     document.head.append(style);
     var root = document.createElement("aside");
     root.id = "sg-chat";
     root.setAttribute("aria-label", "Sendora Gift chat");
     root.innerHTML =
-      '<button id="sg-chat-launch" aria-expanded="false" aria-controls="sg-chat-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z"/><path d="M7 10h8M7 14h5"/></svg>Chat with us<span id="sg-chat-count" hidden></span></button><section id="sg-chat-panel" aria-labelledby="sg-chat-title" hidden><header class="sg-chat-head"><div class="sg-chat-avatar" aria-hidden="true">S</div><div class="sg-chat-heading"><strong id="sg-chat-title">Sendora Gift</strong><p class="sg-chat-status-line"><span id="sg-chat-status-dot" aria-hidden="true"></span><span id="sg-chat-status"></span></p></div><button id="sg-chat-close" aria-label="Close chat">×</button></header><div class="sg-chat-scroll" id="sg-chat-scroll"><div class="sg-chat-intro"><small>WELCOME TO SENDORA GIFT</small><p id="sg-chat-intro-text"></p></div><div id="sg-chat-messages" role="log" aria-live="polite" aria-label="Chat messages"></div></div><p id="sg-chat-error" role="status"></p><div id="sg-chat-challenge" class="sg-chat-challenge"></div><form id="sg-chat-composer"><div class="sg-chat-prompts"><button type="button" data-message="Hi, can I customize the logo?">Logo options</button><button type="button" data-message="Hi, I would like a quote.">Get a quote</button></div><div class="sg-chat-input-row"><label class="sg-chat-sr-only" for="sg-chat-input">Message</label><textarea id="sg-chat-input" maxlength="2000" rows="2" placeholder="Type a message…" required></textarea><button id="sg-chat-send" type="submit" aria-label="Send message" title="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 12 16-8-5 16-3-6-8-2Z"/><path d="m12 14 8-10"/></svg></button></div><p class="sg-chat-note">Enter to send · Shift + Enter for a new line</p></form><div class="sg-chat-contact" id="sg-chat-contact" hidden><form id="sg-chat-contact-form"><p>Optional: add your email so our team can follow up after you leave.</p><label for="sg-chat-contact-email">Email (optional)</label><input id="sg-chat-contact-email" type="email" maxlength="254" autocomplete="email"><label for="sg-chat-contact-name">Name (optional)</label><input id="sg-chat-contact-name" maxlength="120" autocomplete="name"><button id="sg-chat-contact-save" class="sg-chat-save">Save contact details</button><span id="sg-chat-contact-result" role="status"></span></form></div><footer class="sg-chat-links"><button id="sg-chat-contact-toggle" type="button" aria-expanded="false" aria-controls="sg-chat-contact" hidden>Add contact (optional)</button><a id="sg-chat-wa" href="https://wa.me/8613400883682" target="_blank" rel="noopener">WhatsApp ↗</a><a href="/privacy-policy.html">Privacy</a></footer></section>';
+      '<button id="sg-chat-launch" aria-expanded="false" aria-controls="sg-chat-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z"/><path d="M7 10h8M7 14h5"/></svg>Chat with us<span id="sg-chat-count" hidden></span></button><section id="sg-chat-panel" aria-labelledby="sg-chat-title" hidden><header class="sg-chat-head"><div class="sg-chat-avatar" aria-hidden="true">S</div><div class="sg-chat-heading"><strong id="sg-chat-title">Sendora Gift</strong><p class="sg-chat-status-line"><span id="sg-chat-status-dot" aria-hidden="true"></span><span id="sg-chat-status"></span></p></div><button id="sg-chat-close" aria-label="Close chat">×</button></header><div class="sg-chat-scroll" id="sg-chat-scroll"><div class="sg-chat-intro"><small>WELCOME TO SENDORA GIFT</small><p id="sg-chat-intro-text"></p></div><div id="sg-chat-messages" role="log" aria-live="polite" aria-label="Chat messages"></div></div><p id="sg-chat-error" role="status"></p><div id="sg-chat-challenge" class="sg-chat-challenge"></div><form id="sg-chat-composer"><p id="sg-chat-progress" class="sg-chat-progress" role="status" hidden></p><div id="sg-chat-prompts" class="sg-chat-prompts"></div><div class="sg-chat-input-row"><label class="sg-chat-sr-only" for="sg-chat-input">Message</label><textarea id="sg-chat-input" maxlength="2000" rows="2" placeholder="Type a message…" required></textarea><button id="sg-chat-send" type="submit" aria-label="Send message" title="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 12 16-8-5 16-3-6-8-2Z"/><path d="m12 14 8-10"/></svg></button></div><p class="sg-chat-note">Enter to send · Shift + Enter for a new line</p></form><div class="sg-chat-contact" id="sg-chat-contact" hidden><form id="sg-chat-contact-form"><p>Optional: add your email so our team can follow up after you leave.</p><label for="sg-chat-contact-email">Email (optional)</label><input id="sg-chat-contact-email" type="email" maxlength="254" autocomplete="email"><label for="sg-chat-contact-name">Name (optional)</label><input id="sg-chat-contact-name" maxlength="120" autocomplete="name"><button id="sg-chat-contact-save" class="sg-chat-save">Save contact details</button><span id="sg-chat-contact-result" role="status"></span></form></div><footer class="sg-chat-links"><button id="sg-chat-contact-toggle" type="button" aria-expanded="false" aria-controls="sg-chat-contact" hidden>Add contact (optional)</button><a id="sg-chat-wa" href="https://wa.me/8613400883682" target="_blank" rel="noopener">WhatsApp ↗</a><a href="/privacy-policy.html">Privacy</a></footer></section>';
     document.body.append(root);
     onlineStatus(status);
     refreshContact();
@@ -345,35 +444,9 @@
         $("sg-chat-composer").requestSubmit();
       }
     });
-    $("sg-chat-composer").addEventListener("submit", async function (event) {
+    $("sg-chat-composer").addEventListener("submit", function (event) {
       event.preventDefault();
-      if (busy) return;
-      var value = $("sg-chat-input").value.trim();
-      if (!value) return;
-      if (!session)
-        session = { id: crypto.randomUUID(), secret: secret(), active: false };
-      if (!pending || pending.content !== value)
-        pending = { id: crypto.randomUUID(), content: value };
-      busy = true;
-      $("sg-chat-send").disabled = true;
-      error("");
-      try {
-        await send();
-      } catch (e) {
-        pendingBubble(true);
-        error(e.message + " Your message is saved here; press Send to retry.");
-        if (!session.active) resetChallenge();
-      } finally {
-        busy = false;
-        $("sg-chat-send").disabled = false;
-        $("sg-chat-send").setAttribute("aria-label", "Send message");
-      }
-    });
-    root.querySelectorAll(".sg-chat-prompts button").forEach(function (button) {
-      button.addEventListener("click", function () {
-        $("sg-chat-input").value = button.dataset.message;
-        $("sg-chat-input").focus();
-      });
+      submitMessage($("sg-chat-input").value.trim());
     });
     $("sg-chat-contact-toggle").addEventListener("click", function () {
       var show = $("sg-chat-contact").hidden;

@@ -159,7 +159,7 @@
   function showSettings() {
     var ready = settings.enabled;
     $("serviceState").textContent = ready
-      ? "网站聊天已启用 · 客户在网页中发消息，你在这里回复"
+      ? "聊天已启用 · 离线自动收集需求，人工回复后停止自动提问"
       : "网站聊天尚未启用 · 开启后访客可看到聊天入口";
     $("enable").hidden = false;
     $("enable").textContent = ready ? "停用网站聊天" : "启用网站聊天";
@@ -215,6 +215,12 @@
           detail(contact, "联系邮箱", current.email);
           detail(
             contact,
+            "跟进方式（客户留言）",
+            ((current.intake_state || {}).answers || {}).contact,
+          );
+          renderBuyingDetails(current);
+          detail(
+            contact,
             "地区 / 语言",
             [(current.context || {}).country, (current.context || {}).language]
               .filter(Boolean)
@@ -255,6 +261,25 @@
     }
     dl.append(el("dt", "", label), dd);
   }
+  function renderBuyingDetails(item) {
+    var buy = $("buyingDetails"),
+      state = item.intake_state || {},
+      answers = state.answers || {};
+    buy.replaceChildren();
+    var mode = {
+      collecting: "自动收集中 · 第 " + (Number(state.step) + 1) + "/6 问",
+      completed: "需求收集结束 · 待人工跟进",
+      waiting: "客户请求人工跟进",
+      human: "人工接待",
+    };
+    detail(buy, "接待状态", mode[state.mode] || "等待客户消息");
+    if (state.brief) detail(buy, "最初留言", state.brief);
+    detail(buy, "产品", answers.product || item.product);
+    detail(buy, "数量", answers.quantity || item.quantity);
+    detail(buy, "Logo / 定制要求", answers.logo);
+    detail(buy, "收货地区 / 邮编", answers.destination || item.destination);
+    detail(buy, "交期 / 活动日期", answers.deadline || item.deadline);
+  }
   function fillDetails(item) {
     $("detailEmpty").hidden = true;
     $("detailContent").hidden = false;
@@ -273,16 +298,15 @@
     detail(contact, "联系邮箱", item.email);
     detail(
       contact,
+      "跟进方式（客户留言）",
+      ((item.intake_state || {}).answers || {}).contact,
+    );
+    detail(
+      contact,
       "地区 / 语言",
       [ctx.country, ctx.language].filter(Boolean).join(" / "),
     );
-    detail(buy, "产品", item.product);
-    detail(buy, "数量", item.quantity);
-    detail(
-      buy,
-      "目的地 / 日期",
-      [item.destination, item.deadline].filter(Boolean).join(" / "),
-    );
+    renderBuyingDetails(item);
     detail(source, "来源", ctx.source_type);
     detail(source, "当前页面", ctx.current_page, true);
     detail(source, "首次入口", ctx.first_landing_page, true);
@@ -327,7 +351,11 @@
       el(
         "p",
         "message-meta",
-        (message.role === "agent" ? "Sendora Gift" : "客户") +
+        (message.role === "assistant"
+          ? "自动接待助手"
+          : message.role === "agent"
+            ? "Sendora Gift · 人工"
+            : "客户") +
           " · " +
           formatDate(message.created_at),
       ),
