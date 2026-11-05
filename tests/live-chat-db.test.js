@@ -14,7 +14,7 @@ test('live-chat migration runs twice; messages, permissions and rate limits work
     await assert.rejects(db.query("select public.sendora_chat_rate_limit('untrusted',1,60)"),error=>error.code==='42501');
     await db.exec('reset role; set role service_role;');
     const id='12345678-1234-4234-8234-123456789abc',client='22345678-1234-4234-8234-123456789abc';
-    await db.query('insert into public.chat_conversations(id,token_hash,email,status) values($1,$2,$3,$4)',[id,'a'.repeat(64),'buyer@example.com','closed']);
+    await db.query('insert into public.chat_conversations(id,token_hash,email,status) values($1,$2,$3,$4)',[id,'a'.repeat(64),'','closed']);
     const inserted=await db.query('insert into public.chat_messages(conversation_id,client_id,role,content) values($1,$2,$3,$4) returning seq',[id,client,'visitor','Please quote 200 pens.']);
     const seq=Number(inserted.rows[0].seq),summary=(await db.query('select * from public.chat_conversations where id=$1',[id])).rows[0];
     assert.equal(summary.status,'active');assert.equal(Number(summary.last_seq),seq);assert.equal(Number(summary.last_visitor_seq),seq);assert.equal(summary.last_message,'Please quote 200 pens.');

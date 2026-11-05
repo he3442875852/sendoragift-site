@@ -466,7 +466,7 @@
     if (document.createElement && document.head && !/^\/admin(?:\/|$)/.test(window.location.pathname)) {
       window.setTimeout(function () {
         var chatScript = document.createElement("script");
-        chatScript.src = "/assets/js/live-chat.js?v=20261105-2";
+        chatScript.src = "/assets/js/live-chat.js?v=20261105-3";
         chatScript.defer = true;
         document.head.appendChild(chatScript);
       }, 2500);
