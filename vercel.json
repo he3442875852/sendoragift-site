@@ -192,5 +192,13 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/chat.js": {
+      "maxDuration": 60
+    },
+    "api/admin-chat-ai.js": {
+      "maxDuration": 60
+    }
+  }
 }

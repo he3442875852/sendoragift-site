@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <title>在线沟通工作台 | Sendora Gift</title>
     <link rel="icon" href="/favicon.webp" />
-    <link rel="stylesheet" href="/admin/chat/chat.css?v=20261105-4" />
+    <link rel="stylesheet" href="/admin/chat/chat.css?v=20261105-5" />
   </head>
   <body>
     <section id="login" class="login" hidden>
@@ -34,6 +34,13 @@
         <div class="top-actions">
           <button id="presence" class="presence" aria-pressed="false">
             <i></i><span>开始接待</span></button
+          ><button
+            id="aiSettingsToggle"
+            class="quiet"
+            aria-expanded="false"
+            aria-controls="aiSettingsPanel"
+          >
+            AI 接待设置</button
           ><a href="/admin/">询盘后台 ↗</a
           ><button id="logout" class="quiet">退出</button>
         </div>
@@ -56,6 +63,73 @@
         ><button class="quiet" id="refresh">刷新</button>
       </div>
       <p id="globalError" class="error global-error" role="status"></p>
+      <section
+        id="aiSettingsPanel"
+        class="ai-settings"
+        aria-labelledby="aiSettingsTitle"
+        hidden
+      >
+        <div>
+          <p class="kicker">AFTER-HOURS ASSISTANT</p>
+          <h2 id="aiSettingsTitle">让 AI 先接待，人工再跟进。</h2>
+          <p class="muted">
+            AI 根据 Sendora
+            的产品与采购资料回答问题。报价、库存、具体交期和产品参数交给人工确认。人工回复后，该会话的
+            AI 自动停止。
+          </p>
+        </div>
+        <form id="aiSettingsForm">
+          <p id="aiConfigState" role="status">正在读取配置…</p>
+          <label class="ai-check"
+            ><input id="aiEnabled" type="checkbox" /> 人工离线时启用 AI
+            自动回复</label
+          >
+          <label for="aiApiKey">OpenAI API 密钥</label
+          ><input
+            id="aiApiKey"
+            type="password"
+            autocomplete="off"
+            maxlength="600"
+            placeholder="首次填写；已配置时留空即可保留"
+          />
+          <p class="muted">
+            密钥加密保存在服务器，不会显示在客户窗口中，也不用发到 ChatGPT。API
+            按你的 OpenAI 账户用量计费。
+          </p>
+          <div class="ai-settings-grid">
+            <div>
+              <label for="aiDailyLimit">每日最多 AI 回复次数（北京时间）</label
+              ><input
+                id="aiDailyLimit"
+                type="number"
+                min="1"
+                max="200"
+                value="50"
+                required
+              />
+            </div>
+            <div>
+              <label for="aiModel">模型</label
+              ><input
+                id="aiModel"
+                value="gpt-6-luna"
+                maxlength="100"
+                required
+              />
+            </div>
+          </div>
+          <p class="muted">
+            每个会话最多 20 次 AI
+            调用；达到上限后转人工跟进。没有配置密钥时，继续使用已有的预设问题接待。
+          </p>
+          <button id="aiSettingsSave" class="primary">保存 AI 设置</button>
+          <button id="aiSettingsTest" type="button" class="quiet">
+            测试 AI 连接
+          </button>
+          <p class="muted">请先保存设置；连接测试会消耗 1 次 AI 调用额度。</p>
+          <p id="aiSettingsResult" role="status"></p>
+        </form>
+      </section>
       <section class="desk">
         <aside class="inbox">
           <div class="inbox-heading">
@@ -133,7 +207,9 @@
                 required
               ></textarea>
               <div class="reply-footer">
-                <span id="replyHint">回复会保存在本站会话中</span
+                <span id="replyHint">回复后由人工接手</span
+                ><button id="resumeAuto" type="button" class="quiet">
+                  恢复自动接待</button
                 ><button class="primary" id="sendReply">发送回复 ↗</button>
               </div>
               <p id="replyError" class="error" role="status"></p>
@@ -178,6 +254,7 @@
         >
       </footer>
     </main>
-    <script src="/admin/chat/chat.js?v=20261105-4" defer></script>
+    <script src="/admin/chat/chat.js?v=20261105-5" defer></script>
+    <script src="/admin/chat/ai-settings.js?v=20261105-5" defer></script>
   </body>
 </html>

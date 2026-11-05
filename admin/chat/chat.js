@@ -267,6 +267,7 @@
       answers = state.answers || {};
     buy.replaceChildren();
     var mode = {
+      ai: "AI 接待中 · 人工可随时回复接手",
       collecting: "自动收集中 · 第 " + (Number(state.step) + 1) + "/6 问",
       completed: "需求收集结束 · 待人工跟进",
       waiting: "客户请求人工跟进",
@@ -351,11 +352,13 @@
       el(
         "p",
         "message-meta",
-        (message.role === "assistant"
-          ? "自动接待助手"
-          : message.role === "agent"
-            ? "Sendora Gift · 人工"
-            : "客户") +
+        (message.role === "ai"
+          ? "AI 机器人"
+          : message.role === "assistant"
+            ? "自动接待助手"
+            : message.role === "agent"
+              ? "Sendora Gift · 人工"
+              : "客户") +
           " · " +
           formatDate(message.created_at),
       ),
@@ -520,6 +523,15 @@
     } finally {
       replyBusy = false;
       $("sendReply").disabled = false;
+    }
+  });
+  $("resumeAuto").addEventListener("click", async function () {
+    if (!selected) return;
+    try {
+      await api("/api/admin-chat", { action: "resume-auto", id: selected });
+      await load();
+    } catch (e) {
+      $("replyError").textContent = e.message;
     }
   });
   $("reply").addEventListener("keydown", function (event) {
