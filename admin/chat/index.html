@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>在线沟通工作台 | Sendora Gift</title>
+    <link rel="icon" href="/favicon.webp" />
+    <link rel="stylesheet" href="/admin/chat/chat.css" />
+  </head>
+  <body>
+    <section id="login" class="login" hidden>
+      <form id="loginForm" class="login-card">
+        <p class="brand">SENDORA <span>GIFT</span></p>
+        <p class="kicker">CUSTOMER CONVERSATIONS</p>
+        <h1>把每一次沟通，<br />变成下一步。</h1>
+        <p class="muted">使用现有询盘后台密码登录。</p>
+        <label for="password">后台密码</label
+        ><input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          minlength="12"
+          required
+        /><button class="primary" id="loginButton">进入沟通工作台 →</button>
+        <p id="loginError" class="error" role="status"></p>
+        <a href="/admin/">返回询盘后台</a>
+      </form>
+    </section>
+    <main id="app" hidden>
+      <header class="topbar">
+        <a class="brand" href="/admin/">SENDORA <span>GIFT</span></a>
+        <div class="top-title">在线沟通工作台 <small>CONVERSATIONS</small></div>
+        <div class="top-actions">
+          <button id="presence" class="presence" aria-pressed="false">
+            <i></i><span>开始接待</span></button
+          ><a href="/admin/">询盘后台 ↗</a
+          ><button id="logout" class="quiet">退出</button>
+        </div>
+      </header>
+      <section class="workspace-heading">
+        <div>
+          <p class="kicker">EVERY CONVERSATION, A POSSIBILITY</p>
+          <h1>客户会话 <span id="total">0</span></h1>
+          <p class="muted">了解需求，回复客户，推进下一步。</p>
+        </div>
+        <div class="overview">
+          <div><strong id="unreadCount">0</strong><span>待阅读</span></div>
+          <div><strong id="activeCount">0</strong><span>进行中</span></div>
+          <div><strong id="waitingCount">0</strong><span>待跟进</span></div>
+        </div>
+      </section>
+      <div class="service-banner">
+        <span id="serviceState">正在连接数据库…</span
+        ><button class="quiet" id="enable" hidden>启用网站聊天</button
+        ><button class="quiet" id="refresh">刷新</button>
+      </div>
+      <p id="globalError" class="error global-error" role="status"></p>
+      <section class="desk">
+        <aside class="inbox">
+          <div class="inbox-heading">
+            <h2>收件箱</h2>
+            <span class="live-label">每 10 秒刷新</span>
+          </div>
+          <label class="sr-only" for="search">搜索已加载会话</label
+          ><input
+            id="search"
+            type="search"
+            placeholder="搜索已加载的客户、邮箱、产品"
+          />
+          <div class="tabs" role="group" aria-label="筛选会话">
+            <button data-filter="all" aria-pressed="true">全部</button
+            ><button data-filter="unread" aria-pressed="false">未读</button
+            ><button data-filter="waiting" aria-pressed="false">待跟进</button
+            ><button data-filter="closed" aria-pressed="false">已结束</button>
+          </div>
+          <div
+            id="conversationList"
+            class="conversation-list"
+            aria-label="客户会话列表"
+          ></div>
+          <p id="inboxEmpty" class="empty" hidden>
+            目前没有会话。网站聊天启用后，客户的新消息会显示在这里。
+          </p>
+          <button id="more" class="load-more" hidden>加载更早会话</button>
+        </aside>
+        <section class="thread">
+          <div id="noSelection" class="no-selection">
+            <div class="empty-icon">↗</div>
+            <p class="kicker">A GOOD CONVERSATION STARTS HERE</p>
+            <h2>每个需求，都值得被听见。</h2>
+            <p>
+              从左侧选择客户，查看消息与采购背景。<br />这里会显示真实收到的会话。
+            </p>
+          </div>
+          <div id="threadContent" class="thread-content" hidden>
+            <header class="thread-heading">
+              <div>
+                <h2 id="customerName"></h2>
+                <p id="customerSubtitle" class="muted"></p>
+              </div>
+              <label class="sr-only" for="conversationStatus">会话状态</label
+              ><select id="conversationStatus">
+                <option value="active">进行中</option>
+                <option value="waiting">待跟进</option>
+                <option value="closed">已结束</option>
+              </select>
+            </header>
+            <div
+              id="messages"
+              class="messages"
+              role="log"
+              aria-live="polite"
+              aria-label="客户与客服消息"
+            ></div>
+            <form id="replyForm" class="reply-form">
+              <div class="reply-toolbar">
+                <span>英文常用话术</span
+                ><select id="snippet" aria-label="插入常用话术">
+                  <option value="">选择话术…</option>
+                  <option value="welcome">首次接待</option>
+                  <option value="requirements">确认采购需求</option>
+                  <option value="logo">索取 Logo</option>
+                  <option value="shipping">确认配送信息</option>
+                  <option value="followup">报价跟进</option>
+                </select>
+              </div>
+              <label class="sr-only" for="reply">回复客户</label
+              ><textarea
+                id="reply"
+                placeholder="输入回复…（Enter 换行，Ctrl / ⌘ + Enter 发送）"
+                maxlength="2000"
+                required
+              ></textarea>
+              <div class="reply-footer">
+                <span id="replyHint">回复会保存在本站会话中</span
+                ><button class="primary" id="sendReply">发送回复 ↗</button>
+              </div>
+              <p id="replyError" class="error" role="status"></p>
+            </form>
+          </div>
+        </section>
+        <aside id="customerDetails" class="customer-details">
+          <p class="kicker">BUYER CONTEXT</p>
+          <h2>客户与采购需求</h2>
+          <p class="muted" id="detailEmpty">选择会话后查看。</p>
+          <div id="detailContent" hidden>
+            <div class="detail-section">
+              <h3>客户资料</h3>
+              <dl id="contactDetails"></dl>
+            </div>
+            <div class="detail-section">
+              <h3>采购需求</h3>
+              <dl id="buyingDetails"></dl>
+            </div>
+            <div class="detail-section">
+              <h3>来源与浏览页面</h3>
+              <dl id="sourceDetails"></dl>
+            </div>
+            <form id="notesForm" class="detail-section">
+              <label for="notes">内部跟进备注</label
+              ><textarea
+                id="notes"
+                maxlength="3000"
+                placeholder="仅后台可见，例如：等待 Logo 文件，下周跟进"
+              ></textarea
+              ><button class="quiet" id="saveNotes">保存备注</button>
+              <p id="notesResult" class="muted" role="status"></p>
+            </form>
+          </div>
+        </aside>
+      </section>
+      <footer class="app-footer">
+        <span>Sendora Gift · Customer workspace</span
+        ><span
+          >在线状态在停止接待或关闭本页后自动失效 · WhatsApp
+          与邮件需在各自工具中回复</span
+        >
+      </footer>
+    </main>
+    <script src="/admin/chat/chat.js" defer></script>
+  </body>
+</html>
