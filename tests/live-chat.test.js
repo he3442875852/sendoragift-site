@@ -69,6 +69,25 @@ test('a failed bot check never creates a chat conversation',()=>environment(asyn
   assert.equal(result.status,400);assert.equal(created,false);
 }));
 
+test('a guest can create a protected chat without an email or name',()=>environment(async()=>{
+  let record;
+  global.fetch=async(url,options)=>{if(url.includes('siteverify'))return response({success:true,action:'sendora_chat',hostname:'www.sendoragift.com'});if(url.includes('chat_settings'))return response([settings]);if(url.includes('rpc/'))return response(true);if(options.method==='POST'){record=JSON.parse(options.body);return response([{id:ID}]);}return response([]);};
+  const result=await call(visitorApi,{method:'POST',headers:visitorHeaders(),body:{action:'start',challenge:'valid-proof'}});
+  assert.equal(result.status,200);assert.equal(record.email,'');assert.equal(record.name,'');assert.equal(record.id,ID);
+}));
+
+test('an optional email is still validated when supplied',()=>environment(async()=>{
+  let created=false;global.fetch=async(url,options)=>{if(options.method==='POST')created=true;return response(url.includes('chat_settings')?[settings]:[]);};
+  const result=await call(visitorApi,{method:'POST',headers:visitorHeaders(),body:{action:'start',email:'invalid-address',challenge:'proof'}});assert.equal(result.status,400);assert.equal(created,false);
+}));
+
+test('optional contact updates stay within the authenticated visitor session',()=>environment(async()=>{
+  let update;
+  global.fetch=async(url,options)=>{if(url.includes('chat_settings'))return response([settings]);if(url.includes('rpc/'))return response(true);if(options.method==='PATCH'){update={url,body:JSON.parse(options.body)};return response([{id:ID}]);}return response([{id:ID,status:'active'}]);};
+  const result=await call(visitorApi,{method:'POST',headers:visitorHeaders(),body:{action:'profile',id:'00000000-0000-4000-8000-000000000000',name:'Alex',email:''}});
+  assert.equal(result.status,200);assert.ok(update.url.endsWith('id=eq.'+ID));assert.deepEqual(update.body,{name:'Alex'});
+}));
+
 test('new sessions are rate limited before a challenge is spent',()=>environment(async()=>{
   let challenged=false;global.fetch=async url=>{if(url.includes('siteverify'))challenged=true;return response(url.includes('chat_settings')?[settings]:url.includes('rpc/')?false:[]);};
   const result=await call(visitorApi,{method:'POST',headers:visitorHeaders(),body:{action:'start',email:'buyer@example.com',challenge:'test'}});

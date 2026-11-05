@@ -78,10 +78,22 @@
     if (!res.ok) throw new Error(data.message || "请求失败，请重试。");
     return data;
   }
+  function customerLabel(item) {
+    return item.name || item.email || "访客 " + item.id.slice(-6).toUpperCase();
+  }
   function unread(item) {
     return Number(item.last_visitor_seq) > Number(item.admin_read_seq);
   }
+  var renderedListSignature = "";
   function renderList() {
+    var signature = JSON.stringify([
+      filter,
+      $("search").value,
+      selected,
+      items,
+    ]);
+    if (signature === renderedListSignature) return;
+    renderedListSignature = signature;
     var query = $("search").value.trim().toLowerCase(),
       visible = items.filter(function (item) {
         return (
@@ -90,6 +102,7 @@
             item.status === filter) &&
           (!query ||
             [
+              customerLabel(item),
               item.name,
               item.company,
               item.email,
@@ -113,15 +126,11 @@
       card.type = "button";
       card.setAttribute("aria-current", String(selected === item.id));
       info.append(
-        el("div", "card-name", item.name || item.email),
+        el("div", "card-name", customerLabel(item)),
         el("div", "card-product", item.company || item.product || "网站访客"),
       );
       top.append(
-        el(
-          "span",
-          "avatar",
-          (item.name || item.email || "?").slice(0, 1).toUpperCase(),
-        ),
+        el("span", "avatar", customerLabel(item).slice(0, 1).toUpperCase()),
         info,
         el("span", "card-date", formatDate(item.updated_at, true)),
       );
@@ -189,6 +198,29 @@
             return !updated.has(x.id);
           }),
         );
+      }
+      if (selected) {
+        var current = items.find(function (item) {
+          return item.id === selected;
+        });
+        if (current) {
+          $("customerName").textContent = customerLabel(current);
+          var contact = $("contactDetails");
+          contact.replaceChildren();
+          detail(
+            contact,
+            "姓名 / 公司",
+            [current.name, current.company].filter(Boolean).join(" / "),
+          );
+          detail(contact, "联系邮箱", current.email);
+          detail(
+            contact,
+            "地区 / 语言",
+            [(current.context || {}).country, (current.context || {}).language]
+              .filter(Boolean)
+              .join(" / "),
+          );
+        }
       }
       settings = data.settings;
       $("more").hidden = data.conversations.length < 100;
@@ -276,7 +308,7 @@
     $("noSelection").hidden = true;
     $("threadContent").hidden = false;
     $("messages").replaceChildren();
-    $("customerName").textContent = item.name || item.email;
+    $("customerName").textContent = customerLabel(item);
     $("customerSubtitle").textContent = [item.company, item.product]
       .filter(Boolean)
       .join(" · ");
@@ -509,7 +541,7 @@
       load();
       readMessages();
     }
-  }, 10000);
+  }, 3000);
   setInterval(function () {
     if (signedIn && online && !document.hidden)
       presence(true).catch(function (e) {

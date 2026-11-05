@@ -16,7 +16,7 @@ function surface(html,fetch){
   window.HTMLElement.prototype.focus=function(){};
   // LinkeDOM has a getter-only select.value; browsers expose a setter too.
   Object.defineProperty(window.HTMLSelectElement.prototype,'value',{configurable:true,get(){return this.querySelector('option[selected]')?.getAttribute('value')||'';},set(value){this.querySelectorAll('option').forEach(option=>{if(option.getAttribute('value')===value)option.setAttribute('selected','');else option.removeAttribute('selected');});}});
-  const sandbox={window,document,fetch,localStorage:storage,sessionStorage:storage,crypto:webcrypto,AbortSignal,URL,Date,Map,Set,Uint8Array,Intl,navigator:{language:'en'},location:{href:'https://www.sendoragift.com/custom-metal-pens.html'},setInterval:fn=>intervals.push(fn),setTimeout,console};
+  const sandbox={window,document,fetch,localStorage:storage,sessionStorage:storage,crypto:webcrypto,AbortSignal,URL,Date,Map,Set,Uint8Array,Intl,navigator:{language:'en'},location:{href:'https://www.sendoragift.com/custom-metal-pens.html'},setInterval:fn=>intervals.push(fn),setTimeout,clearTimeout,console};
   return{window,document,values,intervals,run(file){vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),sandbox);},submit(id){document.getElementById(id).dispatchEvent(new window.Event('submit',{cancelable:true}));}};
 }
 
@@ -38,6 +38,43 @@ test('customer retries keep their idempotency key and failed messages survive a 
 
 test('visitor chat remains absent when the server reports incomplete setup',{skip:!parseHTML},async()=>{
   const s=surface('<html><head></head><body><a href="/contact/">Existing inquiry form</a></body></html>',async()=>Response.json({ready:false,online:false}));s.run('assets/js/live-chat.js');await flush();assert.equal(s.document.getElementById('sg-chat'),null);assert.equal(s.document.querySelector('a').getAttribute('href'),'/contact/');
+});
+
+test('a new visitor sends the first message without filling contact fields',{skip:!parseHTML},async()=>{
+  const writes=[];let delivered=null;
+  const s=surface('<html><head></head><body></body></html>',async(url,options)=>{
+    if(url.includes('action=status'))return Response.json({ready:true,online:true});
+    if(url.includes('turnstile-site-key'))return Response.json({siteKey:'test-key'});
+    if(options?.method==='POST'){const body=JSON.parse(options.body);writes.push(body);if(body.action==='start')return Response.json({ok:true,id:ID});if(body.action==='send'){delivered={...message(1,'visitor',body.content),client_id:body.client_id};return Response.json({message:delivered});}return Response.json({ok:true});}
+    return Response.json({messages:delivered?[delivered]:[]});
+  });
+  s.values.delete('sendora_chat_session');s.window.turnstile={render(_node,options){assert.equal(options.appearance,'interaction-only');options.callback('test-proof');return 0;},reset(){}};
+  s.run('assets/js/live-chat.js');await flush();s.document.getElementById('sg-chat-launch').click();await flush();
+  assert.equal(s.document.getElementById('sg-chat-start'),null);assert.equal(s.document.getElementById('sg-chat-contact').hidden,true);
+  s.document.getElementById('sg-chat-input').value='Hi, can I customize a pen?';s.submit('sg-chat-composer');await flush();
+  assert.deepEqual(writes.map(x=>x.action),['start','send']);assert.equal(writes[0].email,undefined);assert.equal(writes[0].name,undefined);assert.equal(writes[0].challenge,'test-proof');
+  assert.match(s.document.getElementById('sg-chat-messages').textContent,/Hi, can I customize a pen/);assert.equal(s.document.getElementById('sg-chat-input').value,'');
+});
+
+test('contact details are optional and can be added after a conversation exists',{skip:!parseHTML},async()=>{
+  let profile;
+  const s=surface('<html><head></head><body></body></html>',async(url,options)=>{if(url.includes('action=status'))return Response.json({ready:true,online:false});if(options?.method==='POST'){profile=JSON.parse(options.body);return Response.json({ok:true});}return Response.json({messages:[]});});
+  s.run('assets/js/live-chat.js');await flush();s.document.getElementById('sg-chat-launch').click();
+  assert.equal(s.document.getElementById('sg-chat-contact').hidden,true);s.document.getElementById('sg-chat-contact-toggle').click();assert.equal(s.document.getElementById('sg-chat-contact').hidden,false);
+  assert.equal(s.document.getElementById('sg-chat-contact-email').hasAttribute('required'),false);
+  s.document.getElementById('sg-chat-contact-name').value='Alex';s.submit('sg-chat-contact-form');await flush();assert.equal(profile.action,'profile');assert.equal(profile.name,'Alex');assert.equal(profile.email,'');assert.equal(s.document.getElementById('sg-chat-contact-result').textContent,'Saved');
+});
+
+test('the workspace labels an anonymous customer with a readable visitor number',{skip:!parseHTML},async()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../admin/chat/index.html'),'utf8');
+  const s=surface(html,async url=>Response.json(url==='/api/admin-auth'?{ok:true}:{conversations:[{id:ID,name:'',email:'',context:{},status:'active',last_message:'Hello',updated_at:'2026-11-05T08:00:00Z'}],settings:{enabled:true}}));
+  s.run('admin/chat/chat.js');await flush();assert.match(s.document.querySelector('.conversation-card').textContent,/访客 789ABC/);
+});
+
+test('background refresh preserves a stable conversation button when nothing changed',{skip:!parseHTML},async()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../admin/chat/index.html'),'utf8');
+  const s=surface(html,async url=>Response.json(url==='/api/admin-auth'?{ok:true}:{conversations:[{id:ID,name:'',email:'',context:{},status:'active',last_message:'Hello',updated_at:'2026-11-05T08:00:00Z'}],settings:{enabled:true}}));
+  s.run('admin/chat/chat.js');await flush();const original=s.document.querySelector('.conversation-card');s.intervals[0]();await flush();assert.equal(s.document.querySelector('.conversation-card'),original);
 });
 
 test('the agent workspace reads all incoming messages before advancing its read cursor',{skip:!parseHTML},async()=>{
