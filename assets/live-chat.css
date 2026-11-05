@@ -59,6 +59,8 @@
 }
 #sg-chat-panel {
   position: absolute;
+  margin: 0;
+  padding: 0;
   bottom: 70px;
   right: 0;
   width: 370px;
@@ -71,6 +73,14 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+/* Keep the site's generic form grid out of both chat forms. */
+#sg-chat-start,
+#sg-chat-composer {
+  display: block;
+  grid-template-columns: none;
+  gap: 0;
+  margin: 0;
 }
 #sg-chat .sg-chat-head {
   background: var(--chat-ink);

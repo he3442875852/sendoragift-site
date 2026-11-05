@@ -221,7 +221,7 @@
   function mount(status) {
     var style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = "/assets/live-chat.css?v=20261104-1";
+    style.href = "/assets/live-chat.css?v=20261105-2";
     document.head.append(style);
     var root = document.createElement("aside");
     root.id = "sg-chat";
