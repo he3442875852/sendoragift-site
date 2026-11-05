@@ -1,0 +1,28 @@
+name: Website and live chat checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - 'api/**'
+      - 'lib/**'
+      - 'admin/**'
+      - 'assets/js/**'
+      - 'supabase/**'
+      - 'tests/**'
+      - '.github/workflows/live-chat-checks.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install isolated database and DOM test dependencies
+        run: npm install --prefix "$RUNNER_TEMP/sendora-chat-qa" --no-audit --no-fund --ignore-scripts @electric-sql/pglite@0.5.15 linkedom@0.18.15
+      - name: Run website, API, PostgreSQL and DOM regressions
+        run: NODE_PATH="$RUNNER_TEMP/sendora-chat-qa/node_modules" node --test tests/*.test.js

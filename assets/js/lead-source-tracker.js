@@ -461,6 +461,16 @@
     normalizeContactLinks();
     debugIfRequested();
     document.addEventListener("submit", handleSubmit, true);
+    // One lazy first-party loader covers the existing public site, including
+    // legacy product pages. Database readiness is checked by the widget itself.
+    if (document.createElement && document.head && !/^\/admin(?:\/|$)/.test(window.location.pathname)) {
+      window.setTimeout(function () {
+        var chatScript = document.createElement("script");
+        chatScript.src = "/assets/js/live-chat.js?v=20261104-1";
+        chatScript.defer = true;
+        document.head.appendChild(chatScript);
+      }, 2500);
+    }
   }
 
   window.SendoraLeadSourceTracker = {
