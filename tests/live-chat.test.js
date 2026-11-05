@@ -145,3 +145,24 @@ test('invalid cursors, oversized bodies and non-string messages are rejected',()
   const req=Readable.from([Buffer.from(JSON.stringify({large:'x'.repeat(20000)}))]);
   await assert.rejects(store.readJson(req),error=>error.status===413);
 }));
+
+test('visitor intake writes use the verified session and expose only public progress',()=>environment(async()=>{
+  let params;
+  global.fetch=async(url,options)=>{
+    if(url.includes('chat_settings'))return response([settings]);
+    if(url.includes('rpc/sendora_chat_rate_limit'))return response(true);
+    if(url.includes('rpc/sendora_chat_receive')){params=JSON.parse(options.body);return response({message:{seq:3,role:'visitor',content:'200'},intake:{mode:'collecting',step:2,prompt_seq:4,answers:{contact:'private'},brief:'private'}});}
+    return response([{id:ID,status:'waiting',intake_state:{mode:'collecting',step:1,prompt_seq:2}}]);
+  };
+  const result=await call(visitorApi,{method:'POST',headers:visitorHeaders(),body:{action:'send',id:CLIENT,role:'assistant',content:'200',client_id:CLIENT,prompt_seq:2}});
+  assert.equal(result.status,200);assert.equal(params.p_conversation_id,ID);assert.equal(params.p_prompt_seq,2);assert.equal(params.p_content,'200');
+  assert.deepEqual(result.body.intake,{mode:'collecting',step:2,prompt_seq:4});assert.equal(result.body.message.role,'visitor');
+  for(const body of [{choice:'admin'},{prompt_seq:'2&select=*'},{prompt_seq:-1}])
+    await assert.rejects(store.receiveMessage(ID,{content:'200',client_id:CLIENT,...body}),error=>error.status===400);
+}));
+
+test('restoring a visitor session returns question progress without internal or contact fields',()=>environment(async()=>{
+  global.fetch=async url=>response(url.includes('chat_settings')?[settings]:url.includes('chat_conversations')?[{id:ID,status:'waiting',intake_state:{mode:'collecting',step:4,prompt_seq:10,answers:{product:'pens'},notes:'internal'}}]:[]);
+  const result=await call(visitorApi,{headers:visitorHeaders()});
+  assert.deepEqual(result.body.intake,{mode:'collecting',step:4,prompt_seq:10});assert.equal(result.body.notes,undefined);
+}));

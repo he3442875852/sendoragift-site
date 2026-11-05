@@ -415,6 +415,10 @@ h3 {
 .message.agent {
   align-self: flex-end;
 }
+.message.assistant .message-body {
+  background: #f4f7ed;
+  border: 1px dashed #c1cfb2;
+}
 .message-meta {
   font-size: 9px;
   color: #93a088;

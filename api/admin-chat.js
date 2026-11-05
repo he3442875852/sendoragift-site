@@ -22,7 +22,7 @@ module.exports = async function (req, res) {
       }
       const params = new URLSearchParams({
         select:
-          "id,name,company,email,product,quantity,destination,deadline,context,status,notes,last_seq,last_visitor_seq,admin_read_seq,last_message,last_role,created_at,updated_at",
+          "id,name,company,email,product,quantity,destination,deadline,intake_state,context,status,notes,last_seq,last_visitor_seq,admin_read_seq,last_message,last_role,created_at,updated_at",
         order: "updated_at.desc,id.desc",
         limit: "100",
       });

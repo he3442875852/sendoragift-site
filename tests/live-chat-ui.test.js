@@ -84,3 +84,47 @@ test('the agent workspace reads all incoming messages before advancing its read 
   s.run('admin/chat/chat.js');await flush();s.document.querySelector('.conversation-card').click();await flush();s.document.getElementById('reply').value='Could you share the logo?';s.submit('replyForm');await flush();
   assert.deepEqual(Array.from(s.document.getElementById('messages').children).map(node=>node.dataset.seq),['1','2','3']);assert.equal(reads.at(-1),3);assert.equal(s.document.getElementById('reply').value,'');
 });
+
+test('automated questions are labelled and can be skipped without a form or contact details',{skip:!parseHTML},async()=>{
+  let state={mode:'collecting',step:0,prompt_seq:2};const writes=[];
+  const s=surface('<html><head></head><body></body></html>',async(url,options)=>{
+    if(url.includes('action=status'))return Response.json({ready:true,online:false});
+    if(options?.method==='POST'){const body=JSON.parse(options.body);writes.push(body);state={mode:'collecting',step:1,prompt_seq:4};return Response.json({message:message(3,'visitor',body.content),intake:state});}
+    return Response.json({messages:[message(2,'assistant','Which product or gift set?')],intake:state});
+  });
+  s.run('assets/js/live-chat.js');await flush();s.document.getElementById('sg-chat-launch').click();await flush();
+  assert.match(s.document.getElementById('sg-chat-status').textContent,/Automated assistant/);
+  assert.match(s.document.querySelector('.sg-chat-message.assistant small').textContent,/Automated assistant/);
+  assert.match(s.document.getElementById('sg-chat-progress').textContent,/1 of 6/);
+  s.document.querySelector('#sg-chat-prompts button').click();await flush();
+  assert.equal(writes[0].choice,'skip');assert.equal(writes[0].prompt_seq,2);assert.equal(writes[0].content,'Skip this question');
+  assert.match(s.document.getElementById('sg-chat-progress').textContent,/2 of 6/);
+  assert.equal(s.document.getElementById('sg-chat-contact').hidden,true);
+});
+
+test('a human response hides stale automated controls and keeps free chat available',{skip:!parseHTML},async()=>{
+  let human=false;
+  const s=surface('<html><head></head><body></body></html>',async(url)=>{
+    if(url.includes('action=status'))return Response.json({ready:true,online:false});
+    return Response.json({messages:human?[message(3,'agent','Hello, I can help')]:[message(2,'assistant','Which product?')],intake:{mode:human?'human':'collecting',step:0,prompt_seq:2}});
+  });
+  s.run('assets/js/live-chat.js');await flush();s.document.getElementById('sg-chat-launch').click();await flush();
+  assert.equal(s.document.getElementById('sg-chat-progress').hidden,false);
+  human=true;s.intervals[0]();await flush();
+  assert.equal(s.document.getElementById('sg-chat-progress').hidden,true);assert.equal(s.document.querySelectorAll('#sg-chat-prompts button').length,0);
+  assert.equal(s.document.getElementById('sg-chat-input').disabled,false);
+});
+
+test('the workspace refreshes the collected summary without clearing an agent draft',{skip:!parseHTML},async()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../admin/chat/index.html'),'utf8');
+  const customer={id:ID,name:'',email:'',status:'waiting',context:{},intake_state:{mode:'collecting',step:1,brief:'Hello',answers:{product:'PU folders'}},updated_at:'2026-11-05T08:00:00Z'};
+  const s=surface(html,async(url)=>Response.json(url==='/api/admin-auth'?{ok:true}:url.includes('?id=')?{messages:[message(2,'assistant','How many?')]}:{conversations:[customer],settings:{enabled:true}}));
+  s.run('admin/chat/chat.js');await flush();s.document.querySelector('.conversation-card').click();await flush();
+  assert.match(s.document.getElementById('messages').textContent,/自动接待助手/);
+  s.document.getElementById('reply').value='An unsent staff draft';s.document.getElementById('notes').value='An unsaved note';
+  customer.intake_state={mode:'completed',answers:{product:'PU folders',logo:'Silver logo',contact:'WhatsApp +61 example'}};
+  s.intervals[0]();await flush();
+  assert.match(s.document.getElementById('buyingDetails').textContent,/Silver logo/);assert.match(s.document.getElementById('buyingDetails').textContent,/待人工跟进/);
+  assert.match(s.document.getElementById('contactDetails').textContent,/WhatsApp \+61 example/);
+  assert.equal(s.document.getElementById('reply').value,'An unsent staff draft');assert.equal(s.document.getElementById('notes').value,'An unsaved note');
+});

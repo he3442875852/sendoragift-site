@@ -181,6 +181,15 @@
 #sg-chat .sg-chat-message.pending {
   opacity: 0.7;
 }
+#sg-chat .sg-chat-message.assistant {
+  border-color: #cbdccf;
+  background: #fbfcf9;
+}
+#sg-chat .sg-chat-progress {
+  margin: 0 0 7px;
+  font-size: 10px;
+  color: #61756b;
+}
 #sg-chat .sg-chat-message small {
   display: block;
   margin-top: 5px;
@@ -205,8 +214,12 @@
 }
 #sg-chat .sg-chat-prompts {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 10px;
+}
+#sg-chat .sg-chat-prompts:empty {
+  display: none;
 }
 #sg-chat .sg-chat-prompts button {
   background: white;
