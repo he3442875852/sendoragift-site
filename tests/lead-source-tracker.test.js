@@ -76,31 +76,26 @@ test("pushes generate_lead only when the success handler asks for it", () => {
   assert.equal(tracker.__testWindow.dataLayer[0].lead_ref, undefined);
 });
 
-test("prefills WhatsApp with broad gift requirements and a tracking reference", () => {
+test("prefills WhatsApp with a short greeting without form fields or an inquiry reference", () => {
   const tracker = loadTracker();
   const url = new URL(tracker.whatsapp.getUrl());
   const message = url.searchParams.get("text");
 
-  assert.match(message, /I'm looking for customized gifts/);
-  assert.match(message, /Gift type or items: \[please enter\]/);
-  assert.match(message, /Quantity: \[please enter\]/);
-  assert.match(message, /Delivery country: \[please enter\]/);
-  assert.match(message, /Inquiry reference: SG-\d{8}-[A-Z2-9]{8}$/);
+  assert.equal(message, "Hi Sendora Gift, I'm interested in your custom gifts. Could you please share more details?");
+  assert.equal(url.pathname, "/8613400883682");
 });
 
-test("carries the current product into WhatsApp while preserving the inquiry reference", () => {
+test("carries the current product into the short WhatsApp greeting", () => {
   const tracker = loadTracker({ product: "Custom Employee Welcome Kit" });
   const message = new URL(tracker.whatsapp.getUrl()).searchParams.get("text");
-  assert.match(message, /Gift type or items: Custom Employee Welcome Kit/);
-  assert.match(message, /Inquiry reference: SG-\d{8}-[A-Z2-9]{8}$/);
-  assert.doesNotMatch(message, /Gift type or items: \[please enter\]/);
+  assert.equal(message, "Hi Sendora Gift, I'm interested in Custom Employee Welcome Kit. Could you please share more details?");
 });
 
 test("does not carry a previous product onto an unrelated page", () => {
   loadTracker({ product: "Custom Employee Welcome Kit" });
   const nextPage = loadTracker();
   const message = new URL(nextPage.whatsapp.getUrl()).searchParams.get("text");
-  assert.match(message, /Gift type or items: \[please enter\]/);
+  assert.equal(message, nextPage.whatsapp.message);
   assert.doesNotMatch(message, /Custom Employee Welcome Kit/);
 });
 
@@ -111,23 +106,25 @@ test("changing the selected gift updates WhatsApp without replacing its tracking
     addEventListener(event, handler) { handlers[event] = handler; }
   };
   const link = { href: "", dataset: {}, addEventListener() {} };
-  loadTracker({ product: productSelect.value, productSelect, whatsappLinks: [link] });
+  const tracker = loadTracker({ product: productSelect.value, productSelect, whatsappLinks: [link] });
   const originalRef = link.dataset.sendoraLeadRef;
   productSelect.value = "Custom Golf Tournament Gift Set";
   handlers.change();
   const message = new URL(link.href).searchParams.get("text");
-  assert.match(message, /Gift type or items: Custom Golf Tournament Gift Set/);
-  assert.ok(message.endsWith("Inquiry reference: " + originalRef));
+  assert.match(message, /I'm interested in Custom Golf Tournament Gift Set/);
+  assert.match(originalRef, /^SG-\d{8}-[A-Z2-9]{8}$/);
+  assert.equal(link.dataset.sendoraLeadRef, originalRef);
+  assert.doesNotMatch(message, /Inquiry reference:|SG-\d{8}-[A-Z2-9]{8}/);
   assert.doesNotMatch(message, /Custom Employee Welcome Kit/);
+  assert.match(tracker.getData().lead_ref, /^SG-\d{8}-[A-Z2-9]{8}$/);
 });
 
-test("WhatsApp includes the selected direction and packing while product changes clear stale choices", () => {
+test("WhatsApp keeps only the product name while product changes clear stale choices", () => {
   const events = {};
   const productSelect = { value: "Custom Metal Pens", addEventListener(name, fn) { events[name] = fn; } };
   const link = { href: "", dataset: {}, addEventListener() {} };
   loadTracker({ product: productSelect.value, configuration: "Pen in presentation case", packing: "Presentation box", productSelect, whatsappLinks: [link] });
-  assert.match(new URL(link.href).searchParams.get("text"), /Direction: Pen in presentation case/);
-  assert.match(new URL(link.href).searchParams.get("text"), /Packing: Presentation box/);
+  assert.equal(new URL(link.href).searchParams.get("text"), "Hi Sendora Gift, I'm interested in Custom Metal Pens. Could you please share more details?");
   productSelect.value = "Custom Employee Welcome Kit";
   events.change();
   assert.doesNotMatch(new URL(link.href).searchParams.get("text"), /Pen in presentation case|Packing:/);
