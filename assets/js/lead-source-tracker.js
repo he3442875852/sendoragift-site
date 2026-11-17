@@ -3,7 +3,7 @@
 
   var GA4_MEASUREMENT_ID = "G-2Y0286VCBM";
   var WHATSAPP_NUMBER = "8613400883682";
-  var WHATSAPP_MESSAGE = "Hi Sendora Gift, I'm looking for customized gifts.\n\nGift type or items: [please enter]\nQuantity: [please enter]\nDelivery country: [please enter]\n\nPlease recommend suitable options and share the MOQ, estimated price range, and lead time.";
+  var WHATSAPP_MESSAGE = "Hi Sendora Gift, I'm interested in your custom gifts. Could you please share more details?";
 
   var FIELD_NAMES = [
     "lead_ref",
@@ -115,19 +115,15 @@
 
   function getProductInterest() {
     if (!document.body || typeof document.body.getAttribute !== "function") return "";
-    var product = String(document.body.getAttribute("data-inquiry-product") || "").replace(/\s+/g, " ").trim();
-    if (!product) return "";
-    var configuration = String(document.body.getAttribute("data-inquiry-configuration") || "").replace(/\s+/g, " ").trim();
-    var packing = String(document.body.getAttribute("data-inquiry-packing") || "").replace(/\s+/g, " ").trim();
-    return [product, configuration ? "Direction: " + configuration : "", packing ? "Packing: " + packing : ""].filter(Boolean).join("\n").slice(0, 200);
+    return String(document.body.getAttribute("data-inquiry-product") || "").replace(/\s+/g, " ").trim().slice(0, 200);
   }
 
-  function getWhatsappUrl(leadRef) {
+  function getWhatsappUrl() {
     var product = getProductInterest();
     var message = product
-      ? WHATSAPP_MESSAGE.replace("Gift type or items: [please enter]", "Gift type or items: " + product)
+      ? "Hi Sendora Gift, I'm interested in " + product + ". Could you please share more details?"
       : WHATSAPP_MESSAGE;
-    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message + "\n\nInquiry reference: " + leadRef);
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
   }
 
   function safeGet(storage, key) {
@@ -423,7 +419,7 @@
   function normalizeWhatsappLinks() {
     Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
       var leadRef = createLeadRef();
-      link.href = getWhatsappUrl(leadRef);
+      link.href = getWhatsappUrl();
       link.dataset.sendoraLeadRef = leadRef;
       link.addEventListener("click", function () {
         var data = getLeadSourceData();
@@ -448,7 +444,7 @@
 
   function refreshWhatsappLinks() {
       Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/' + WHATSAPP_NUMBER + '"]'), function (link) {
-        link.href = getWhatsappUrl(link.dataset.sendoraLeadRef || getLeadRef());
+        link.href = getWhatsappUrl();
       });
   }
 
@@ -491,7 +487,7 @@
     whatsapp: {
       number: WHATSAPP_NUMBER,
       message: WHATSAPP_MESSAGE,
-      getUrl: function () { return getWhatsappUrl(getLeadRef()); }
+      getUrl: getWhatsappUrl
     }
   };
 
